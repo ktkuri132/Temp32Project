@@ -1,0 +1,23 @@
+{
+  "files.associations": {
+    "*.h": "c",
+    "*.c": "c",
+    "*.hpp": "cpp",
+    "*.cpp": "cpp",
+    "*.ld": "text",
+    "*.lds": "text"
+  },
+  "cortex-debug.openocdPath": "C:/openocd/bin/openocd.exe",
+  "cortex-debug.armToolchainPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2021.10\\bin",
+  "cortex-debug.gdbPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2021.10\\bin\\arm-none-eabi-gdb.exe",
+  "cmake.configureOnOpen": true,
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.generator": "Ninja",
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "files.trimTrailingWhitespace": true,
+  "files.encoding": "utf8",
+  "terminal.integrated.shell.windows": "cmd.exe"
+}

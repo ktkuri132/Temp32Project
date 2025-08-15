@@ -1,0 +1,4 @@
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/butter/key.c:8:6:Key_ReadBlocking	24	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/butter/key.c:23:6:Key_Tick	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/butter/key.c:33:6:Key_IRQHandler	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/butter/key.c:61:9:Key_Event	24	static

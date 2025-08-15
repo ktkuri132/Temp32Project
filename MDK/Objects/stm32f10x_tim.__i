@@ -1,0 +1,9 @@
+-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c
+-fno-rtti -funsigned-char -fshort-enums -fshort-wchar
+-gdwarf-4 -O0 -ffunction-sections -w -I ../../32_temp_project -I ../Middleware/butter -I ../Middleware/i2c -I ../Middleware/shell -I ../Middleware/trans -I ../freertos/include -I ../freertos/portable/RVDS/ARM_CM3 -I ../BSP/CORE/inc
+-I./RTE/Device/STM32F103C8
+-I./RTE/_Debug
+-IC:/Keil_v5/ARM/Packs/ARM/CMSIS/6.2.0/CMSIS/Core/Include
+-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include
+-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+-o ./objects/stm32f10x_tim.o -MMD "../BSP/CORE/src/stm32f10x_tim.c"

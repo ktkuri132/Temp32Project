@@ -1,0 +1,95 @@
+{
+  "project": {
+    "name": "32_temp_project",
+    "chip": "STM32F103C8",
+    "board": "BLUEPILL",
+    "architecture": "cortex-m3",
+    "instruction_set": "thumb",
+    "float_type": "软件浮点"
+  },
+  "toolchain": {
+    "c_compiler": "arm-none-eabi-gcc",
+    "cxx_compiler": "arm-none-eabi-g++",
+    "asm_compiler": "arm-none-eabi-gcc",
+    "ar": "arm-none-eabi-ar",
+    "objcopy": "arm-none-eabi-objcopy",
+    "size": "arm-none-eabi-size"
+  },
+  "build": {
+    "optimization": "O0",
+    "debug_info": "g3",
+    "warnings": true,
+    "wall": true,
+    "werror": false,
+    "stack_usage": true
+  },
+  "linker": {
+    "specs": [
+      "nano.specs",
+      "nosys.specs"
+    ],
+    "script": "BSP/CORE/stm32f10x.ld",
+    "gc_sections": true,
+    "map_file": true
+  },
+  "defines": [
+    "STM32F10X_MD",
+    "STM32F103C8__Chipinfo__"
+  ],
+  "download": {
+    "interface": "stlink",
+    "target": "stm32f1x",
+    "speed": "4000"
+  },
+  "files": {
+    "sources": [
+      "app/control.c",
+      "app/init.c",
+      "app/irq.c",
+      "app/main.c",
+      "BSP/CORE/startup_stm32f10x_md.c",
+      "BSP/CORE/stm32f10x_it.c",
+      "BSP/CORE/syscalls.c",
+      "BSP/CORE/sysmem.c",
+      "BSP/CORE/system_stm32f10x.c",
+      "Control/filter.c",
+      "Control/pid.c",
+      "Driver/adc.c",
+      "Driver/delay.c",
+      "Driver/led.c",
+      "Driver/misc.c",
+      "Driver/nvic.c",
+      "Driver/Systick.c",
+      "Driver/usart.c",
+      "Driver_Framework/led/df_led.c"
+    ],
+    "headers": [],
+    "include_dirs": [
+      "BSP/CMSIS/Core/Include/a-profile",
+      "Middleware/shell",
+      "app",
+      "Control",
+      "BSP/CMSIS/Core/Include",
+      "BSP/CMSIS/Core/Include/r-profile",
+      "Middleware/trans",
+      "Driver",
+      "Driver_Framework/i2c",
+      "Driver_Framework/led",
+      "BSP/CMSIS/Core/Include/m-profile",
+      "BSP/CORE",
+      "Driver_Framework/key"
+    ],
+    "subdirs": [
+      "Driver_Framework/i2c",
+      "Driver_Framework/key",
+      "Middleware/shell",
+      "Middleware/trans"
+    ],
+    "static_libraries": [
+      "i2c",
+      "key",
+      "shell",
+      "trans"
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "configurations": [
+    {
+      "name": "STM32",
+      "includePath": [
+        "${workspaceFolder}/BSP/CMSIS/Core/Include/a-profile",
+        "${workspaceFolder}/Middleware/shell",
+        "${workspaceFolder}/app",
+        "${workspaceFolder}/Control",
+        "${workspaceFolder}/BSP/CMSIS/Core/Include",
+        "${workspaceFolder}/BSP/CMSIS/Core/Include/r-profile",
+        "${workspaceFolder}/Middleware/trans",
+        "${workspaceFolder}/Driver",
+        "${workspaceFolder}/Driver_Framework/i2c",
+        "${workspaceFolder}/Driver_Framework/led",
+        "${workspaceFolder}/BSP/CMSIS/Core/Include/m-profile",
+        "${workspaceFolder}/BSP/CORE",
+        "${workspaceFolder}/Driver_Framework/key",
+        "${workspaceFolder}/**",
+        "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/*/arm-none-eabi/include/**",
+        "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/*/lib/gcc/arm-none-eabi/*/include/**"
+      ],
+      "defines": [
+        "STM32F10X_MD",
+        "STM32F103C8__Chipinfo__",
+        "__CORTEX_M=3",
+        "ARM_MATH_CM3",
+        "__GNUC__",
+        "__ARM_ARCH",
+        "ARM_MATH_MATRIX_CHECK",
+        "ARM_MATH_ROUNDING"
+      ],
+      "compilerPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "gcc-arm",
+      "compilerArgs": [
+        "-mcpu=cortex-m3",
+        "-mthumb",
+        "-mfloat-abi=soft",
+        "-fdata-sections",
+        "-ffunction-sections"
+      ]
+    }
+  ],
+  "version": 4
+}

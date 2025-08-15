@@ -1,0 +1,120 @@
+Dependencies for Project 'mdk_project', Target 'Debug': (DO NOT MODIFY !)
+CompilerVersion: 6240000::V6.24::ARMCLANG
+F (..\app\control.c)(0x6899560C)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./control.o)
+F (..\app\main.c)(0x689DD1A8)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./main.o)
+I (..\app\main.h)(0x689DC8E4)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\Middleware\shell\shell.h)(0x689DC72C)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+F (..\app\init.c)(0x689DC8CD)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./init.o)
+I (..\app\main.h)(0x689DC8E4)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\Middleware\shell\shell.h)(0x689DC72C)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+F (..\app\irq.c)(0x689DC8D5)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./irq.o)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Middleware\shell\shell.h)(0x689DC72C)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\app\main.h)(0x689DC8E4)
+F (..\Middleware\shell\shell.c)(0x689DCF00)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./shell.o)
+I (..\Middleware\shell\shell.h)(0x689DC72C)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+F (..\Middleware\trans\stde.c)(0x68996434)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./stde.o)
+I (..\Middleware\trans\stde.h)(0x6899639D)
+I (C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\c++\10.3.1\stdlib.h)(0x616CD26C)
+F (..\Control\filter.c)(0x689958D9)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./filter.o)
+F (..\Control\pid.c)(0x689955F4)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./pid.o)
+F (..\BSP\CORE\startup_stm32f10x_md.c)(0x689A99CF)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./startup_stm32f10x_md.o)
+F (..\BSP\CORE\syscalls.c)(0x689D6C9B)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./syscalls.o)
+I (C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\c++\10.3.1\stdlib.h)(0x616CD26C)
+F (..\BSP\CORE\sysmem.c)(0x689D6C9B)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./sysmem.o)
+F (..\BSP\CORE\stm32f10x_it.c)(0x689DCE06)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./stm32f10x_it.o)
+I (..\BSP\CORE\stm32f10x_it.h)(0x689DCE10)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\BSP\CORE\system_stm32f10x.c)(0x6899DF0A)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./system_stm32f10x.o)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver\adc.c)(0x689D9780)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./adc.o)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver\delay.c)(0x689D985E)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./delay.o)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver\led.c)(0x689D975C)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./led.o)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver\misc.c)(0x689DC080)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./misc.o)
+I (..\Driver\misc.h)(0x689DC08E)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver\nvic.c)(0x689DBFCA)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./nvic.o)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver\misc.h)(0x689DC08E)
+F (..\Driver\Systick.c)(0x689DC2B2)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./systick.o)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver\usart.c)(0x689DC7A6)(-c -mcpu=cortex-m3 -mthumb -gdwarf-2 -MMD -w -O3 -mapcs-frame -mapcs-stack-check -mthumb-interwork -I ../../32_temp_project -I ../app -I ../Control -I ../Middleware/shell -I ../Middleware/trans -I ../Driver -I ../Driver_Framework -I ../Driver_Framework -I ../BSP/CORE -I ../BSP/CMSIS/Core/Include -fdata-sections -ffunction-sections -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1" -I"C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi" -D__UVISION_VERSION="543" -D__GCC -D__GCC_VERSION="1031" -DSTM32F10X_MD -DSTM32F10X_MD-o ./usart.o)
+I (..\Driver\driver.h)(0x689DC71D)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_version.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_compiler.h)(0x6899DFED)
+I (..\BSP\CMSIS\Core\Include\cmsis_gcc.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)

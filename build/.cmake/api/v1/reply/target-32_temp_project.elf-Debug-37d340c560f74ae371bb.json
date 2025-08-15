@@ -1,0 +1,367 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "32_temp_project.elf"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"add_definitions",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 102,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 105,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3 -g"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "STM32F103C8__Chipinfo__"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "STM32F10X_MD"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Control"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/app"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/key"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/led"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Middleware/shell"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/Middleware/trans"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CMSIS/Core/Include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CMSIS/Core/Include/a-profile"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CMSIS/Core/Include/m-profile"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CMSIS/Core/Include/r-profile"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "i2c::@af01ec641969b6a57d5d"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "key::@4b171b378931243202c2"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "shell::@fb0831cab696cb26ff31"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "trans::@473778f4e6afc5d36255"
+		}
+	],
+	"id" : "32_temp_project.elf::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3 -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nano.specs -specs=nosys.specs -TC:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=32_temp_project.map,--cref -Wl,--print-memory-usage",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "Driver_Framework\\i2c\\libi2c.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "Driver_Framework\\key\\libkey.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "Middleware\\shell\\libshell.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "Middleware\\trans\\libtrans.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "32_temp_project.elf",
+	"nameOnDisk" : "32_temp_project.elf",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "BSP/CORE/startup_stm32f10x_md.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "BSP/CORE/stm32f10x_it.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "BSP/CORE/syscalls.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "BSP/CORE/sysmem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "BSP/CORE/system_stm32f10x.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Control/filter.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Control/pid.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/adc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/delay.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/led.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/misc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/nvic.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/Systick.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver/usart.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "app/control.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "app/init.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "app/irq.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "app/main.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Driver_Framework/led/df_led.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

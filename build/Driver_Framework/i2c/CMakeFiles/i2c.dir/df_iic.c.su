@@ -1,0 +1,12 @@
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:4:6:Soft_IIC_Init	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:13:6:Soft_IIC_Start	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:24:6:Soft_IIC_Stop	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:37:9:Soft_IIC_Wait_Ack	24	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:55:6:Soft_IIC_Ack	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:65:6:Soft_IIC_NAck	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:78:6:Soft_IIC_Send_Byte	24	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:93:9:Soft_IIC_Receive_Byte	24	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:111:9:Soft_IIC_Write_Byte	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:132:9:Soft_IIC_Read_Byte	24	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:147:9:Soft_IIC_Write_Len	24	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver_Framework/i2c/df_iic.c:171:9:Soft_IIC_Read_Len	16	static

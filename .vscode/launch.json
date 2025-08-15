@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug STM32",
+      "cwd": "${workspaceFolder}",
+      "executable": "./build/32_temp_project.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "none",
+      "servertype": "openocd",
+      "configFiles": [
+        "interface/stlink.cfg",
+        "target/stm32f1x.cfg"
+      ],
+      "searchDir": [
+        "${workspaceFolder}",
+        "C:/openocd/share/openocd/scripts/"
+      ],
+      "openOCDLaunchCommands": [
+        "adapter speed 4000"
+      ]
+    }
+  ]
+}

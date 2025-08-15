@@ -1,0 +1,6 @@
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver/usart.c:3:6:USART1_Init	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver/usart.c:26:5:__io_putchar	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver/usart.c:32:6:USART1_SendChar	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver/usart.c:39:6:USART1_SendString	16	static
+C:/Users/34575/Desktop/Code/STM32/32_temp_project/Driver/usart.c:48:9:USART1_ReceiveChar	16	static
+c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\stdio.h:200:5:printf	272	static
