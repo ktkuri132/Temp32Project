@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "下载",
+      "label": "download",
       "type": "shell",
-      "command": "python",
+      "command": "python3",
       "args": [
         "${workspaceFolder}/download.py"
       ],

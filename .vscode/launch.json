@@ -4,19 +4,20 @@
     {
       "name": "Debug STM32",
       "cwd": "${workspaceFolder}",
-      "executable": "./build/32_temp_project.elf",
+      "executable": "./build/Temp32Project.elf",
       "request": "launch",
       "type": "cortex-debug",
       "runToEntryPoint": "main",
-      "showDevDebugOutput": "none",
+      "showDevDebugOutput": "raw",
       "servertype": "openocd",
+      "gdbPath": "gdb-multiarch",
       "configFiles": [
         "interface/stlink.cfg",
         "target/stm32f1x.cfg"
       ],
       "searchDir": [
         "${workspaceFolder}",
-        "C:/openocd/share/openocd/scripts/"
+        "/usr/local/share/openocd/scripts/"
       ],
       "openOCDLaunchCommands": [
         "adapter speed 4000"

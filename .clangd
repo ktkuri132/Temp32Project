@@ -1,0 +1,60 @@
+CompileFlags:
+  Add:
+  - -mcpu=cortex-m3
+  - -mthumb
+  - -mfloat-abi=soft
+  - -fdata-sections
+  - -ffunction-sections
+  - -Wall
+  - -O0
+  - -g3
+  - --target=arm-none-eabi
+  - -nostdlib
+  - -ffreestanding
+  - -DSTM32F10X_MD
+  - -DSTM32F103C8__Chipinfo__
+  - -D__CORTEX_M=3
+  - -DARM_MATH_CM3
+  - -D__GNUC__
+  - -D__ARM_ARCH
+  - -DARM_MATH_MATRIX_CHECK
+  - -DARM_MATH_ROUNDING
+  - -Iapp
+  - -IMiddleware/trans
+  - -IBSP/CMSIS/Core/Include/m-profile
+  - -IDriver
+  - -IBSP/CORE
+  - -IMiddleware/shell
+  - -IDriver_Framework/led
+  - -IBSP/CMSIS/Core/Include/a-profile
+  - -IBSP/CMSIS/Core/Include
+  - -IBSP/CMSIS/Core/Include/r-profile
+  - -IDriver_Framework/key
+  - -IControl
+  - -IDriver_Framework/i2c
+  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi/include
+  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi/include/c++/11.2.1
+  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/11.2.1/include
+  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/11.2.1/include-fixed
+  CompilationDatabase: build
+Index:
+  Background: Build
+  StandardLibrary: false
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+Hover:
+  ShowAKA: true
+Diagnostics:
+  ClangTidy:
+    Add:
+    - readability-*
+    - bugprone-*
+    - performance-*
+    Remove:
+    - readability-magic-numbers
+    - readability-identifier-length
+  Suppress:
+  - pp_file_not_found
+  - unknown_warning_option

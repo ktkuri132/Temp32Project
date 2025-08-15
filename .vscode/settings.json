@@ -7,17 +7,16 @@
     "*.ld": "text",
     "*.lds": "text"
   },
-  "cortex-debug.openocdPath": "C:/openocd/bin/openocd.exe",
-  "cortex-debug.armToolchainPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2021.10\\bin",
-  "cortex-debug.gdbPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2021.10\\bin\\arm-none-eabi-gdb.exe",
+  "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+  "cortex-debug.armToolchainPath": "/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin",
+  "cortex-debug.gdbPath": "gdb-multiarch",
   "cmake.configureOnOpen": true,
   "cmake.buildDirectory": "${workspaceFolder}/build",
-  "cmake.generator": "Ninja",
+  "cmake.generator": "Unix Makefiles",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "editor.formatOnSave": true,
   "editor.insertSpaces": true,
   "editor.tabSize": 4,
   "files.trimTrailingWhitespace": true,
-  "files.encoding": "utf8",
-  "terminal.integrated.shell.windows": "cmd.exe"
+  "files.encoding": "utf8"
 }

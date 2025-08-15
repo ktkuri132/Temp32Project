@@ -6,6 +6,7 @@ import re
 import argparse
 import glob
 import json
+import platform
 from pathlib import Path
 
 class ProjectConfig:
@@ -869,6 +870,276 @@ adapter speed {speed}
 
         print("已生成 VS Code 配置文件")
 
+    def generate_clangd_config(self):
+        """生成clangd配置文件"""
+        # 读取CMake缓存获取工具链路径
+        toolchain_info = self.read_cmake_cache()
+
+        # 尝试从compile_commands.json中获取实际的编译器路径
+        actual_compiler_path = self.get_compiler_from_compile_commands()
+
+        # 获取架构信息
+        arch = self.config.get('project.architecture', 'cortex-m3')
+        chip = self.config.get('project.chip', 'STM32F103C8')
+
+        # 获取头文件路径
+        include_paths = self.config.get('files.include_dirs', [])
+
+        # 获取宏定义
+        defines = self.config.get('defines', [])
+
+        # 根据架构添加相应的宏
+        arch_defines = []
+        if 'cortex-m0' in arch:
+            arch_defines.extend(['__CORTEX_M=0', 'ARM_MATH_CM0'])
+        elif 'cortex-m3' in arch:
+            arch_defines.extend(['__CORTEX_M=3', 'ARM_MATH_CM3'])
+        elif 'cortex-m4' in arch:
+            arch_defines.extend(['__CORTEX_M=4', 'ARM_MATH_CM4'])
+        elif 'cortex-m7' in arch:
+            arch_defines.extend(['__CORTEX_M=7', 'ARM_MATH_CM7'])
+
+        # 使用实际的编译器路径
+        compiler_path = actual_compiler_path or toolchain_info["c_compiler"]
+        if not compiler_path:
+            compiler_path = self.config.get('toolchain.c_compiler', 'arm-none-eabi-gcc')
+
+        # 获取浮点单元配置
+        fpu_flags = self.get_fpu_flags(arch)
+
+        # 构建编译标志
+        compile_flags = [
+            f"-mcpu={arch}",
+            "-mthumb",
+            fpu_flags,
+            "-fdata-sections",
+            "-ffunction-sections",
+            "-Wall",
+            "-O0",
+            "-g3",
+            "--target=arm-none-eabi",
+            "-nostdlib",
+            "-ffreestanding"
+        ]
+
+        # 添加宏定义
+        all_defines = defines + arch_defines + [
+            "__GNUC__",
+            "__ARM_ARCH",
+            "ARM_MATH_MATRIX_CHECK",
+            "ARM_MATH_ROUNDING"
+        ]
+
+        for define in all_defines:
+            compile_flags.append(f"-D{define}")
+
+        # 添加头文件路径
+        for include_path in include_paths:
+            compile_flags.append(f"-I{include_path}")
+
+        # 添加工具链的系统头文件路径
+        if compiler_path and '/' in compiler_path:
+            import os
+            import glob
+
+            # 从编译器路径推导工具链目录
+            compiler_dir = os.path.dirname(compiler_path)
+            toolchain_base = os.path.dirname(compiler_dir)
+
+            print(f"检测到工具链路径: {toolchain_base}")
+
+            # ARM工具链的标准头文件路径
+            possible_include_paths = [
+                f"{toolchain_base}/arm-none-eabi/include",
+                f"{toolchain_base}/arm-none-eabi/include/c++/*",
+                f"{toolchain_base}/lib/gcc/arm-none-eabi/*/include",
+                f"{toolchain_base}/lib/gcc/arm-none-eabi/*/include-fixed"
+            ]
+
+            for path_pattern in possible_include_paths:
+                if '*' in path_pattern:
+                    # 对于包含通配符的路径，尝试展开
+                    expanded_paths = glob.glob(path_pattern)
+                    for expanded_path in sorted(expanded_paths):
+                        if os.path.exists(expanded_path):
+                            compile_flags.append(f"-I{expanded_path}")
+                            print(f"添加系统头文件路径: {expanded_path}")
+                else:
+                    if os.path.exists(path_pattern):
+                        compile_flags.append(f"-I{path_pattern}")
+                        print(f"添加系统头文件路径: {path_pattern}")
+
+        # 生成.clangd配置文件内容
+        clangd_config = {
+            "CompileFlags": {
+                "Add": compile_flags,
+                "CompilationDatabase": "build"
+            },
+            "Index": {
+                "Background": "Build",
+                "StandardLibrary": False
+            },
+            "InlayHints": {
+                "Enabled": True,
+                "ParameterNames": True,
+                "DeducedTypes": True
+            },
+            "Hover": {
+                "ShowAKA": True
+            },
+            "Diagnostics": {
+                "ClangTidy": {
+                    "Add": [
+                        "readability-*",
+                        "bugprone-*",
+                        "performance-*"
+                    ],
+                    "Remove": [
+                        "readability-magic-numbers",
+                        "readability-identifier-length"
+                    ]
+                },
+                "Suppress": [
+                    "pp_file_not_found",  # 抑制找不到文件的警告（系统头文件）
+                    "unknown_warning_option"  # 抑制未知警告选项
+                ]
+            }
+        }
+
+        clangd_file = self.project_root / '.clangd'
+        try:
+            import yaml
+            with open(clangd_file, 'w', encoding='utf-8') as f:
+                yaml.dump(clangd_config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+            print("已生成 .clangd 配置文件 (YAML格式)")
+        except ImportError:
+            # 如果没有yaml库，使用JSON格式
+            import json
+            with open(clangd_file, 'w', encoding='utf-8') as f:
+                json.dump(clangd_config, f, indent=2, ensure_ascii=False)
+            print("已生成 .clangd 配置文件 (JSON格式)")
+        except Exception as e:
+            print(f"生成 .clangd 配置文件失败: {e}")
+
+    def generate_compile_flags_txt(self):
+        """生成compile_flags.txt文件作为clangd的备用配置"""
+        # 获取架构信息
+        arch = self.config.get('project.architecture', 'cortex-m3')
+
+        # 获取头文件路径
+        include_paths = self.config.get('files.include_dirs', [])
+
+        # 获取宏定义
+        defines = self.config.get('defines', [])
+
+        # 根据架构添加相应的宏
+        arch_defines = []
+        if 'cortex-m0' in arch:
+            arch_defines.extend(['__CORTEX_M=0', 'ARM_MATH_CM0'])
+        elif 'cortex-m3' in arch:
+            arch_defines.extend(['__CORTEX_M=3', 'ARM_MATH_CM3'])
+        elif 'cortex-m4' in arch:
+            arch_defines.extend(['__CORTEX_M=4', 'ARM_MATH_CM4'])
+        elif 'cortex-m7' in arch:
+            arch_defines.extend(['__CORTEX_M=7', 'ARM_MATH_CM7'])
+
+        # 获取浮点单元配置
+        fpu_flags = self.get_fpu_flags(arch)
+
+        # 构建编译标志
+        compile_flags = [
+            f"-mcpu={arch}",
+            "-mthumb",
+            fpu_flags,
+            "-fdata-sections",
+            "-ffunction-sections",
+            "-Wall",
+            "-O0",
+            "-g3",
+            "--target=arm-none-eabi",
+            "-nostdlib",
+            "-ffreestanding"
+        ]
+
+        # 添加宏定义
+        all_defines = defines + arch_defines + [
+            "__GNUC__",
+            "__ARM_ARCH",
+            "ARM_MATH_MATRIX_CHECK",
+            "ARM_MATH_ROUNDING"
+        ]
+
+        for define in all_defines:
+            compile_flags.append(f"-D{define}")
+
+        # 添加头文件路径
+        for include_path in include_paths:
+            compile_flags.append(f"-I{include_path}")
+
+        # 尝试从compile_commands.json中获取实际的编译器路径并添加系统头文件
+        actual_compiler_path = self.get_compiler_from_compile_commands()
+        if actual_compiler_path and '/' in actual_compiler_path:
+            import os
+            import glob
+
+            compiler_dir = os.path.dirname(actual_compiler_path)
+            toolchain_base = os.path.dirname(compiler_dir)
+
+            # ARM工具链的标准头文件路径
+            possible_include_paths = [
+                f"{toolchain_base}/arm-none-eabi/include",
+                f"{toolchain_base}/lib/gcc/arm-none-eabi/*/include",
+                f"{toolchain_base}/lib/gcc/arm-none-eabi/*/include-fixed"
+            ]
+
+            for path_pattern in possible_include_paths:
+                if '*' in path_pattern:
+                    expanded_paths = glob.glob(path_pattern)
+                    for expanded_path in sorted(expanded_paths):
+                        if os.path.exists(expanded_path):
+                            compile_flags.append(f"-I{expanded_path}")
+                else:
+                    if os.path.exists(path_pattern):
+                        compile_flags.append(f"-I{path_pattern}")
+
+        # 生成compile_flags.txt文件
+        compile_flags_file = self.project_root / 'compile_flags.txt'
+        try:
+            with open(compile_flags_file, 'w', encoding='utf-8') as f:
+                for flag in compile_flags:
+                    f.write(f"{flag}\n")
+            print("已生成 compile_flags.txt 文件")
+        except Exception as e:
+            print(f"生成 compile_flags.txt 失败: {e}")
+
+    def get_compiler_from_compile_commands(self):
+        """从compile_commands.json中获取编译器路径"""
+        build_dir = self.project_root / "build"
+        compile_commands_file = build_dir / "compile_commands.json"
+
+        if not compile_commands_file.exists():
+            return None
+
+        try:
+            import json
+            with open(compile_commands_file, 'r', encoding='utf-8') as f:
+                commands = json.load(f)
+
+            if commands and len(commands) > 0:
+                # 取第一个编译命令中的编译器路径
+                command = commands[0].get('command', '')
+                if command:
+                    # 提取编译器路径（命令的第一部分）
+                    parts = command.split()
+                    if parts:
+                        compiler_path = parts[0]
+                        print(f"从compile_commands.json检测到编译器: {compiler_path}")
+                        return compiler_path
+        except Exception as e:
+            print(f"读取compile_commands.json失败: {e}")
+
+        return None
+
     def generate_c_cpp_properties(self, vscode_dir):
         """生成c_cpp_properties.json"""
         # 读取CMake缓存获取工具链路径
@@ -950,6 +1221,9 @@ adapter speed {speed}
         target = self.config.get('download.target', 'stm32f1x')
         speed = self.config.get('download.speed', '4000')
 
+        # 检测当前操作系统平台
+        current_platform = platform.system().lower()
+
         # 根据接口类型选择调试器
         if interface == 'jlink':
             server_type = 'jlink'
@@ -968,22 +1242,35 @@ adapter speed {speed}
                     "request": "launch",
                     "type": "cortex-debug",
                     "runToEntryPoint": "main",
-                    "showDevDebugOutput": "none",
+                    "showDevDebugOutput": "raw",
                     "servertype": server_type
                 }
             ]
         }
 
+        # 在Linux上使用gdb-multiarch，Windows上使用工具链的GDB
+        if current_platform != "windows":
+            launch_config["configurations"][0]["gdbPath"] = "gdb-multiarch"
+
         if server_type == 'openocd':
+            # 根据平台设置OpenOCD搜索路径
+            if current_platform == "windows":
+                search_dirs = [
+                    "${workspaceFolder}",
+                    "C:/openocd/share/openocd/scripts/"
+                ]
+            else:
+                search_dirs = [
+                    "${workspaceFolder}",
+                    "/usr/local/share/openocd/scripts/"
+                ]
+
             launch_config["configurations"][0].update({
                 "configFiles": [
                     f"interface/{interface}.cfg",
                     f"target/{target}.cfg"
                 ],
-                "searchDir": [
-                    "${workspaceFolder}",
-                    "C:/openocd/share/openocd/scripts/"
-                ],
+                "searchDir": search_dirs,
                 "openOCDLaunchCommands": [
                     f"adapter speed {speed}"
                 ]
@@ -1036,15 +1323,48 @@ adapter speed {speed}
         # 读取CMake缓存获取工具链路径
         toolchain_info = self.read_cmake_cache()
 
+        # 检测当前操作系统平台
+        current_platform = platform.system().lower()
+
         # 确定工具链路径和GDB路径
         if toolchain_info["toolchain_path"]:
             # 使用从CMake缓存读取的路径
             toolchain_path = toolchain_info["toolchain_path"]
-            gdb_path = str(Path(toolchain_path) / "arm-none-eabi-gdb.exe")
+            if current_platform == "windows":
+                gdb_path = str(Path(toolchain_path) / "arm-none-eabi-gdb.exe")
+            else:
+                # 在Linux上优先使用系统的gdb-multiarch，它更兼容
+                gdb_path = "gdb-multiarch"
         else:
             # 使用默认路径
-            toolchain_path = "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin"
-            gdb_path = "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/arm-none-eabi-gdb.exe"
+            if current_platform == "windows":
+                toolchain_path = "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin"
+                gdb_path = "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/arm-none-eabi-gdb.exe"
+            else:
+                toolchain_path = "/usr/bin"  # Linux/macOS 默认路径
+                gdb_path = "gdb-multiarch"  # 使用系统的gdb-multiarch
+
+        # 根据操作系统平台选择CMake生成器
+        if current_platform == "windows":
+            cmake_generator = "Ninja"
+            print("检测到Windows平台，使用Ninja生成器")
+        elif current_platform == "linux":
+            cmake_generator = "Unix Makefiles"
+            print("检测到Linux平台，使用Unix Makefiles生成器")
+        elif current_platform == "darwin":  # macOS
+            cmake_generator = "Unix Makefiles"
+            print("检测到macOS平台，使用Unix Makefiles生成器")
+        else:
+            cmake_generator = "Ninja"  # 默认使用Ninja
+            print(f"检测到未知平台 {current_platform}，使用默认Ninja生成器")
+
+        # 根据平台设置特定的路径和配置
+        if current_platform == "windows":
+            openocd_path = "C:/openocd/bin/openocd.exe"
+            terminal_shell = "cmd.exe"
+        else:
+            openocd_path = "/usr/bin/openocd"  # Linux/macOS 默认路径
+            terminal_shell = "/bin/bash"
 
         settings_config = {
             "files.associations": {
@@ -1055,20 +1375,23 @@ adapter speed {speed}
                 "*.ld": "text",
                 "*.lds": "text"
             },
-            "cortex-debug.openocdPath": "C:/openocd/bin/openocd.exe",
+            "cortex-debug.openocdPath": openocd_path,
             "cortex-debug.armToolchainPath": toolchain_path,
             "cortex-debug.gdbPath": gdb_path,
             "cmake.configureOnOpen": True,
             "cmake.buildDirectory": "${workspaceFolder}/build",
-            "cmake.generator": "Ninja",
+            "cmake.generator": cmake_generator,
             "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
             "editor.formatOnSave": True,
             "editor.insertSpaces": True,
             "editor.tabSize": 4,
             "files.trimTrailingWhitespace": True,
-            "files.encoding": "utf8",
-            "terminal.integrated.shell.windows": "cmd.exe"
+            "files.encoding": "utf8"
         }
+
+        # 只在Windows上设置terminal shell
+        if current_platform == "windows":
+            settings_config["terminal.integrated.shell.windows"] = terminal_shell
 
         settings_file = vscode_dir / 'settings.json'
         try:
@@ -1130,12 +1453,18 @@ adapter speed {speed}
         # 生成VS Code配置文件
         self.generate_vscode_config()
 
+        # 生成clangd配置文件
+        self.generate_clangd_config()
+
+        # 生成compile_flags.txt作为备用配置
+        self.generate_compile_flags_txt()
+
         # 只在初次运行或手动刷新时保存配置文件
         if self.is_first_run or refresh_requested:
             self.config.save_config()
-            print(f"已生成: CMakeLists.txt, {self.config.CONFIG_FILE}, idea.cfg, .vscode配置")
+            print(f"已生成: CMakeLists.txt, {self.config.CONFIG_FILE}, idea.cfg, .vscode配置, .clangd配置, compile_flags.txt")
         else:
-            print(f"已更新: CMakeLists.txt, idea.cfg, .vscode配置 (使用现有配置)")
+            print(f"已更新: CMakeLists.txt, idea.cfg, .vscode配置, .clangd配置, compile_flags.txt (使用现有配置)")
 
 def main():
     parser = argparse.ArgumentParser(description='STM32 CMakeLists.txt生成器')

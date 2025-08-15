@@ -1,9 +1,0 @@
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:46:6:NMI_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:55:6:HardFault_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:68:6:MemManage_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:81:6:BusFault_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:94:6:UsageFault_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:107:6:SVC_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:116:6:DebugMon_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:125:6:PendSV_Handler	4	static
-C:/Users/34575/Desktop/Code/STM32/32_temp_project/BSP/CORE/stm32f10x_it.c:134:6:SysTick_Handler	8	static

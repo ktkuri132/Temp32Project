@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "32_temp_project",
+    "name": "Temp32Project",
     "chip": "STM32F103C8",
     "board": "BLUEPILL",
     "architecture": "cortex-m3",
@@ -25,8 +25,8 @@
   },
   "linker": {
     "specs": [
-      "nano.specs",
-      "nosys.specs"
+      "nosys.specs",
+      "nano.specs"
     ],
     "script": "BSP/CORE/stm32f10x.ld",
     "gc_sections": true,
@@ -43,41 +43,41 @@
   },
   "files": {
     "sources": [
+      "Driver_Framework/led/df_led.c",
+      "Control/pid.c",
+      "Control/filter.c",
+      "Driver/misc.c",
+      "Driver/Systick.c",
+      "Driver/led.c",
+      "Driver/nvic.c",
+      "Driver/delay.c",
+      "Driver/usart.c",
+      "Driver/adc.c",
+      "BSP/CORE/sysmem.c",
+      "BSP/CORE/stm32f10x_it.c",
+      "BSP/CORE/system_stm32f10x.c",
+      "BSP/CORE/syscalls.c",
+      "BSP/CORE/startup_stm32f10x_md.c",
+      "app/irq.c",
       "app/control.c",
       "app/init.c",
-      "app/irq.c",
-      "app/main.c",
-      "BSP/CORE/startup_stm32f10x_md.c",
-      "BSP/CORE/stm32f10x_it.c",
-      "BSP/CORE/syscalls.c",
-      "BSP/CORE/sysmem.c",
-      "BSP/CORE/system_stm32f10x.c",
-      "Control/filter.c",
-      "Control/pid.c",
-      "Driver/adc.c",
-      "Driver/delay.c",
-      "Driver/led.c",
-      "Driver/misc.c",
-      "Driver/nvic.c",
-      "Driver/Systick.c",
-      "Driver/usart.c",
-      "Driver_Framework/led/df_led.c"
+      "app/main.c"
     ],
     "headers": [],
     "include_dirs": [
-      "BSP/CMSIS/Core/Include/a-profile",
-      "Middleware/shell",
       "app",
-      "Control",
+      "Middleware/trans",
+      "BSP/CMSIS/Core/Include/m-profile",
+      "Driver",
+      "BSP/CORE",
+      "Middleware/shell",
+      "Driver_Framework/led",
+      "BSP/CMSIS/Core/Include/a-profile",
       "BSP/CMSIS/Core/Include",
       "BSP/CMSIS/Core/Include/r-profile",
-      "Middleware/trans",
-      "Driver",
-      "Driver_Framework/i2c",
-      "Driver_Framework/led",
-      "BSP/CMSIS/Core/Include/m-profile",
-      "BSP/CORE",
-      "Driver_Framework/key"
+      "Driver_Framework/key",
+      "Control",
+      "Driver_Framework/i2c"
     ],
     "subdirs": [
       "Driver_Framework/i2c",

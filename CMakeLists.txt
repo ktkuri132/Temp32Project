@@ -17,7 +17,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(SIZE arm-none-eabi-size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-project(32_temp_project C CXX ASM)
+project(Temp32Project C CXX ASM)
 
 # 编译标志 (软件浮点)
 set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
@@ -25,7 +25,7 @@ set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -f
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nano.specs -specs=nosys.specs -T${CMAKE_SOURCE_DIR}/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -Wl,--print-memory-usage")
 
 # 宏定义
 add_definitions(-DSTM32F10X_MD)
@@ -63,12 +63,12 @@ set(CONTROL_SOURCES
 )
 
 set(DRIVER_SOURCES
+    Driver/Systick.c
     Driver/adc.c
     Driver/delay.c
     Driver/led.c
     Driver/misc.c
     Driver/nvic.c
-    Driver/Systick.c
     Driver/usart.c
 )
 
