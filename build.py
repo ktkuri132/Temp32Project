@@ -1298,7 +1298,7 @@ adapter speed {speed}
                 {
                     "label": "download",
                     "type": "shell",
-                    "command": "python",
+                    "command": "python3",
                     "args": [
                         "${workspaceFolder}/download.py"
                     ],
