@@ -1296,7 +1296,7 @@ adapter speed {speed}
             "version": "2.0.0",
             "tasks": [
                 {
-                    "label": "下载",
+                    "label": "download",
                     "type": "shell",
                     "command": "python",
                     "args": [

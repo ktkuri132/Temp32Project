@@ -65,19 +65,19 @@
     ],
     "headers": [],
     "include_dirs": [
-      "app",
-      "Middleware/trans",
       "BSP/CMSIS/Core/Include/m-profile",
-      "Driver",
-      "BSP/CORE",
-      "Middleware/shell",
       "Driver_Framework/led",
-      "BSP/CMSIS/Core/Include/a-profile",
       "BSP/CMSIS/Core/Include",
-      "BSP/CMSIS/Core/Include/r-profile",
-      "Driver_Framework/key",
       "Control",
-      "Driver_Framework/i2c"
+      "BSP/CMSIS/Core/Include/r-profile",
+      "BSP/CMSIS/Core/Include/a-profile",
+      "Middleware/shell",
+      "BSP/CORE",
+      "Middleware/trans",
+      "Driver",
+      "Driver_Framework/key",
+      "Driver_Framework/i2c",
+      "app"
     ],
     "subdirs": [
       "Driver_Framework/i2c",
