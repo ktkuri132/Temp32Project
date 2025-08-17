@@ -12,3 +12,9 @@ void NVIC_Init(void)
     // NVIC_EnableIRQ(SysTick_IRQn); // 使能SysTick中断
 
 }
+
+int nvic_init(dev_arg_t arg){
+    (void)arg;  // 忽略参数
+    NVIC_Init();
+    return 0;
+}

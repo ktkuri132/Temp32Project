@@ -19,19 +19,20 @@ CompileFlags:
   - -D__ARM_ARCH
   - -DARM_MATH_MATRIX_CHECK
   - -DARM_MATH_ROUNDING
-  - -IBSP/CMSIS/Core/Include/m-profile
-  - -IDriver_Framework/led
-  - -IBSP/CMSIS/Core/Include
-  - -IControl
-  - -IBSP/CMSIS/Core/Include/r-profile
-  - -IBSP/CMSIS/Core/Include/a-profile
   - -IMiddleware/shell
-  - -IBSP/CORE
-  - -IMiddleware/trans
+  - -IDriver_Framework/led
   - -IDriver
-  - -IDriver_Framework/key
   - -IDriver_Framework/i2c
+  - -IMiddleware/trans
+  - -IBSP/CMSIS/Core/Include/m-profile
+  - -IDriver_Framework/key
+  - -IBSP/CMSIS/Core/Include/r-profile
+  - -IDriver_Framework
+  - -IBSP/CORE
+  - -IControl
   - -Iapp
+  - -IBSP/CMSIS/Core/Include
+  - -IBSP/CMSIS/Core/Include/a-profile
   - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi/include
   - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi/include/c++/11.2.1
   - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/11.2.1/include

@@ -1,4 +1,4 @@
-# Install script for directory: /home/ktkuri/Temp32Project/Driver_Framework/key
+# Install script for directory: /home/ktkuri/Desktop/Temp32Project/Driver_Framework/key
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

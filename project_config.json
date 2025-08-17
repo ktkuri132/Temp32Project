@@ -43,6 +43,7 @@
   },
   "files": {
     "sources": [
+      "Driver_Framework/dev_model_core.c",
       "Driver_Framework/led/df_led.c",
       "Control/pid.c",
       "Control/filter.c",
@@ -65,19 +66,20 @@
     ],
     "headers": [],
     "include_dirs": [
-      "BSP/CMSIS/Core/Include/m-profile",
-      "Driver_Framework/led",
-      "BSP/CMSIS/Core/Include",
-      "Control",
-      "BSP/CMSIS/Core/Include/r-profile",
-      "BSP/CMSIS/Core/Include/a-profile",
       "Middleware/shell",
-      "BSP/CORE",
-      "Middleware/trans",
+      "Driver_Framework/led",
       "Driver",
-      "Driver_Framework/key",
       "Driver_Framework/i2c",
-      "app"
+      "Middleware/trans",
+      "BSP/CMSIS/Core/Include/m-profile",
+      "Driver_Framework/key",
+      "BSP/CMSIS/Core/Include/r-profile",
+      "Driver_Framework",
+      "BSP/CORE",
+      "Control",
+      "app",
+      "BSP/CMSIS/Core/Include",
+      "BSP/CMSIS/Core/Include/a-profile"
     ],
     "subdirs": [
       "Driver_Framework/i2c",

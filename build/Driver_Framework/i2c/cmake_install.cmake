@@ -1,4 +1,4 @@
-# Install script for directory: /home/ktkuri/Temp32Project/Driver_Framework/i2c
+# Install script for directory: /home/ktkuri/Desktop/Temp32Project/Driver_Framework/i2c
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

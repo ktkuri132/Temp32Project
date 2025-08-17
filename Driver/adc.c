@@ -1,7 +1,6 @@
 #include "driver.h"
 
-void ADC1_Init(void)
-{
+void ADC1_Init(void) {
     // 1. 使能ADC1时钟
     RCC->APB2ENR |= (1 << 9); // ADC1EN = 1
 
@@ -18,3 +17,34 @@ void ADC1_Init(void)
     // 4. 启动ADC
     ADC1->CR2 |= (1 << 0); // ADON = 1，开启ADC
 }
+
+void ADC1_Start(void) {
+    // 启动ADC1转换
+    ADC1->CR2 |= (1 << 30); // SWSTART = 1，启动转换
+}
+
+void ADC1_Stop(void) {
+    // 停止ADC1转换
+    ADC1->CR2 &= ~(1 << 30); // SWSTART = 0，停止转换
+    // 失能时钟
+    RCC->APB2ENR &= ~(1 << 9); // ADC1EN = 0
+}
+
+int adc1_init(dev_arg_t arg) {
+    (void)arg;  // 忽略参数
+    ADC1_Init();  // 调用ADC1初始化函数
+    return 0;    // 返回0表示成功
+}
+
+int adc1_enable(dev_arg_t arg) {
+    (void)arg;  // 忽略参数
+    ADC1_Start();  // 调用ADC1启动函数
+    return 0;    // 返回0表示成功
+}
+
+int adc1_disable(dev_arg_t arg) {
+    (void)arg;  // 忽略参数
+    ADC1_Stop();  // 调用ADC1停止函数
+    return 0;    // 返回0表示成功
+}
+

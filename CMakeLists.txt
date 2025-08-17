@@ -35,6 +35,7 @@ add_definitions(-DSTM32F103C8__Chipinfo__)
 include_directories(
     Control
     Driver
+    Driver_Framework
     app
     BSP/CORE
     Driver_Framework/i2c
@@ -72,6 +73,10 @@ set(DRIVER_SOURCES
     Driver/usart.c
 )
 
+set(DRIVER_FRAMEWORK_SOURCES
+    Driver_Framework/dev_model_core.c
+)
+
 set(APP_SOURCES
     app/control.c
     app/init.c
@@ -88,6 +93,7 @@ set(SOURCE_FILES
     ${CORE_SOURCES}
     ${CONTROL_SOURCES}
     ${DRIVER_SOURCES}
+    ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
     ${LED_SOURCES}
 )

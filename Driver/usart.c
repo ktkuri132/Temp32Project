@@ -44,7 +44,6 @@ void USART1_SendString(char *str)
     }
 }
 
-
 uint8_t USART1_ReceiveChar(void *None,uint8_t *data){
     (void)None; // 避免未使用参数警告
     while(!(USART1->SR & (1 << 5))); // 等待RXNE标志
@@ -62,4 +61,31 @@ int printf(const char *format, ...)
 
     USART1_SendString(buffer); // 发送格式化字符串到USART1
     return len; // 返回发送的字符长度
+}
+
+int usart1_init(dev_arg_t arg)
+{
+    if(arg.ptr == NULL){
+        return -1;    // 返回-1表示失败
+    }
+    USART1_Init(arg.s32);  // 调用USART1初始化函数
+    return 0;    // 返回0表示成功
+}
+
+int usart1_start(dev_arg_t arg)
+{
+    (void)arg;  // 忽略参数
+    // 启用USART1
+    USART1->CR1 |= (1 << 13); // UE = 1，启用USART
+    return 0;  // 返回0表示成功
+}
+
+int usart1_stop(dev_arg_t arg)
+{
+    (void)arg;  // 忽略参数
+    // 禁用USART1
+    USART1->CR1 &= ~(1 << 13); // UE = 0，禁用USART
+    // 失能时钟
+    RCC->APB2ENR &= ~(1 << 14); // USART1EN = 0
+    return 0;  // 返回0表示成功
 }

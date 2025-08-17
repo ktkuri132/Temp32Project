@@ -1,4 +1,4 @@
-# Install script for directory: /home/ktkuri/Temp32Project/Middleware/shell
+# Install script for directory: /home/ktkuri/Desktop/Temp32Project/Middleware/shell
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

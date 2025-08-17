@@ -12,8 +12,8 @@ void MCU_Shell_Init(shell *sh, DeviceFamily *log) {
     sh->UART_NOTE = 0;                      // 初始化串口节点
     sh->RunStae = 0;                        // 初始化运行状态
     memset(sh->Data, 0, sizeof(sh->Data));  // 清空数据缓冲区
-    printf(CLEAR_SCREEN);                   // 清屏
-    printf(CURSOR_HOME);                    // 光标回到起始位置
+    // printf(CLEAR_SCREEN);                   // 清屏
+    // printf(CURSOR_HOME);                    // 光标回到起始位置
     printf("SHELL_VERSION: %d.%d.%d\n", SHELL_VERSION_MAIN, SHELL_VERSION_RE,
            SHELL_VERSION_UPDATE);  // 显示版本信息
     if (log == NULL) {

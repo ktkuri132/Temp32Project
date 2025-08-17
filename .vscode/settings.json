@@ -7,7 +7,7 @@
     "*.ld": "text",
     "*.lds": "text"
   },
-  "cortex-debug.openocdPath": "/usr/bin/openocd",
+  "cortex-debug.openocdPath": "/usr/local/bin/openocd",
   "cortex-debug.armToolchainPath": "/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin",
   "cortex-debug.gdbPath": "gdb-multiarch",
   "cmake.configureOnOpen": true,

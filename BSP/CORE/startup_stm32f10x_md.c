@@ -163,10 +163,6 @@ void (* const g_pfnVectors[])(void) = {
     DMA2_Channel4_5_IRQHandler            // 75
 };
 
-void test(void){
-
-}
-
 // Reset_Handler实现
 void __attribute__((naked, noreturn)) Reset_Handler(void)
 {
