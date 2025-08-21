@@ -25,7 +25,7 @@ set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -f
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -Wl,--print-memory-usage")
 
 # 宏定义
 add_definitions(-DSTM32F10X_MD)
@@ -38,6 +38,7 @@ include_directories(
     Driver_Framework
     app
     BSP/CORE
+    Driver/flash
     Driver_Framework/i2c
     Driver_Framework/key
     Driver_Framework/led
@@ -84,6 +85,14 @@ set(APP_SOURCES
     app/main.c
 )
 
+set(FLASH_SOURCES
+    Driver/flash/flash.c
+    Driver/flash/flash_example.c
+    Driver/flash/flash_main_test.c
+    Driver/flash/flash_space_test.c
+    Driver/flash/flash_test.c
+)
+
 set(LED_SOURCES
     Driver_Framework/led/df_led.c
 )
@@ -95,6 +104,7 @@ set(SOURCE_FILES
     ${DRIVER_SOURCES}
     ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
+    ${FLASH_SOURCES}
     ${LED_SOURCES}
 )
 

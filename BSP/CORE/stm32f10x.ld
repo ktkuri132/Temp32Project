@@ -102,6 +102,8 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+
+
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
   .ARM : {
     __exidx_start = .;
@@ -130,9 +132,6 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
-  /* used by the startup to initialize data */
-  _sidata = LOADADDR(.data);
-
   /* Initialized data sections goes into RAM, load LMA copy after code */
   .data :
   {
@@ -144,6 +143,18 @@ SECTIONS
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
+
+  /* used by the startup to initialize data */
+  _sidata = LOADADDR(.data);
+
+  /* Program end flag section - placed after all Flash data */
+  .program_end_flag :
+  {
+    . = ALIGN(4);
+    *(.program_end_flag)
+    . = ALIGN(4);
+    _eprogram = .;        /* define end of program including flag */
+  } >FLASH
 
 
   /* Uninitialized data section */
@@ -184,6 +195,9 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+
+
+
 }
 
 

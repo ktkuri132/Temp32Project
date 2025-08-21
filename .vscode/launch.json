@@ -20,7 +20,7 @@
         "/usr/local/share/openocd/scripts/"
       ],
       "openOCDLaunchCommands": [
-        "adapter speed 1000"
+        "adapter speed 4000"
       ]
     }
   ]

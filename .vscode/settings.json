@@ -7,8 +7,8 @@
     "*.ld": "text",
     "*.lds": "text"
   },
-  "cortex-debug.openocdPath": "/usr/local/bin/openocd",
-  "cortex-debug.armToolchainPath": "/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin",
+  "cortex-debug.openocdPath": "/usr/bin/openocd",
+  "cortex-debug.armToolchainPath": "/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin",
   "cortex-debug.gdbPath": "gdb-multiarch",
   "cmake.configureOnOpen": true,
   "cmake.buildDirectory": "${workspaceFolder}/build",

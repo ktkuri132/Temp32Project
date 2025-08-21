@@ -19,24 +19,25 @@ CompileFlags:
   - -D__ARM_ARCH
   - -DARM_MATH_MATRIX_CHECK
   - -DARM_MATH_ROUNDING
-  - -IMiddleware/shell
   - -IDriver_Framework/led
+  - -IMiddleware/shell
   - -IDriver
-  - -IDriver_Framework/i2c
-  - -IMiddleware/trans
-  - -IBSP/CMSIS/Core/Include/m-profile
-  - -IDriver_Framework/key
   - -IBSP/CMSIS/Core/Include/r-profile
+  - -Iapp
+  - -IMiddleware/trans
+  - -IDriver_Framework/i2c
   - -IDriver_Framework
   - -IBSP/CORE
-  - -IControl
-  - -Iapp
   - -IBSP/CMSIS/Core/Include
+  - -IControl
+  - -IDriver/flash
+  - -IDriver_Framework/key
+  - -IBSP/CMSIS/Core/Include/m-profile
   - -IBSP/CMSIS/Core/Include/a-profile
-  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi/include
-  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi/include/c++/11.2.1
-  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/11.2.1/include
-  - -I/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/11.2.1/include-fixed
+  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include
+  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1
+  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include
+  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed
   CompilationDatabase: build
 Index:
   Background: Build

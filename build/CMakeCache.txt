@@ -15,15 +15,15 @@
 ########################
 
 //Path to a program.
-CMAKE_ADDR2LINE:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-addr2line
+CMAKE_ADDR2LINE:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-addr2line
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_ASM_COMPILER_AR:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc-ar
+CMAKE_ASM_COMPILER_AR:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_ASM_COMPILER_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc-ranlib
+CMAKE_ASM_COMPILER_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib
 
 //Flags used by the ASM compiler during all build types.
 CMAKE_ASM_FLAGS:STRING=
@@ -47,15 +47,15 @@ CMAKE_BUILD_TYPE:STRING=Debug
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
 //No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-g++
+CMAKE_CXX_COMPILER:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-g++
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc-ar
+CMAKE_CXX_COMPILER_AR:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc-ranlib
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -73,15 +73,15 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //No help, variable specified on the command line.
-CMAKE_C_COMPILER:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc
+CMAKE_C_COMPILER:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc-ar
+CMAKE_C_COMPILER_AR:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc-ranlib
+CMAKE_C_COMPILER_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -126,7 +126,7 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/home/ktkuri/Desktop/Temp32Project/build
 CMAKE_INSTALL_PREFIX:PATH=/usr/local
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-ld
+CMAKE_LINKER:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ld
 
 //Path to a program.
 CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/gmake
@@ -152,10 +152,10 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_NM:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-nm
+CMAKE_NM:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-nm
 
 //Path to a program.
-CMAKE_OBJDUMP:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-objdump
+CMAKE_OBJDUMP:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -167,10 +167,10 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_NAME:STATIC=Temp32Project
 
 //Path to a program.
-CMAKE_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-ranlib
+CMAKE_RANLIB:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ranlib
 
 //Path to a program.
-CMAKE_READELF:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-readelf
+CMAKE_READELF:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-readelf
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
@@ -220,7 +220,7 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_STRIP:FILEPATH=/home/ktkuri/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin/arm-none-eabi-strip
+CMAKE_STRIP:FILEPATH=/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-strip
 
 //Path to a program.
 CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND

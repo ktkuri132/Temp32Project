@@ -30,7 +30,9 @@
     ],
     "script": "BSP/CORE/stm32f10x.ld",
     "gc_sections": true,
-    "map_file": true
+    "map_file": true,
+    "printf_float": true,
+    "scanf_float": true
   },
   "defines": [
     "STM32F10X_MD",
@@ -43,55 +45,61 @@
   },
   "files": {
     "sources": [
-      "Driver_Framework/dev_model_core.c",
-      "Driver_Framework/led/df_led.c",
-      "Control/pid.c",
-      "Control/filter.c",
-      "Driver/misc.c",
       "Driver/Systick.c",
-      "Driver/led.c",
-      "Driver/nvic.c",
-      "Driver/delay.c",
       "Driver/usart.c",
       "Driver/adc.c",
-      "BSP/CORE/sysmem.c",
-      "BSP/CORE/stm32f10x_it.c",
-      "BSP/CORE/system_stm32f10x.c",
-      "BSP/CORE/syscalls.c",
-      "BSP/CORE/startup_stm32f10x_md.c",
-      "app/irq.c",
-      "app/control.c",
+      "Driver/led.c",
+      "Driver/delay.c",
+      "Driver/misc.c",
+      "Driver/nvic.c",
+      "Driver/flash/flash_test.c",
+      "Driver/flash/flash_main_test.c",
+      "Driver/flash/flash_space_test.c",
+      "Driver/flash/flash.c",
+      "Driver/flash/flash_example.c",
+      "Driver_Framework/dev_model_core.c",
+      "Driver_Framework/led/df_led.c",
       "app/init.c",
-      "app/main.c"
+      "app/irq.c",
+      "app/main.c",
+      "app/control.c",
+      "BSP/CORE/stm32f10x_it.c",
+      "BSP/CORE/startup_stm32f10x_md.c",
+      "BSP/CORE/syscalls.c",
+      "BSP/CORE/sysmem.c",
+      "BSP/CORE/system_stm32f10x.c",
+      "Control/filter.c",
+      "Control/pid.c"
     ],
     "headers": [],
     "include_dirs": [
-      "Middleware/shell",
       "Driver_Framework/led",
+      "Middleware/shell",
       "Driver",
-      "Driver_Framework/i2c",
-      "Middleware/trans",
-      "BSP/CMSIS/Core/Include/m-profile",
-      "Driver_Framework/key",
       "BSP/CMSIS/Core/Include/r-profile",
+      "app",
+      "Middleware/trans",
+      "Driver_Framework/i2c",
       "Driver_Framework",
       "BSP/CORE",
-      "Control",
-      "app",
       "BSP/CMSIS/Core/Include",
+      "Control",
+      "Driver/flash",
+      "Driver_Framework/key",
+      "BSP/CMSIS/Core/Include/m-profile",
       "BSP/CMSIS/Core/Include/a-profile"
     ],
     "subdirs": [
-      "Driver_Framework/i2c",
       "Driver_Framework/key",
-      "Middleware/shell",
-      "Middleware/trans"
+      "Driver_Framework/i2c",
+      "Middleware/trans",
+      "Middleware/shell"
     ],
     "static_libraries": [
-      "i2c",
       "key",
-      "shell",
-      "trans"
+      "i2c",
+      "trans",
+      "shell"
     ]
   }
 }

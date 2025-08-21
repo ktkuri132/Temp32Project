@@ -43,7 +43,9 @@ class ProjectConfig:
             "specs": ["nosys.specs", "nano.specs"],
             "script": "",  # 自动查找
             "gc_sections": True,
-            "map_file": True
+            "map_file": True,
+            "printf_float": True,  # 默认允许printf输出浮点型
+            "scanf_float": True   # 默认允许scanf输入浮点型
         },
         "defines": [
             "USE_HAL_DRIVER"
@@ -702,6 +704,12 @@ class CMakeGenerator:
             linker_options.append('-Wl,--gc-sections')
         if self.config.get('linker.map_file', True):
             linker_options.append('-Wl,-Map=${PROJECT_NAME}.map,--cref')
+
+        # 添加printf/scanf浮点支持
+        if self.config.get('linker.printf_float', True):
+            linker_options.append('-u _printf_float')
+        if self.config.get('linker.scanf_float', True):
+            linker_options.append('-u _scanf_float')
 
         # 添加内存使用信息打印
         linker_options.append('-Wl,--print-memory-usage')
