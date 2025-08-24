@@ -1,62 +1,71 @@
-CompileFlags:
-  Add:
-  - -mcpu=cortex-m3
-  - -mthumb
-  - -mfloat-abi=soft
-  - -fdata-sections
-  - -ffunction-sections
-  - -Wall
-  - -O0
-  - -g3
-  - --target=arm-none-eabi
-  - -nostdlib
-  - -ffreestanding
-  - -DSTM32F10X_MD
-  - -DSTM32F103C8__Chipinfo__
-  - -D__CORTEX_M=3
-  - -DARM_MATH_CM3
-  - -D__GNUC__
-  - -D__ARM_ARCH
-  - -DARM_MATH_MATRIX_CHECK
-  - -DARM_MATH_ROUNDING
-  - -IDriver_Framework/led
-  - -IMiddleware/shell
-  - -IDriver
-  - -IBSP/CMSIS/Core/Include/r-profile
-  - -Iapp
-  - -IMiddleware/trans
-  - -IDriver_Framework/i2c
-  - -IDriver_Framework
-  - -IBSP/CORE
-  - -IBSP/CMSIS/Core/Include
-  - -IControl
-  - -IDriver/flash
-  - -IDriver_Framework/key
-  - -IBSP/CMSIS/Core/Include/m-profile
-  - -IBSP/CMSIS/Core/Include/a-profile
-  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include
-  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1
-  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include
-  - -I/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed
-  CompilationDatabase: build
-Index:
-  Background: Build
-  StandardLibrary: false
-InlayHints:
-  Enabled: true
-  ParameterNames: true
-  DeducedTypes: true
-Hover:
-  ShowAKA: true
-Diagnostics:
-  ClangTidy:
-    Add:
-    - readability-*
-    - bugprone-*
-    - performance-*
-    Remove:
-    - readability-magic-numbers
-    - readability-identifier-length
-  Suppress:
-  - pp_file_not_found
-  - unknown_warning_option
+{
+  "CompileFlags": {
+    "Add": [
+      "-mcpu=cortex-m3",
+      "-mthumb",
+      "-mfloat-abi=soft",
+      "-fdata-sections",
+      "-ffunction-sections",
+      "-Wall",
+      "-O0",
+      "-g3",
+      "--target=arm-none-eabi",
+      "-nostdlib",
+      "-ffreestanding",
+      "-DSTM32F10X_MD",
+      "-DSTM32F10X_MD",
+      "-DSTM32F103C8__Chipinfo__",
+      "-D__CORTEX_M=3",
+      "-DARM_MATH_CM3",
+      "-D__GNUC__",
+      "-D__ARM_ARCH",
+      "-DARM_MATH_MATRIX_CHECK",
+      "-DARM_MATH_ROUNDING",
+      "-Iapp",
+      "-IMiddleware/trans",
+      "-IBSP/CMSIS/Core/Include",
+      "-IBSP/CMSIS/Core/Include/r-profile",
+      "-IDriver",
+      "-IBSP/CMSIS/Core/Include/a-profile",
+      "-IDriver/flash",
+      "-IDriver_Framework",
+      "-IDriver_Framework/key",
+      "-IMiddleware/shell",
+      "-IControl",
+      "-IDriver_Framework/led",
+      "-IDriver_Framework/i2c",
+      "-IBSP/CMSIS/Core/Include/m-profile",
+      "-IBSP/CORE"
+    ],
+    "CompilationDatabase": "build"
+  },
+  "Index": {
+    "Background": "Build",
+    "StandardLibrary": false
+  },
+  "InlayHints": {
+    "Enabled": true,
+    "ParameterNames": true,
+    "DeducedTypes": true
+  },
+  "Hover": {
+    "ShowAKA": true
+  },
+  "Diagnostics": {
+    "ClangTidy": {
+      "Add": [
+        "readability-*",
+        "bugprone-*",
+        "performance-*"
+      ],
+      "Remove": [
+        "readability-magic-numbers",
+        "readability-identifier-length"
+      ]
+    },
+    "Suppress": [
+      "pp_file_not_found",
+      "unknown_warning_option"
+    ]
+  }
+}

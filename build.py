@@ -12,7 +12,7 @@ from pathlib import Path
 class ProjectConfig:
     """项目配置管理类"""
 
-    CONFIG_FILE = "project_config.json"
+    CONFIG_FILE = "build/project_config.json"
 
     DEFAULT_CONFIG = {
         "project": {
@@ -66,6 +66,9 @@ class ProjectConfig:
 
     def __init__(self, project_root="."):
         self.project_root = Path(project_root)
+        # 确保 build 目录存在
+        build_dir = self.project_root / "build"
+        build_dir.mkdir(exist_ok=True)
         self.config_file = self.project_root / self.CONFIG_FILE
         self.config = self.load_config()
 
@@ -852,7 +855,10 @@ source [find target/{target}.cfg]
 adapter speed {speed}
 '''
 
-        idea_cfg_file = self.project_root / 'idea.cfg'
+        # 确保 build 目录存在
+        build_dir = self.project_root / 'build'
+        build_dir.mkdir(exist_ok=True)
+        idea_cfg_file = build_dir / 'idea.cfg'
         try:
             idea_cfg_file.write_text(idea_cfg_content, encoding='utf-8')
             print(f"生成 idea.cfg 文件")
@@ -1299,14 +1305,17 @@ adapter speed {speed}
     def generate_tasks_json(self, vscode_dir):
         """生成tasks.json"""
         project_name = self.config.get('project.name', 'project')
-
+        current_platform = platform.system().lower()
+        command = "python3"
+        if current_platform == "windows":
+            command = "python"
         tasks_config = {
             "version": "2.0.0",
             "tasks": [
                 {
                     "label": "download",
                     "type": "shell",
-                    "command": "python3",
+                    "command": command,
                     "args": [
                         "${workspaceFolder}/download.py"
                     ],

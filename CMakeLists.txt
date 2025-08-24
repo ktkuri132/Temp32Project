@@ -29,6 +29,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosy
 
 # 宏定义
 add_definitions(-DSTM32F10X_MD)
+add_definitions(-DSTM32F10X_MD)
 add_definitions(-DSTM32F103C8__Chipinfo__)
 
 # 头文件目录
@@ -65,12 +66,12 @@ set(CONTROL_SOURCES
 )
 
 set(DRIVER_SOURCES
-    Driver/Systick.c
     Driver/adc.c
     Driver/delay.c
     Driver/led.c
     Driver/misc.c
     Driver/nvic.c
+    Driver/Systick.c
     Driver/usart.c
 )
 
@@ -88,9 +89,6 @@ set(APP_SOURCES
 set(FLASH_SOURCES
     Driver/flash/flash.c
     Driver/flash/flash_example.c
-    Driver/flash/flash_main_test.c
-    Driver/flash/flash_space_test.c
-    Driver/flash/flash_test.c
 )
 
 set(LED_SOURCES

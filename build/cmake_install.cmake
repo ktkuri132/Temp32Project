@@ -1,8 +1,8 @@
-# Install script for directory: /home/ktkuri/Desktop/Temp32Project
+# Install script for directory: C:/Users/ktkuri/Desktop/Code/Temp32Project
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Temp32Project")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,29 +34,35 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/ktkuri/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump")
+  set(CMAKE_OBJDUMP "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/ktkuri/Desktop/Temp32Project/build/Driver_Framework/i2c/cmake_install.cmake")
+  include("C:/Users/ktkuri/Desktop/Code/Temp32Project/build/Driver_Framework/i2c/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/ktkuri/Desktop/Temp32Project/build/Driver_Framework/key/cmake_install.cmake")
+  include("C:/Users/ktkuri/Desktop/Code/Temp32Project/build/Driver_Framework/key/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/ktkuri/Desktop/Temp32Project/build/Middleware/shell/cmake_install.cmake")
+  include("C:/Users/ktkuri/Desktop/Code/Temp32Project/build/Middleware/shell/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/ktkuri/Desktop/Temp32Project/build/Middleware/trans/cmake_install.cmake")
+  include("C:/Users/ktkuri/Desktop/Code/Temp32Project/build/Middleware/trans/cmake_install.cmake")
 endif()
 
+string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
+       "${CMAKE_INSTALL_MANIFEST_FILES}")
+if(CMAKE_INSTALL_LOCAL_ONLY)
+  file(WRITE "C:/Users/ktkuri/Desktop/Code/Temp32Project/build/install_local_manifest.txt"
+     "${CMAKE_INSTALL_MANIFEST_CONTENT}")
+endif()
 if(CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_COMPONENT MATCHES "^[a-zA-Z0-9_.+-]+$")
     set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
@@ -70,8 +76,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
-       "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "/home/ktkuri/Desktop/Temp32Project/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Users/ktkuri/Desktop/Code/Temp32Project/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
