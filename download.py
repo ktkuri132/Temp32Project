@@ -392,12 +392,14 @@ def create_vscode_debug_config(config):
 
         # 如果找到了工具链路径，添加具体的路径配置
         if toolchain_path:
-            debug_config["armToolchainPath"] = toolchain_path.replace('\\', '/')
-            debug_config["gdbPath"] = f"{toolchain_path.replace('\\', '/')}/arm-none-eabi-gdb.exe"
+            toolchain_path_unix = toolchain_path.replace('\\', '/')
+            debug_config["armToolchainPath"] = toolchain_path_unix
+            debug_config["gdbPath"] = f"{toolchain_path_unix}/arm-none-eabi-gdb.exe"
 
         # 如果找到了 J-Link 路径，添加 J-Link GDB Server 路径
         if jlink_path:
-            debug_config["jlinkGDBServerPath"] = f"{jlink_path.replace('\\', '/')}/JLinkGDBServerCL.exe"
+            jlink_path_unix = jlink_path.replace('\\', '/')
+            debug_config["jlinkGDBServerPath"] = f"{jlink_path_unix}/JLinkGDBServerCL.exe"
     else:
         # OpenOCD 调试配置
         target = config.get('download.target', 'stm32f1x')
@@ -455,8 +457,9 @@ def create_vscode_debug_config(config):
 
         # 如果找到了工具链路径，添加具体的路径配置
         if toolchain_path:
-            debug_config["armToolchainPath"] = toolchain_path.replace('\\', '/')
-            debug_config["gdbPath"] = f"{toolchain_path.replace('\\', '/')}/arm-none-eabi-gdb.exe"
+            toolchain_path_unix = toolchain_path.replace('\\', '/')
+            debug_config["armToolchainPath"] = toolchain_path_unix
+            debug_config["gdbPath"] = f"{toolchain_path_unix}/arm-none-eabi-gdb.exe"
 
     # 读取现有配置或创建新配置
     launch_config = {

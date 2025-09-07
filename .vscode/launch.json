@@ -2,6 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug STM32",
+      "cwd": "${workspaceFolder}",
+      "executable": "./build/Temp32Project.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "raw",
+      "servertype": "jlink",
+      "device": "STM32F103C8",
+      "interface": "swd"
+    },
+    {
       "name": "Debug STM32 (J-Link)",
       "cwd": "${workspaceFolder}",
       "executable": "./build/Temp32Project.elf",
@@ -76,9 +88,9 @@
         "enabled": true,
         "samplesPerSecond": 4
       },
-      "armToolchainPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin",
-      "gdbPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gdb.exe",
-      "jlinkGDBServerPath": "C:/Program Files/SEGGER/JLink_V862/JLinkGDBServerCL.exe"
+      "armToolchainPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin",
+      "gdbPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/arm-none-eabi-gdb.exe",
+      "jlinkGDBServerPath": "C:/Program Files/SEGGER/JLink/JLinkGDBServerCL.exe"
     }
   ]
 }
