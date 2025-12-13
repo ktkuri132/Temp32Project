@@ -44,6 +44,7 @@ include_directories(
     Driver_Framework/led
     Driver_Framework/uart
     Driver_Framework/display
+    Driver_Framework/lcd
     Device/sh1106
     Device/ssd1306
     Device/st7789

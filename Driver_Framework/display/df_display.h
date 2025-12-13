@@ -3,13 +3,22 @@
 
 #include <stdint.h>
 
+typedef enum
+{
+    DISPLAY_TYPE_GENERIC = 0,
+    DISPLAY_TYPE_LCD
+} DisplayType_t;
+
 /**
  * @brief 显示设备接口结构体
  * 定义了所有显示设备必须实现或可选实现的操作
  */
-typedef struct DisplayDevice_t
+typedef struct
 {
     const char *name; // 设备名称 (如 "OLED", "UART_Term", "LCD")
+    DisplayType_t type; // 设备类型
+    LCD_Handler_t *lcd_handler;  // LCD句柄 (仅当 type == DISPLAY_TYPE_LCD 时有效)
+
     uint16_t width;   // 屏幕宽度 (像素或字符列数)
     uint16_t height;  // 屏幕高度 (像素或字符行数)
 
@@ -49,6 +58,15 @@ typedef struct
      * @return 0:成功, -1:失败
      */
     int (*Register)(DisplayDevice_t *dev);
+
+    /**
+     * @brief 注册一个 LCD 设备 (自动绑定)
+     * @param dev 设备结构体指针 (用于存储 Display 框架信息)
+     * @param lcd LCD 句柄
+     * @param name 设备名称
+     * @return 0:成功, -1:失败
+     */
+    int (*RegisterLCD)(DisplayDevice_t *dev, void *lcd, const char *name);
 
     /**
      * @brief 选择当前活动的显示设备

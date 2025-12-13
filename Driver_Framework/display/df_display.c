@@ -1,4 +1,5 @@
 #include "df_display.h"
+#include "df_lcd.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -32,6 +33,27 @@ static int Display_Register(DisplayDevice_t *dev)
     return 0;
 }
 
+// 注册 LCD 设备
+static int Display_RegisterLCD(DisplayDevice_t *dev, LCD_Handler_t *lcd, const char *name)
+{
+    if (dev == NULL || lcd == NULL)
+        return -1;
+
+    memset(dev, 0, sizeof(DisplayDevice_t));
+    dev->name = name;
+    dev->type = DISPLAY_TYPE_LCD;
+    dev->lcd_handler = lcd;
+
+    // 填充一些基本信息
+    dev->width = dev->lcd_handler->Width;
+    dev->height = dev->lcd_handler->Height;
+    
+
+    // 启用 LCD 的终端模式
+    LCD_Terminal_Enable(dev->lcd_handler, true);
+    return Display_Register(dev);
+}
+
 // 选择设备
 static int Display_Select(const char *name)
 {
@@ -53,6 +75,13 @@ static int Display_Output(const char *str)
 {
     if (current_dev == NULL)
         return -1;
+
+    // 如果是 LCD 设备，直接调用 LCD 框架的 Printf (它支持流式输出和滚动)
+    if (current_dev->type == DISPLAY_TYPE_LCD && current_dev->lcd_handler)
+    {
+        LCD_Printf((LCD_Handler_t *)current_dev->lcd_handler, "%s", str);
+        return 0;
+    }
 
     // 如果没有配置字体信息，回退到简单透传模式
     if (current_dev->font_width == 0 || current_dev->font_height == 0)
@@ -146,6 +175,12 @@ static int Display_Clear(void)
 {
     if (current_dev)
     {
+        if (current_dev->type == DISPLAY_TYPE_LCD && current_dev->lcd_handler)
+        {
+            LCD_Terminal_Clear((LCD_Handler_t *)current_dev->lcd_handler);
+            return 0;
+        }
+
         // 重置光标
         current_dev->cursor_x = 0;
         current_dev->cursor_y = 0;
@@ -158,6 +193,7 @@ static int Display_Clear(void)
 // 实例化全局管理器
 DisplayManager_t Display = {
     .Register = Display_Register,
+    .RegisterLCD = Display_RegisterLCD,
     .Select = Display_Select,
     .Output = Display_Output,
     .Printf = Display_Printf,
