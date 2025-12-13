@@ -1,8 +1,8 @@
-#ifndef __DF_ADC_H
-#define __DF_ADC_H
+#ifndef __DF_DELAY_H
+#define __DF_DELAY_H
 
-#include <stdbool.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <dev_frame.h>
 #ifndef DEV_MODEL_CORE_H
 
@@ -26,14 +26,11 @@ typedef union {
 
 #endif
 
+typedef struct Delay_TypeDef {
+    bool Delay_Init_Flag; // 延时模块初始化标志
+    int (*init)(dev_arg_t); // 延时模块初始化函数指针
+    void (*ms)(uint32_t ms); // 毫秒延时函数
+    void (*us)(uint32_t us); // 微秒延时函数
+} Dt;
 
-typedef struct ADC_TypeDef {
-    bool ADC_Init_Flag;      // ADC初始化标志
-    uint8_t ADC_Num;         // ADC编号
-    char *ADC_Name;      // ADC名称
-    int (*init)(dev_arg_t);       // 初始化ADC，传参arg_null
-    int (*deinit)(dev_arg_t);     // 关闭ADC，传参arg_null
-    int (*get_value)(dev_arg_t); // 获取ADC数值，传递arg_u32(value)
-} At;
-
-#endif
+#endif /* __DF_DELAY_H */

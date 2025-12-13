@@ -31,9 +31,9 @@ typedef struct LED_TypeDef {
     uint8_t LED_Num;          // LED编号
     bool LED_State;           // LED状态（0: 关闭, 1: 打开）
     char* LED_Name;        // LED名称
-    int (*init)(dev_arg_t);       // 初始化LED，无需传参
-    int (*on)(dev_arg_t);         // 打开LED，无需传参
-    int (*off)(dev_arg_t);        // 关闭LED，无需传参
+    int (*init)(dev_arg_t);       // 初始化LED，传参arg_null
+    int (*on)(dev_arg_t);         // 打开LED，传参arg_null
+    int (*off)(dev_arg_t);        // 关闭LED，传参arg_null
     int (*toggle)(dev_arg_t);     // 翻转LED，传参arg_null
 } Lt;
 

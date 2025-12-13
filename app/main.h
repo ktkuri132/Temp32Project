@@ -7,6 +7,7 @@
 #include <df_uart.h>
 #include <df_led.h>
 #include <df_adc.h>
+#include <df_delay.h>
 #include <dev_frame.h>
 
 extern shell Shell; // Shell协议结构体实例
@@ -17,4 +18,5 @@ extern dev_info_t Dev_info_poor[];
 extern Ut debug;
 extern Lt led;
 extern At adc1;
+extern Dt delay;
 #endif

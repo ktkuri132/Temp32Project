@@ -1,4 +1,8 @@
 #include "driver.h"
+#include "df_delay.h"
+
+extern Dt delay ;
+
 // 毫秒延时函数 (基于while循环，72MHz系统时钟)
 void delay_ms(uint32_t ms)
 {
@@ -28,3 +32,10 @@ void delay_us(uint32_t us)
         }
     }
 }
+
+Dt delay = {
+    .Delay_Init_Flag = true,
+    .init = NULL,
+    .ms = delay_ms,
+    .us = delay_us
+};

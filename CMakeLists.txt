@@ -43,6 +43,10 @@ include_directories(
     Driver_Framework/key
     Driver_Framework/led
     Driver_Framework/uart
+    Driver_Framework/display
+    Device/sh1106
+    Device/ssd1306
+    Device/st7789
     Middleware/shell
     Middleware/trans
     BSP/CMSIS/Core/Include
@@ -75,8 +79,16 @@ set(DRIVER_SOURCES
     Driver/usart.c
 )
 
+set(DEVICE_SOURCES
+    Device/sh1106/sh1106.c
+    Device/ssd1306/ssd1306.c
+    Device/st7789/st7789.c
+)
+
 set(DRIVER_FRAMEWORK_SOURCES
     Driver_Framework/dev_frame.c
+    Driver_Framework/display/df_display.c
+    Driver_Framework/lcd/df_lcd.c
 )
 
 set(APP_SOURCES
@@ -97,6 +109,7 @@ set(SOURCE_FILES
     ${CORE_SOURCES}
     ${CONTROL_SOURCES}
     ${DRIVER_SOURCES}
+    ${DEVICE_SOURCES}
     ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
     ${FLASH_SOURCES}
