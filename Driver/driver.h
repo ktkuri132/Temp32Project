@@ -3,7 +3,11 @@
 
 #include <stm32f10x.h>
 #include <stdio.h>
-#include <dev_model_core.h>
+#include <dev_frame.h>
+
+#define DEBUG_UART_NAME "usart_debug"
+#define ONBOARD_LED_NAME "led_onboard"
+#define ADC1_NAME       "adc1"
 
 void NVIC_Init(void);
 int nvic_init(dev_arg_t arg);
@@ -11,18 +15,14 @@ int nvic_init(dev_arg_t arg);
 void Systick_Init(void);
 int systick_init(dev_arg_t arg);
 
-void LED_Init(void);
-void LED_Toggle(void);
-void LED_On(void);
-void LED_Off(void);
 int led_init(dev_arg_t arg);
-int led_enable(dev_arg_t arg);
-int led_disable(dev_arg_t arg);
+int led_on(dev_arg_t arg);
+int led_off(dev_arg_t arg);
 
 void USART1_Init(uint32_t BaudRate);
 void USART1_SendChar(char ch);
 void USART1_SendString(char *str);
-uint8_t USART1_ReceiveChar(void *None,uint8_t *data);
+uint8_t USART1_ReceiveChar(void *None, uint8_t *data);
 int usart1_init(dev_arg_t arg);
 int usart1_start(dev_arg_t arg);
 int usart1_stop(dev_arg_t arg);

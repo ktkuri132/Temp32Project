@@ -5,8 +5,8 @@
 void flash_info_query(void);
 uint32_t a = 0;
 int main() {
-
-    // dev_model_core_init(Drivers_model_poor);        // 初始化设备模型
+    debug.send(arg_ptr("System Start!\r\n"));
+    Device_Registration(Dev_info_poor);        // 初始化设备模型
     // MCU_Shell_Init(&Shell, &STM32F103C8T6_Device);  // 初始化Shell
 
     // 运行flash测试
@@ -14,7 +14,9 @@ int main() {
 
     while (1) {
         // Task_Switch_Tick_Handler(&Shell_Sysfpoint);
-        a++;
+        led.toggle(arg_null);
+        adc1.get_value(arg_u32(a));
+        delay_ms(500);
     }
     return 0;
 }

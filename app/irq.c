@@ -7,7 +7,7 @@
 void SysTick_CallBack(void)
 {
     // 每1ms调用一次
-    LED_Toggle(); // 切换LED状态
+    led.toggle(arg_null);
 }
 
 void USART1_IRQHandler(void)

@@ -1,5 +1,10 @@
 #include "driver.h"
-void LED_Init(void) {
+#include "df_led.h"
+
+extern Lt led ;
+
+int led_init(dev_arg_t arg) {
+    (void)arg;  // 忽略参数
     // 1. 使能GPIOC时钟
     RCC->APB2ENR |= (1 << 4);  // IOPCEN = 1
 
@@ -12,37 +17,42 @@ void LED_Init(void) {
 
     // 3. 初始化PC13为低电平
     GPIOC->ODR &= ~(1 << 13);
-}
-
-void LED_Toggle(void) {
-    // 切换PC11的状态
-    GPIOC->ODR ^= (1 << 13);
-}
-
-void LED_Off(void) {
-    // 设置PC11为高电平
-    GPIOC->ODR |= (1 << 13);
-}
-
-void LED_On(void) {
-    // 设置PC11为低电平
-    GPIOC->ODR &= ~(1 << 13);
-}
-
-int led_init(dev_arg_t arg) {
-    (void)arg;  // 忽略参数
-    LED_Init();  // 调用LED初始化函数
+    led.LED_Init_Flag = true;
     return 0;    // 返回0表示成功
 }
 
-int led_enable(dev_arg_t arg) {
+int led_on(dev_arg_t arg) {
     (void)arg;  // 忽略参数
-    LED_On();
+    // 设置PC11为低电平
+    GPIOC->ODR &= ~(1 << 13);
+    led.LED_State = true;
     return 0;  // 返回0表示成功
 }
 
-int led_disable(dev_arg_t arg) {
+int led_off(dev_arg_t arg) {
     (void)arg;  // 忽略参数
-    LED_Off();
+    // 设置PC11为高电平
+    GPIOC->ODR |= (1 << 13);
+    led.LED_State = false;
     return 0;  // 返回0表示成功
 }
+
+int led_toggle(dev_arg_t arg) {
+    (void)arg;  // 忽略参数
+    // 切换PC11的状态
+    GPIOC->ODR ^= (1 << 13);
+    led.LED_State = !led.LED_State;
+    return 0;  // 返回0表示成功
+}
+
+/* LED设备注册*/
+Lt led = {
+    .LED_Init_Flag = false,
+    .LED_Num = 1,
+    .LED_State = false,
+    .LED_Name = ONBOARD_LED_NAME,
+    .init = led_init,
+    .on = led_on,
+    .off = led_off,
+    .toggle = led_toggle
+};

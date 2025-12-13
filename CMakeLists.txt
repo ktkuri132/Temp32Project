@@ -42,6 +42,7 @@ include_directories(
     Driver_Framework/i2c
     Driver_Framework/key
     Driver_Framework/led
+    Driver_Framework/uart
     Middleware/shell
     Middleware/trans
     BSP/CMSIS/Core/Include
@@ -75,7 +76,7 @@ set(DRIVER_SOURCES
 )
 
 set(DRIVER_FRAMEWORK_SOURCES
-    Driver_Framework/dev_model_core.c
+    Driver_Framework/dev_frame.c
 )
 
 set(APP_SOURCES
@@ -90,9 +91,6 @@ set(FLASH_SOURCES
     Driver/flash/flash_example.c
 )
 
-set(LED_SOURCES
-    Driver_Framework/led/df_led.c
-)
 
 # 所有源文件
 set(SOURCE_FILES
