@@ -1,74 +1,109 @@
-#ifndef __SH1106_H
-#define __SH1106_H
+#ifndef __SH1106_H_
+#define __SH1106_H_
+#define SH1106
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "front.h"
+#include <stdarg.h>
+#include <string.h>
+// #define Peripheral_SPI      // 此处定义外设自带SPI
+#define Peripheral_IIC // 此处定义外设自带IIC
 
-/* ================= 配置区域 ================= */
+/* 片上IIC驱动头文件  */
+// #include <hardi2c.h>     // 此处定义片上硬件IIC
+// 此处定义片上软件IIC
+#include <df_iic.h>
+// #include <df_spi.h>
 
-// 选择驱动模式：只能选择一个为 1
-#define SH1106_MODE_I2C 1 // 1: 使用 I2C 模式
-#define SH1106_MODE_SPI 0 // 1: 使用 SPI 模式 (4-wire)
 
-/* ================= 硬件接口定义 ================= */
+/* 定义1.3寸SH1106地址及其寄存器  */
+// 7位SH1106地址  stm32上SH1106的IIC地址为0x78
 
-#if SH1106_MODE_I2C
+#define SH1106_Data_Mode 0x40
+#define SH1106_Command_Mode 0x00
 
-// 定义 I2C 地址 (7-bit address)
-#define SH1106_I2C_ADDR 0x3C
+#ifdef On_Chip_IIC
 
-// I2C 接口结构体
-typedef struct
-{
-    // 发送函数：addr(7bit设备地址), data(数据指针), len(数据长度)
-    // 返回值：0成功，其他失败
-    int (*Transmit)(uint8_t addr, uint8_t *data, uint16_t len);
-    // 延时函数 (可选，用于复位等)
-    void (*DelayMs)(uint32_t ms);
-} SH1106_IO_t;
+#undef Peripheral_SPI
+#undef Peripheral_IIC
+/* 定义IIC端口  */
+// #define SH1106_I2C_PORT i2c1
 
-#elif SH1106_MODE_SPI
+#ifdef __HARDI2C_
+#define SH1106_ADDRESS 0x78
+/* 江科大SH1106 IIC操作接口   */
+#define SH1106_WriteCommand(Command) Hard_IIC_Send_Byte(SH1106_ADDRESS, SH1106_Command_Mode, Command)
+#define SH1106_WriteData(Data, Count) Hard_IIC_Wirter_Data(SH1106_ADDRESS, SH1106_Data_Mode, Data, Count)
+#define SH1106_GPIO_Init() Hard_IIC_Init()
 
-// SPI 接口结构体
-typedef struct
-{
-    // 片选控制: 0=Low(Select), 1=High(Deselect)
-    void (*CS_Control)(uint8_t state);
-    // 数据/命令选择: 0=Command, 1=Data
-    void (*DC_Control)(uint8_t state);
-    // 复位控制: 0=Reset, 1=Work
-    void (*RES_Control)(uint8_t state);
-    // SPI发送数据: data(数据指针), len(数据长度)
-    int (*Transmit)(uint8_t *data, uint16_t len);
-    // 延时函数
-    void (*DelayMs)(uint32_t ms);
-} SH1106_IO_t;
+#elif defined __SOFTI2C_
+#define SH1106_ADDRESS 0x78
+#define SH1106_WriteCommand(Command) Soft_IIC_Write_Byte(&i2c_Dev, SH1106_ADDRESS, SH1106_Command_Mode, Command)  // Soft_IIC_WriteByte(SH1106_ADDRESS,SH1106_Command_Mode,Command)
+#define SH1106_WriteData(Data, Count) Soft_IIC_Write_Len(&i2c_Dev, SH1106_ADDRESS, SH1106_Data_Mode, Count, Data) // Soft_IIC_WriteData(SH1106_ADDRESS,SH1106_Data_Mode,Data,Count)
+#define SH1106_GPIO_Init() Soft_IIC_Init(&i2c_Dev)                                                                // Soft_IIC_Init()
 
 #endif
 
-/* ================= 显存参数 ================= */
-#define SH1106_WIDTH 128
-#define SH1106_HEIGHT 64
-#define SH1106_PAGES 8
+#elif defined On_Chip_SPI
+#undef Peripheral_SPI
+#undef Peripheral_IIC
 
-/* ================= 函数声明 ================= */
+#define SH1106_W_D0(BitValue) spi_Dev.Soft_SPI_SCK(BitValue)        // 写D0（CLK）高低电平
+#define SH1106_W_D1(BitValue) spi_Dev.Soft_SPI_MOSI(BitValue)       // 写D1（MOSI）高低电平
+#define SH1106_W_DC(BitValue) spi_Dev.Soft_SPI_CS2(BitValue)        // 写DC（数据/命令选择）高低电平
+#define SH1106_W_RES(BitValue) spi_Dev.Soft_SPI_CS3(BitValue)       // 写RES（复位）高低电平
+#define SH1106_W_CS(BitValue) spi_Dev.Soft_SPI_CS(BitValue)         // 写CS（片选）高低电平
+#define SH1106_SPI_SendByte(Byte) Soft_SPI_SendByte(&spi_Dev, Byte) // SPI发送一个字节
+#define SH1106_GPIO_Init(void) \
+    {                          \
+        /*置引脚默认电平*/     \
+        SH1106_W_D0(0);        \
+        SH1106_W_D1(1);        \
+        SH1106_W_RES(1);       \
+        SH1106_W_DC(1);        \
+    }
 
-// 注册底层IO接口
-void SH1106_Register_IO(SH1106_IO_t *io_ptr);
+#endif
+/*FontSize参数取值*/
+/*此参数值不仅用于判断，而且用于计算横向字符偏移，默认值为字体像素宽度*/
+#define SH1106_8X16 8
+#define SH1106_6X8 6
 
-// 初始化
+/*IsFilled参数数值*/
+#define SH1106_UNFILLED 0
+#define SH1106_FILLED 1
+
+/*初始化函数*/
 void SH1106_Init(void);
 
-// 全屏清除
-void SH1106_Clear_All(void);
-
-// 部分清除 (清除指定页的指定列范围)
-// page: 0-7, start_col: 0-127, end_col: 0-127
-void SH1106_Clear_Part(uint8_t page, uint8_t start_col, uint8_t end_col);
-// 将显存缓冲区写入屏幕
+/*更新函数*/
 void SH1106_Update(void);
+void SH1106_UpdateArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
 
-// 直接写入显存的一个字节 (用于高级绘图库对接)
-void SH1106_SetPixel(uint8_t x, uint8_t y, uint8_t color);
+/*显存控制函数*/
+void SH1106_Clear(void);
+void SH1106_ClearArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
+void SH1106_Reverse(void);
+void SH1106_ReverseArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
 
-#endif // __SH1106_H
+/*显示函数*/
+void SH1106_ShowChar(int16_t X, int16_t Y, char Char, uint8_t FontSize);
+void SH1106_ShowString(int16_t X, int16_t Y, char *String, uint8_t FontSize);
+void SH1106_ShowNum(int16_t X, int16_t Y, uint32_t Number, uint8_t Length, uint8_t FontSize);
+void SH1106_ShowSignedNum(int16_t X, int16_t Y, int32_t Number, uint8_t Length, uint8_t FontSize);
+void SH1106_ShowHexNum(int16_t X, int16_t Y, uint32_t Number, uint8_t Length, uint8_t FontSize);
+void SH1106_ShowBinNum(int16_t X, int16_t Y, uint32_t Number, uint8_t Length, uint8_t FontSize);
+void SH1106_ShowFloatNum(int16_t X, int16_t Y, double Number, uint8_t IntLength, uint8_t FraLength, uint8_t FontSize);
+void SH1106_ShowImage(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, const uint8_t *Image);
+void SH1106_Printf(int16_t X, int16_t Y, uint8_t FontSize, char *format, ...);
+
+/*绘图函数*/
+void SH1106_DrawPoint(int16_t X, int16_t Y);
+uint8_t SH1106_GetPoint(int16_t X, int16_t Y);
+void SH1106_DrawLine(int16_t X0, int16_t Y0, int16_t X1, int16_t Y1);
+void SH1106_DrawRectangle(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, uint8_t IsFilled);
+void SH1106_DrawTriangle(int16_t X0, int16_t Y0, int16_t X1, int16_t Y1, int16_t X2, int16_t Y2, uint8_t IsFilled);
+void SH1106_DrawCircle(int16_t X, int16_t Y, uint8_t Radius, uint8_t IsFilled);
+void SH1106_DrawEllipse(int16_t X, int16_t Y, uint8_t A, uint8_t B, uint8_t IsFilled);
+void SH1106_DrawArc(int16_t X, int16_t Y, uint8_t Radius, int16_t StartAngle, int16_t EndAngle, uint8_t IsFilled);
+
+#endif
