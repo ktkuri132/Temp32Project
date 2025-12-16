@@ -25,11 +25,11 @@ dev_info_t Dev_info_poor[] = {
      .disable = usart1_stop,
      .arg.s32 = 250000},
 
-    {.name = "SysTick",
-     .init = systick_init,
-     .enable = NULL,  // SysTick不需要启用函数
-     .disable = NULL, // SysTick不需要禁用函数
-     .arg.ptr = NULL},
+    // {.name = "SysTick",
+    //  .init = systick_init,
+    //  .enable = NULL,  // SysTick不需要启用函数
+    //  .disable = NULL, // SysTick不需要禁用函数
+    //  .arg.ptr = NULL},
 
     {.name = "NVIC",
      .init = nvic_init,
@@ -43,11 +43,11 @@ dev_info_t Dev_info_poor[] = {
      .disable = led_off,
      .arg.ptr = NULL},
 
-    {.name = ADC1_NAME,
-     .init = adc1_init,
-     .enable = adc1_enable,
-     .disable = adc1_disable,
-     .arg.ptr = NULL},
+    // {.name = ADC1_NAME,
+    //  .init = adc1_init,
+    //  .enable = adc1_enable,
+    //  .disable = adc1_disable,
+    //  .arg.ptr = NULL},
 
     {.name = "", // 空字符串表示数组结束
      .init = NULL,

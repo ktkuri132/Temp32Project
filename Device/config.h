@@ -3,6 +3,15 @@
 
 #include <stdint.h>
 
+// 选择使用的外围设备
+#define SH1106
+#include <df_iic.h>
+#include <df_lcd.h>
+#define On_Chip_IIC
+#define __SOFTI2C_
+
+extern SIAS i2c1_bus;
+#define i2c_Dev i2c1_bus
 
 
 #endif

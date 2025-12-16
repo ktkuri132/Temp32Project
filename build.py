@@ -48,7 +48,7 @@ class ProjectConfig:
             "scanf_float": True   # 默认允许scanf输入浮点型
         },
         "defines": [
-            "USE_HAL_DRIVER"
+            ""
         ],
         "download": {
             "interface": "stlink",
@@ -294,12 +294,6 @@ class CMakeGenerator:
         download_target = self.get_download_target(chip_name)
         self.config.set('download.target', download_target)
 
-        # 添加芯片特定的宏定义
-        chip_define = f"{chip_name}__Chipinfo__"
-        defines = self.config.get('defines', [])
-        if chip_define not in defines:
-            defines.append(chip_define)
-            self.config.set('defines', defines)
 
         # 保存文件信息
         if sources is not None:

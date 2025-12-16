@@ -323,8 +323,6 @@ void SH1106_SPI_SendByte(uint8_t Byte)
     }
 }
 
-#endif
-
 /**
  * 函    数：SH1106写命令
  * 参    数：Command 要写入的命令值，范围：0x00~0xFF
@@ -357,6 +355,8 @@ void SH1106_WriteData(uint8_t *Data, uint8_t Count)
     }
     SH1106_W_CS(1); // 拉高CS，结束通信
 }
+
+#endif
 
 void SH1106_Init(void)
 {
@@ -418,7 +418,7 @@ void SH1106_SetCursor(uint8_t Page, uint8_t X)
     /*因为1.3寸的SH1106驱动芯片（SH1106）有132列*/
     /*屏幕的起始列接在了第2列，而不是第0列*/
     /*所以需要将X加2，才能正常显示*/
-    // X += 2;
+    X += 2;
 
     /*通过指令设置页地址和列地址*/
     SH1106_WriteCommand(0xB0 | Page);              // 设置页位置

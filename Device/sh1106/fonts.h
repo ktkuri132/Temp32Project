@@ -1,7 +1,10 @@
 #ifndef __SH1106_FRONT_H
 #define __SH1106_FRONT_H
 
+
 #include <stdint.h>
+#include <sh1106.h>
+#ifdef SH1106
 
 /*字符集定义*/
 /*以下两个宏定义只可解除其中一个的注释*/
@@ -35,6 +38,7 @@ extern const uint8_t Diode[];
 /*按照上面的格式，在这个位置加入新的图像数据声明*/
 //...
 
+#endif
 #endif
 
 /*****************江协科技|版权所有****************/

@@ -42,15 +42,14 @@ static int Display_RegisterLCD(DisplayDevice_t *dev, LCD_Handler_t *lcd, const c
     memset(dev, 0, sizeof(DisplayDevice_t));
     dev->name = name;
     dev->type = DISPLAY_TYPE_LCD;
-    dev->lcd_handler = lcd;
+    // dev->lcd_handler = (void *)lcd;
 
     // 填充一些基本信息
-    dev->width = dev->lcd_handler->Width;
-    dev->height = dev->lcd_handler->Height;
-    
+    // dev->width = ((LCD_Handler_t *)dev->lcd_handler)->Width;
+    // dev->height = ((LCD_Handler_t *)dev->lcd_handler)->Height;
 
     // 启用 LCD 的终端模式
-    LCD_Terminal_Enable(dev->lcd_handler, true);
+    // LCD_Terminal_Enable(dev->lcd_handler, true);
     return Display_Register(dev);
 }
 

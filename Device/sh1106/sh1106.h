@@ -1,19 +1,17 @@
 #ifndef __SH1106_H_
 #define __SH1106_H_
-#define SH1106
 
-#include "front.h"
+#include <config.h>
+#ifdef SH1106
+#include "fonts.h"
 #include <stdarg.h>
 #include <string.h>
 // #define Peripheral_SPI      // 此处定义外设自带SPI
 #define Peripheral_IIC // 此处定义外设自带IIC
 
-/* 片上IIC驱动头文件  */
-// #include <hardi2c.h>     // 此处定义片上硬件IIC
-// 此处定义片上软件IIC
-#include <df_iic.h>
-// #include <df_spi.h>
 
+#define SH1106_WIDTH 128
+#define SH1106_HEIGHT 64
 
 /* 定义1.3寸SH1106地址及其寄存器  */
 // 7位SH1106地址  stm32上SH1106的IIC地址为0x78
@@ -106,4 +104,5 @@ void SH1106_DrawCircle(int16_t X, int16_t Y, uint8_t Radius, uint8_t IsFilled);
 void SH1106_DrawEllipse(int16_t X, int16_t Y, uint8_t A, uint8_t B, uint8_t IsFilled);
 void SH1106_DrawArc(int16_t X, int16_t Y, uint8_t Radius, int16_t StartAngle, int16_t EndAngle, uint8_t IsFilled);
 
+#endif
 #endif

@@ -9,6 +9,7 @@
 #include <df_adc.h>
 #include <df_delay.h>
 #include <dev_frame.h>
+#include <df_lcd.h>
 
 extern shell Shell; // Shell协议结构体实例
 extern Sysfpoint Shell_Sysfpoint; // 系统函数指针结构体实例
@@ -19,4 +20,5 @@ extern Ut debug;
 extern Lt led;
 extern At adc1;
 extern Dt delay;
+extern LCD_Font_t Font6x8;
 #endif

@@ -35,4 +35,8 @@ int adc1_disable(dev_arg_t arg);
 void delay_ms(uint32_t ms);
 void delay_us(uint32_t us);
 
+
+void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color);
+
+
 #endif

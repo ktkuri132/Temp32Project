@@ -1,5 +1,5 @@
-#include "SH1106_Data.h"
-
+#include "fonts.h"
+#ifdef SH1106
 /**
  * 数据存储格式：
  * 纵向8点，高位在下，先从左到右，再从上到下
@@ -2421,6 +2421,7 @@ const uint8_t Diode[] = {
     0x80,
     0xFF,
 };
+#endif
 
 /*按照上面的格式，在这个位置加入新的图像数据*/
 //...

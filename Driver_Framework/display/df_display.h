@@ -17,7 +17,7 @@ typedef struct
 {
     const char *name; // 设备名称 (如 "OLED", "UART_Term", "LCD")
     DisplayType_t type; // 设备类型
-    LCD_Handler_t *lcd_handler;  // LCD句柄 (仅当 type == DISPLAY_TYPE_LCD 时有效)
+    void *lcd_handler;  // LCD句柄 (仅当 type == DISPLAY_TYPE_LCD 时有效)
 
     uint16_t width;   // 屏幕宽度 (像素或字符列数)
     uint16_t height;  // 屏幕高度 (像素或字符行数)

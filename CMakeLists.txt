@@ -29,25 +29,24 @@ set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosy
 
 # 宏定义
 add_definitions(-DSTM32F10X_MD)
-add_definitions(-DSTM32F103C8__Chipinfo__)
 
 # 头文件目录
 include_directories(
     Control
+    Device
     Driver
     Driver_Framework
     app
     BSP/CORE
-    Driver/flash
-    Driver_Framework/i2c
-    Driver_Framework/key
-    Driver_Framework/led
-    Driver_Framework/uart
-    Driver_Framework/display
-    Driver_Framework/lcd
     Device/sh1106
     Device/ssd1306
     Device/st7789
+    Driver/flash
+    Driver_Framework/display
+    Driver_Framework/i2c
+    Driver_Framework/key
+    Driver_Framework/lcd
+    Driver_Framework/spi
     Middleware/shell
     Middleware/trans
     BSP/CMSIS/Core/Include
@@ -76,20 +75,13 @@ set(DRIVER_SOURCES
     Driver/led.c
     Driver/misc.c
     Driver/nvic.c
+    Driver/sh1106_iic.c
     Driver/Systick.c
     Driver/usart.c
 )
 
-set(DEVICE_SOURCES
-    Device/sh1106/sh1106.c
-    Device/ssd1306/ssd1306.c
-    Device/st7789/st7789.c
-)
-
 set(DRIVER_FRAMEWORK_SOURCES
     Driver_Framework/dev_frame.c
-    Driver_Framework/display/df_display.c
-    Driver_Framework/lcd/df_lcd.c
 )
 
 set(APP_SOURCES
@@ -99,40 +91,75 @@ set(APP_SOURCES
     app/main.c
 )
 
+set(DISPLAY_SOURCES
+    Driver_Framework/display/df_display.c
+)
+
 set(FLASH_SOURCES
     Driver/flash/flash.c
     Driver/flash/flash_example.c
 )
 
+set(I2C_SOURCES
+    Driver_Framework/i2c/df_iic.c
+)
+
+set(KEY_SOURCES
+    Driver_Framework/key/df_key.c
+)
+
+set(LCD_SOURCES
+    Driver_Framework/lcd/df_lcd.c
+)
+
+set(SH1106_SOURCES
+    Device/sh1106/fonts.c
+    Device/sh1106/sh1106.c
+)
+
+set(SHELL_SOURCES
+    Middleware/shell/shell.c
+)
+
+set(SPI_SOURCES
+    Driver_Framework/spi/df_spi.c
+)
+
+set(SSD1306_SOURCES
+    Device/ssd1306/ssd1306.c
+)
+
+set(ST7789_SOURCES
+    Device/st7789/st7789.c
+)
+
+set(TRANS_SOURCES
+    Middleware/trans/stde.c
+    Middleware/trans/terminal_link.c
+)
 
 # 所有源文件
 set(SOURCE_FILES
     ${CORE_SOURCES}
     ${CONTROL_SOURCES}
     ${DRIVER_SOURCES}
-    ${DEVICE_SOURCES}
     ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
+    ${DISPLAY_SOURCES}
     ${FLASH_SOURCES}
-    ${LED_SOURCES}
+    ${I2C_SOURCES}
+    ${KEY_SOURCES}
+    ${LCD_SOURCES}
+    ${SH1106_SOURCES}
+    ${SHELL_SOURCES}
+    ${SPI_SOURCES}
+    ${SSD1306_SOURCES}
+    ${ST7789_SOURCES}
+    ${TRANS_SOURCES}
 )
-
-# 子目录
-add_subdirectory(Driver_Framework/i2c)
-add_subdirectory(Driver_Framework/key)
-add_subdirectory(Middleware/shell)
-add_subdirectory(Middleware/trans)
 
 # 创建可执行文件
 add_executable(${PROJECT_NAME}.elf ${SOURCE_FILES})
-
-# 链接静态库
-target_link_libraries(${PROJECT_NAME}.elf
-    i2c
-    key
-    shell
-    trans
-)
 
 # 生成输出文件
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD

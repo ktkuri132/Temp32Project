@@ -80,6 +80,8 @@ void LCD_DrawLine(LCD_Handler_t *lcd, uint16_t x1, uint16_t y1, uint16_t x2, uin
 void LCD_DrawRect(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
 void LCD_FillRect(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
 void LCD_DrawCircle(LCD_Handler_t *lcd, uint16_t x0, uint16_t y0, uint16_t r, uint32_t color);
+void LCD_ShowImg(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint8_t *img);
+void LCD_WriteByte(LCD_Handler_t *lcd,uint16_t x,uint16_t y,uint8_t byte,bool mode);
 
 // 文本显示 (固定位置)
 void LCD_SetFont(LCD_Handler_t *lcd, LCD_Font_t *font);

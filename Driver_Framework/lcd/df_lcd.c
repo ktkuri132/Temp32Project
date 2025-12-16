@@ -751,37 +751,45 @@ void LCD_SetColors(LCD_Handler_t *lcd, uint32_t text, uint32_t back)
     }
 }
 
+
+// 横向显示图像
+void LCD_WriteByte(LCD_Handler_t *lcd,uint16_t x,uint16_t y,uint8_t byte,bool mode){
+    for(uint8_t bit = 0; bit < 8; bit++)
+    {
+        if(byte & (1 << bit))
+        {
+            if(mode)
+                LCD_DrawPoint(lcd, x + bit, y, lcd->TextColor);
+            else
+                LCD_DrawPoint(lcd, x, y + bit, lcd->BackColor);
+        }
+    }
+}
+
+
+void LCD_ShowImg(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint8_t *img)
+{
+    if (!lcd || !img)
+        return;
+    // 行增加
+    for(uint16_t j = 0; j < h; j++)
+    {
+    // 列增加
+        for (uint16_t i = 0; i < w; i++)
+        {
+            uint8_t byte = img[j * w + i];
+            LCD_WriteByte(lcd, x + j, y + i, byte, true);
+        }
+    }
+}
+
 void LCD_ShowChar(LCD_Handler_t *lcd, uint16_t x, uint16_t y, char c)
 {
     if (!lcd || !lcd->CurrentFont)
         return;
-
-    uint8_t temp;
-    uint8_t pos, t;
-    uint16_t x0 = x;
-    uint16_t width = lcd->CurrentFont->Width;
-    uint16_t height = lcd->CurrentFont->Height;
-
-    // 简单处理 ASCII
-    c = c - ' ';
-
-    for (pos = 0; pos < width; pos++)
-    {
-        temp = lcd->CurrentFont->table[c * width + pos];
-        for (t = 0; t < height; t++)
-        {
-            if (temp & 0x01)
-            {
-                LCD_DrawPoint(lcd, x, y + t, lcd->TextColor);
-            }
-            else
-            {
-                LCD_DrawPoint(lcd, x, y + t, lcd->BackColor);
-            }
-            temp >>= 1;
-        }
-        x++;
-    }
+    c -= 32; // 字体表从 ASCII 32 开始
+    LCD_ShowImg(lcd, x, y, lcd->CurrentFont->Width, lcd->CurrentFont->Height,
+                 (const uint32_t *)&lcd->CurrentFont->table[(c - 32) * lcd->CurrentFont->Width]);
 }
 
 void LCD_ShowString(LCD_Handler_t *lcd, uint16_t x, uint16_t y, const char *str)

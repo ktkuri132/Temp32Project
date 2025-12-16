@@ -9,21 +9,37 @@
       "type": "cortex-debug",
       "runToEntryPoint": "main",
       "showDevDebugOutput": "raw",
-      "servertype": "jlink",
-      "device": "STM32F103C8",
-      "interface": "swd"
+      "servertype": "openocd",
+      "configFiles": [
+        "interface/cmsis-dap.cfg",
+        "target/stm32f1x.cfg"
+      ],
+      "searchDir": [
+        "${workspaceFolder}",
+        "C:/openocd/share/openocd/scripts/"
+      ],
+      "openOCDLaunchCommands": [
+        "adapter speed 4000"
+      ]
     },
     {
-      "name": "Debug STM32 (J-Link)",
+      "name": "Debug STM32 (CMSIS-DAP)",
       "cwd": "${workspaceFolder}",
       "executable": "./build/Temp32Project.elf",
       "request": "launch",
       "type": "cortex-debug",
       "runToEntryPoint": "main",
       "showDevDebugOutput": "raw",
-      "servertype": "jlink",
-      "device": "STM32F103C8",
-      "interface": "swd",
+      "servertype": "openocd",
+      "configFiles": [
+        "interface/cmsis-dap.cfg",
+        "target/stm32f1x.cfg"
+      ],
+      "searchDir": [],
+      "openOCDLaunchCommands": [
+        "adapter speed 4000"
+      ],
+      "svdFile": "",
       "swoConfig": {
         "enabled": true,
         "cpuFrequency": 72000000,
@@ -50,47 +66,12 @@
           }
         ]
       },
-      "rttConfig": {
-        "enabled": true,
-        "address": "auto",
-        "decoders": [
-          {
-            "port": 0,
-            "type": "console",
-            "label": "RTT Terminal"
-          }
-        ]
-      },
-      "graphConfig": [
-        {
-          "label": "Real-time Variables",
-          "timespan": 10,
-          "maximum": 100,
-          "minimum": -100,
-          "variables": [
-            {
-              "name": "variable_name",
-              "address": "0x20000000"
-            }
-          ]
-        }
-      ],
-      "preLaunchCommands": [
-        "set mem inaccessible-by-default off",
-        "enable breakpoint",
-        "monitor SWO EnableTarget 72000000 2000000 1 0"
-      ],
-      "postLaunchCommands": [
-        "monitor reset",
-        "monitor halt"
-      ],
       "liveWatch": {
         "enabled": true,
         "samplesPerSecond": 4
       },
-      "armToolchainPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin",
-      "gdbPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/arm-none-eabi-gdb.exe",
-      "jlinkGDBServerPath": "C:/Program Files/SEGGER/JLink/JLinkGDBServerCL.exe"
+      "armToolchainPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin",
+      "gdbPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gdb.exe"
     }
   ]
 }
