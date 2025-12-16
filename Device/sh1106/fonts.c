@@ -31,7 +31,9 @@
 
 /*宽8像素，高16像素*/
 const uint8_t SH1106_F8x16[][16] =
-    {
+{
+#ifdef USE_ASCLL_SH1106
+
         0x00,
         0x00,
         0x00,
@@ -1552,11 +1554,13 @@ const uint8_t SH1106_F8x16[][16] =
         0x01,
         0x01,
         0x00, // ~ 94
+#endif
 };
 
 /*宽6像素，高8像素*/
 const uint8_t SH1106_F6x8[][6] =
     {
+        #ifdef USE_ASCLL_SH1106
         0x00,
         0x00,
         0x00,
@@ -2127,6 +2131,7 @@ const uint8_t SH1106_F6x8[][6] =
         0x08,
         0x10,
         0x08, // ~ 94
+        #endif
 };
 /*********************ASCII字模数据*/
 
@@ -2137,7 +2142,7 @@ const uint8_t SH1106_F6x8[][6] =
 
 /*宽16像素，高16像素*/
 const ChineseCell_t SH1106_CF16x16[] = {
-
+#ifdef USE_ASCLL_SH1106
     "，",
     0x00,
     0x00,
@@ -2379,6 +2384,7 @@ const ChineseCell_t SH1106_CF16x16[] = {
     0x80,
     0x80,
     0xFF,
+    #endif
 
 };
 
@@ -2388,6 +2394,7 @@ const ChineseCell_t SH1106_CF16x16[] = {
 
 /*测试图像（一个方框，内部一个二极管符号），宽16像素，高16像素*/
 const uint8_t Diode[] = {
+    #ifdef USE_ASCLL_SH1106
     0xFF,
     0x01,
     0x81,
@@ -2420,6 +2427,7 @@ const uint8_t Diode[] = {
     0x80,
     0x80,
     0xFF,
+    #endif
 };
 #endif
 

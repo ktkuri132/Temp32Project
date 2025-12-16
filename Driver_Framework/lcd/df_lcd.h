@@ -30,7 +30,7 @@
 /* ================= 字体结构定义 ================= */
 typedef struct
 {
-    const uint8_t *table; // 字体数据表
+    const uint8_t (*table)[16]; // 字体数据表
     uint16_t Width;       // 字符宽度
     uint16_t Height;      // 字符高度
 } LCD_Font_t;

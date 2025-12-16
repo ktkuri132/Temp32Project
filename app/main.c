@@ -8,11 +8,6 @@
 void flash_info_query(void);
 uint32_t a = 0;
 
-LCD_Font_t SH1106_6x8 = {
-    .table = (uint8_t *)SH1106_F6x8,
-    .Width = 6,
-    .Height = 8};
-
 LCD_Handler_t lcd_oled = {
     .Width = SH1106_WIDTH,
     .Height = SH1106_HEIGHT,
@@ -23,27 +18,13 @@ LCD_Handler_t lcd_oled = {
     .ScrollHard = NULL, // 可选实现
     .CursorX = 0,
     .CursorY = 0,
-    .CurrentFont = &Font6x8, // 可选设置
+    .CurrentFont = &Font8x16, // 可选设置
     .TextColor = 0xFFFFFFFF,
     .BackColor = 0x00000000,
-    .TerminalMode = true};
-
-// DisplayDevice_t oled = {
-//     .Init = SH1106_Init,
-//     .Clear = NULL, // 由 LCD 框架处理
-// };
-
-const uint8_t strings[] = {
-    0B10000000,
-    0B11000000,
-    0B11100000,
-    0B11110000,
-    0B11111000,
-    0B11111100,
-    0B11111110,
-    0B11111111
+    .TerminalMode = true
 };
 
+extern const uint8_t Font8x16_Table[][16];
 int main()
 {
 
@@ -58,7 +39,7 @@ int main()
     // Display.Printf("Hello, World!\n");
     // SH1106_Printf(0, 0, SH1106_8X16, "Hello, World!");
     // SH1106_Update(); // 更新显示内容
-    LCD_SetFont(&lcd_oled, &Font6x8);
+    LCD_SetFont(&lcd_oled, &Font8x16);
     // LCD_WriteByte(&lcd_oled, 0, 0, strings[0], true);
     // LCD_WriteByte(&lcd_oled, 0, 1, strings[1], true);
     // LCD_WriteByte(&lcd_oled, 0, 2, strings[2], true);
@@ -68,7 +49,11 @@ int main()
     // LCD_WriteByte(&lcd_oled, 0, 6, strings[6], true);
     // LCD_WriteByte(&lcd_oled, 0, 7, strings[7], true);
 
-    LCD_ShowImg(&lcd_oled, 0, 0, 8, 1, strings);
+    // LCD_ShowImg(&lcd_oled, 0, 0, 1, 16, Font8x16.table[33]);
+    // LCD_ShowChar(&lcd_oled, 0, 0, 'F');
+    // LCD_ShowImg(&lcd_oled, 8, 0, 1, 16, Font8x16.table[('B' - 32)]);
+    // LCD_ShowString(&lcd_oled, 0, 0, "Hello, World!");
+    LCD_Printf(&lcd_oled, "Don`t say anything,if you konw anymore\n");
     LCD_Update(&lcd_oled); // 更新显示内容
     while (1)
     {

@@ -4,7 +4,7 @@
     {
       "name": "Debug STM32",
       "cwd": "${workspaceFolder}",
-      "executable": "./build/Temp32Project.elf",
+      "executable": "./build/32_temp_project.elf",
       "request": "launch",
       "type": "cortex-debug",
       "runToEntryPoint": "main",

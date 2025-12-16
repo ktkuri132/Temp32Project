@@ -17,7 +17,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(SIZE arm-none-eabi-size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-project(Temp32Project C CXX ASM)
+project(32_temp_project C CXX ASM)
 
 # 编译标志 (软件浮点)
 set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
@@ -110,6 +110,7 @@ set(KEY_SOURCES
 
 set(LCD_SOURCES
     Driver_Framework/lcd/df_lcd.c
+    Driver_Framework/lcd/fonts.c
 )
 
 set(SH1106_SOURCES

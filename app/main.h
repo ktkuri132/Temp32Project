@@ -20,5 +20,5 @@ extern Ut debug;
 extern Lt led;
 extern At adc1;
 extern Dt delay;
-extern LCD_Font_t Font6x8;
+extern LCD_Font_t Font8x16;
 #endif
