@@ -3,7 +3,7 @@
 
 
 #include <stdint.h>
-#include <sh1106.h>
+#include <sh1106/sh1106.h>
 #ifdef SH1106
 
 /*字符集定义*/

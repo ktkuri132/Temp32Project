@@ -1,7 +1,7 @@
 #ifndef DEV_MODEL_CORE_H
 #define DEV_MODEL_CORE_H
 
-#include <shell_style.h>
+#include <shell/shell_style.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>

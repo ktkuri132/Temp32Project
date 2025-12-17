@@ -1,0 +1,207 @@
+Dependencies for Project 'mdk_project', Target 'mdk_porject': (DO NOT MODIFY !)
+CompilerVersion: 6240000::V6.24::ARMCLANG
+F (..\app\control.c)(0x6899560C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/control.o -MMD)
+F (..\app\init.c)(0x6942CF0A)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/init.o -MMD)
+I (..\app\main.h)(0x6942DB6F)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Middleware\shell\shell.h)(0x6942D7F7)
+I (..\Driver_Framework\df_uart.h)(0x6942D0CF)
+I (..\Driver_Framework\df_led.h)(0x693D7E35)
+I (..\Driver_Framework\df_adc.h)(0x693D7C2F)
+I (..\Driver_Framework\df_delay.h)(0x693D7D5B)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x6942D833)
+F (..\app\irq.c)(0x6942D920)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/irq.o -MMD)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Middleware\shell\shell.h)(0x6942D7F7)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\app\main.h)(0x6942DB6F)
+I (..\Driver_Framework\df_uart.h)(0x6942D0CF)
+I (..\Driver_Framework\df_led.h)(0x693D7E35)
+I (..\Driver_Framework\df_adc.h)(0x693D7C2F)
+I (..\Driver_Framework\df_delay.h)(0x693D7D5B)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x6942D833)
+F (..\app\main.c)(0x6942E0CF)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/main.o -MMD)
+I (..\app\main.h)(0x6942DB6F)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Middleware\shell\shell.h)(0x6942D7F7)
+I (..\Driver_Framework\df_uart.h)(0x6942D0CF)
+I (..\Driver_Framework\df_led.h)(0x693D7E35)
+I (..\Driver_Framework\df_adc.h)(0x693D7C2F)
+I (..\Driver_Framework\df_delay.h)(0x693D7D5B)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x6942D833)
+F (..\BSP\CORE\stm32f10x_it.c)(0x689DE0C0)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/stm32f10x_it.o -MMD)
+I (..\BSP\CORE\stm32f10x_it.h)(0x689DE0D8)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\BSP\CORE\system_stm32f10x.c)(0x6899DF0A)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/system_stm32f10x.o -MMD)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\BSP\CORE\startup_stm32f10x_md.s)(0x6942DF4B)(--target=arm-arm-none-eabi -mcpu=cortex-m3 -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__MICROLIB SETA 1"-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 543" -Wa,armasm,--pd,"STM32F10X_MD SETA 1"-o ./objects/startup_stm32f10x_md.o)
+F (..\Device\sh1106\fonts.c)(0x694180AA)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/fonts.o -MMD)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+F (..\Device\sh1106\sh1106.c)(0x69417735)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/sh1106.o -MMD)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+F (..\Device\ssd1306\ssd1306.c)(0x693D89E9)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/ssd1306.o -MMD)
+I (..\Device\ssd1306\ssd1306.h)(0x693D89E9)
+F (..\Device\st7789\st7789.c)(0x693D89E8)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/st7789.o -MMD)
+I (..\Device\st7789\st7789.h)(0x693D89EA)
+F (..\BSP\Driver\adc.c)(0x693D78AC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/adc.o -MMD)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Driver_Framework\df_adc.h)(0x693D7C2F)
+F (..\BSP\Driver\delay.c)(0x693D7D2A)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/delay.o -MMD)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Driver_Framework\df_delay.h)(0x693D7D5B)
+F (..\BSP\Driver\led.c)(0x693D7B2F)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/led.o -MMD)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Driver_Framework\df_led.h)(0x693D7E35)
+F (..\BSP\Driver\misc.c)(0x689DD5B7)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/misc.o -MMD)
+I (..\BSP\Driver\misc.h)(0x689DC08E)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\BSP\Driver\nvic.c)(0x68C7AECC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/nvic.o -MMD)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\BSP\Driver\misc.h)(0x689DC08E)
+F (..\BSP\Driver\sh1106_iic.c)(0x6942DB95)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/sh1106_iic.o -MMD)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x6942D833)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+F (..\BSP\Driver\Systick.c)(0x68C7AECC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/systick.o -MMD)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+F (..\BSP\Driver\usart.c)(0x6942E093)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/usart.o -MMD)
+I (..\BSP\Driver\driver.h)(0x6942C9D7)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+I (..\Driver_Framework\df_uart.h)(0x6942D0CF)
+I (..\app\main.h)(0x6942DB6F)
+I (..\Middleware\shell\shell.h)(0x6942D7F7)
+I (..\Driver_Framework\df_led.h)(0x693D7E35)
+I (..\Driver_Framework\df_adc.h)(0x693D7C2F)
+I (..\Driver_Framework\df_delay.h)(0x693D7D5B)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Device\sh1106\sh1106.h)(0x69417735)
+I (..\Device\config.h)(0x6942D8C0)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+I (..\Device\sh1106\fonts.h)(0x6942D8CA)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x6942D833)
+F (..\BSP\Driver\flash\flash.c)(0x6942DE0C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/flash.o -MMD)
+I (..\BSP\Driver\flash\flash.h)(0x6942DE0C)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\BSP\Driver\flash\flash_example.c)(0x6942DE2C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/flash_example.o -MMD)
+I (..\BSP\Driver\flash\flash.h)(0x6942DE0C)
+I (..\BSP\CORE\stm32f10x.h)(0x6899DF0A)
+I (..\BSP\CMSIS\Core\Include\core_cm3.h)(0x6899DFED)
+I (..\BSP\CORE\system_stm32f10x.h)(0x6899DF0A)
+F (..\Driver_Framework\dev_frame.c)(0x6942D86F)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/dev_frame.o -MMD)
+I (..\Driver_Framework\dev_frame.h)(0x6942D84B)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+F (..\Driver_Framework\spi\df_spi.c)(0x6942D83C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/df_spi.o -MMD)
+I (..\Driver_Framework\spi\df_spi.h)(0x693EDFAD)
+F (..\Driver_Framework\lcd\df_lcd.c)(0x6942C8DF)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/df_lcd.o -MMD)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+F (..\Driver_Framework\key\df_key.c)(0x689DD939)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/df_key.o -MMD)
+I (..\Driver_Framework\key\df_key.h)(0x689DE1CE)
+F (..\Driver_Framework\i2c\df_iic.c)(0x689DD933)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/df_iic.o -MMD)
+I (..\Driver_Framework\i2c\df_iic.h)(0x689DE1DC)
+F (..\Driver_Framework\display\df_display.c)(0x6942DA7D)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/df_display.o -MMD)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+F (..\Driver_Framework\lcd\df_fonts.c)(0x6942DB09)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/df_fonts.o -MMD)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x6942D833)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x6942D820)
+I (..\Driver_Framework\display\df_display.h)(0x69417735)
+F (..\Middleware\shell\shell.c)(0x68C7AECC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/shell.o -MMD)
+I (..\Middleware\shell\shell.h)(0x6942D7F7)
+I (..\Middleware\shell\shell_style.h)(0x689DC76C)
+F (..\Middleware\trans\stde.c)(0x68996434)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/stde.o -MMD)
+I (..\Middleware\trans\stde.h)(0x6899639D)
+F (..\Middleware\trans\terminal_link.c)(0x68988D44)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/terminal_link.o -MMD)
+I (..\Middleware\trans\terminal_link.h)(0x689965A2)
+F (..\Control\filter.c)(0x689958D9)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/filter.o -MMD)
+F (..\Control\pid.c)(0x689955F4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP -I ../BSP/CMSIS -I ../BSP/CMSIS/Core -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/CORE -I ../BSP/Driver -I ../BSP/Driver/flash -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-IC:/Keil_v5/ARM/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="543" -DSTM32F10X_MD -DSTM32F10X_MD-o ./objects/pid.o -MMD)

@@ -20,9 +20,9 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 project(32_temp_project C CXX ASM)
 
 # 编译标志 (软件浮点)
-set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
-set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
-set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
+set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
 
 # 链接标志
 set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
@@ -34,14 +34,14 @@ add_definitions(-DSTM32F10X_MD)
 include_directories(
     Control
     Device
-    Driver
     Driver_Framework
+    Middleware
     app
     BSP/CORE
+    BSP/Driver
     Device/sh1106
     Device/ssd1306
     Device/st7789
-    Driver/flash
     Driver_Framework/display
     Driver_Framework/i2c
     Driver_Framework/key
@@ -49,6 +49,7 @@ include_directories(
     Driver_Framework/spi
     Middleware/shell
     Middleware/trans
+    BSP/Driver/flash
     BSP/CMSIS/Core/Include
     BSP/CMSIS/Core/Include/a-profile
     BSP/CMSIS/Core/Include/m-profile
@@ -70,14 +71,14 @@ set(CONTROL_SOURCES
 )
 
 set(DRIVER_SOURCES
-    Driver/adc.c
-    Driver/delay.c
-    Driver/led.c
-    Driver/misc.c
-    Driver/nvic.c
-    Driver/sh1106_iic.c
-    Driver/Systick.c
-    Driver/usart.c
+    BSP/Driver/adc.c
+    BSP/Driver/delay.c
+    BSP/Driver/led.c
+    BSP/Driver/misc.c
+    BSP/Driver/nvic.c
+    BSP/Driver/sh1106_iic.c
+    BSP/Driver/Systick.c
+    BSP/Driver/usart.c
 )
 
 set(DRIVER_FRAMEWORK_SOURCES
@@ -96,8 +97,8 @@ set(DISPLAY_SOURCES
 )
 
 set(FLASH_SOURCES
-    Driver/flash/flash.c
-    Driver/flash/flash_example.c
+    BSP/Driver/flash/flash.c
+    BSP/Driver/flash/flash_example.c
 )
 
 set(I2C_SOURCES
@@ -109,8 +110,8 @@ set(KEY_SOURCES
 )
 
 set(LCD_SOURCES
+    Driver_Framework/lcd/df_fonts.c
     Driver_Framework/lcd/df_lcd.c
-    Driver_Framework/lcd/fonts.c
 )
 
 set(SH1106_SOURCES

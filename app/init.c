@@ -10,20 +10,36 @@ shell Shell = {
 
 Sysfpoint Shell_Sysfpoint;
 
-DeviceFamily STM32F103C8T6_Device = {.Architecture = "cortex-m3",
-                                     .DeviceName = "STM32F103C8T6",
-                                     .OS = "BareMetal",
-                                     .Device = "STM32F1",
-                                     .User = "Admin",
-                                     .Password = "133990",
-                                     .Version = "1.0.0"};
+DeviceFamily STM32F103C8T6_Device = {
+    .Architecture = "cortex-m3",
+    .DeviceName = "STM32F103C8T6",
+    .OS = "BareMetal",
+    .Device = "STM32F1",
+    .User = "Admin",
+    .Password = "133990",
+    .Version = "1.0.0"};
+
+LCD_Handler_t lcd_oled = {
+    .Width = SH1106_WIDTH,
+    .Height = SH1106_HEIGHT,
+    .SetPixel = SH1106_SetPixel,
+    .GetPixel = NULL, // 可选实现
+    .FillRect = NULL, // 可选实现
+    .Update = SH1106_Update,
+    .ScrollHard = NULL, // 可选实现
+    .CursorX = 0,
+    .CursorY = 0,
+    .CurrentFont = &JetBrains_Mono_Font_8x16, // 可选设置
+    .TextColor = 0xFFFFFFFF,
+    .BackColor = 0x00000000,
+    .TerminalMode = true};
 
 dev_info_t Dev_info_poor[] = {
     {.name = DEBUG_UART_NAME,
      .init = usart1_init,
      .enable = usart1_start,
      .disable = usart1_stop,
-     .arg.s32 = 250000},
+     .arg.ptr = (void *)&debug},
 
     // {.name = "SysTick",
     //  .init = systick_init,
@@ -43,6 +59,11 @@ dev_info_t Dev_info_poor[] = {
      .disable = led_off,
      .arg.ptr = NULL},
 
+    {.name = OLED_SH1106_NAME,
+     .init = sh1106_dev_init,
+     .enable = NULL,
+     .disable = NULL,
+     .arg.ptr = (void *)&lcd_oled},
     // {.name = ADC1_NAME,
     //  .init = adc1_init,
     //  .enable = adc1_enable,

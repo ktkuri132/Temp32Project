@@ -7,9 +7,9 @@
 
   <Targets>
     <Target>
-      <TargetName>Debug</TargetName>
-      <ToolsetNumber>0x3</ToolsetNumber>
-      <ToolsetName>ARM-GNU</ToolsetName>
+      <TargetName>mdk_porject</TargetName>
+      <ToolsetNumber>0x4</ToolsetNumber>
+      <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>6240000::V6.24::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
@@ -48,17 +48,17 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
+          <OutputDirectory>.\Objects\</OutputDirectory>
           <OutputName>mdk_project</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
-          <BrowseInformation>0</BrowseInformation>
-          <ListingPath>.\</ListingPath>
+          <BrowseInformation>1</BrowseInformation>
+          <ListingPath>.\Listings\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
-          <CreateBatchFile>1</CreateBatchFile>
+          <CreateBatchFile>0</CreateBatchFile>
           <BeforeCompile>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
@@ -145,9 +145,9 @@
           <pFcArmRoot></pFcArmRoot>
           <FcArmLst>0</FcArmLst>
         </Utilities>
-        <TargetArm>
-          <ArmMisc>
-            <asLst>0</asLst>
+        <TargetArmAds>
+          <ArmAdsMisc>
+            <GenerateListings>0</GenerateListings>
             <asHll>1</asHll>
             <asAsm>1</asAsm>
             <asMacX>1</asMacX>
@@ -155,11 +155,27 @@
             <asFals>1</asFals>
             <asDbgD>1</asDbgD>
             <asForm>1</asForm>
-            <ldLst>1</ldLst>
+            <ldLst>0</ldLst>
             <ldmm>1</ldmm>
             <ldXref>1</ldXref>
             <BigEnd>0</BigEnd>
-            <GCPUTYP>"Cortex-M3"</GCPUTYP>
+            <AdsALst>1</AdsALst>
+            <AdsACrf>1</AdsACrf>
+            <AdsANop>0</AdsANop>
+            <AdsANot>0</AdsANot>
+            <AdsLLst>1</AdsLLst>
+            <AdsLmap>1</AdsLmap>
+            <AdsLcgr>1</AdsLcgr>
+            <AdsLsym>1</AdsLsym>
+            <AdsLszi>1</AdsLszi>
+            <AdsLtoi>1</AdsLtoi>
+            <AdsLsun>1</AdsLsun>
+            <AdsLven>1</AdsLven>
+            <AdsLsxf>1</AdsLsxf>
+            <RvctClst>0</RvctClst>
+            <GenPPlst>0</GenPPlst>
+            <AdsCpuType>"Cortex-M3"</AdsCpuType>
+            <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
             <uocRom>0</uocRom>
             <uocRam>0</uocRam>
@@ -173,6 +189,30 @@
             <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
+            <StupSel>8</StupSel>
+            <useUlib>1</useUlib>
+            <EndSel>0</EndSel>
+            <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
+            <RoSelD>3</RoSelD>
+            <RwSelD>3</RwSelD>
+            <CodeSel>0</CodeSel>
+            <OptFeed>0</OptFeed>
+            <NoZi1>0</NoZi1>
+            <NoZi2>0</NoZi2>
+            <NoZi3>0</NoZi3>
+            <NoZi4>0</NoZi4>
+            <NoZi5>0</NoZi5>
+            <Ro1Chk>0</Ro1Chk>
+            <Ro2Chk>0</Ro2Chk>
+            <Ro3Chk>0</Ro3Chk>
+            <Ir1Chk>1</Ir1Chk>
+            <Ir2Chk>0</Ir2Chk>
+            <Ra1Chk>0</Ra1Chk>
+            <Ra2Chk>0</Ra2Chk>
+            <Ra3Chk>0</Ra3Chk>
+            <Im1Chk>1</Im1Chk>
+            <Im2Chk>0</Im2Chk>
             <OnChipMemories>
               <Ocm1>
                 <Type>0</Type>
@@ -219,60 +259,126 @@
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </XRAM>
-              <IRAM2>
+              <OCR_RVCT1>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT1>
+              <OCR_RVCT2>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT2>
+              <OCR_RVCT3>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT3>
+              <OCR_RVCT4>
+                <Type>1</Type>
+                <StartAddress>0x8000000</StartAddress>
+                <Size>0x10000</Size>
+              </OCR_RVCT4>
+              <OCR_RVCT5>
+                <Type>1</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT5>
+              <OCR_RVCT6>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
-              </IRAM2>
-              <IROM2>
+              </OCR_RVCT6>
+              <OCR_RVCT7>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
-              </IROM2>
+              </OCR_RVCT7>
+              <OCR_RVCT8>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT8>
+              <OCR_RVCT9>
+                <Type>0</Type>
+                <StartAddress>0x20000000</StartAddress>
+                <Size>0x5000</Size>
+              </OCR_RVCT9>
+              <OCR_RVCT10>
+                <Type>0</Type>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
+              </OCR_RVCT10>
             </OnChipMemories>
-          </ArmMisc>
-          <Carm>
-            <arpcs>1</arpcs>
-            <stkchk>1</stkchk>
-            <reentr>0</reentr>
+            <RvctStartVector></RvctStartVector>
+          </ArmAdsMisc>
+          <Cads>
             <interw>1</interw>
-            <bigend>0</bigend>
+            <Optim>1</Optim>
+            <oTime>0</oTime>
+            <SplitLS>0</SplitLS>
+            <OneElfS>1</OneElfS>
             <Strict>0</Strict>
-            <Optim>5</Optim>
+            <EnumInt>0</EnumInt>
+            <PlainCh>0</PlainCh>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
             <wLevel>1</wLevel>
-            <uThumb>1</uThumb>
+            <uThumb>0</uThumb>
+            <uSurpInc>0</uSurpInc>
+            <uC99>1</uC99>
+            <uGnu>1</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>4</v6Lang>
+            <v6LangP>3</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>-fdata-sections -ffunction-sections</MiscControls>
+              <MiscControls></MiscControls>
               <Define>STM32F10X_MD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\32_temp_project;..\app;..\Control;..\Middleware\shell;..\Middleware\trans;..\Driver;..\Driver_Framework;..\Driver_Framework;..\BSP\CORE;..\BSP\CMSIS\Core\Include</IncludePath>
+              <IncludePath>..\app;..\BSP;..\BSP\CMSIS;..\BSP\CMSIS\Core;..\BSP\CMSIS\Core\Include;..\BSP\CMSIS\Core\Include\m-profile;..\BSP\CORE;..\BSP\Driver;..\BSP\Driver\flash;..\Control;..\Device;..\Driver_Framework;..\Middleware</IncludePath>
             </VariousControls>
-          </Carm>
-          <Aarm>
-            <bBE>0</bBE>
+          </Cads>
+          <Aads>
             <interw>1</interw>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
+            <thumb>0</thumb>
+            <SplitLS>0</SplitLS>
+            <SwStkChk>0</SwStkChk>
+            <NoWarn>0</NoWarn>
+            <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
             </VariousControls>
-          </Aarm>
-          <LDarm>
+          </Aads>
+          <LDads>
             <umfTarg>1</umfTarg>
-            <enaGarb>0</enaGarb>
-            <noStart>0</noStart>
+            <Ropi>0</Ropi>
+            <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
-            <uMathLib>1</uMathLib>
-            <TextAddressRange></TextAddressRange>
-            <DataAddressRange></DataAddressRange>
-            <BSSAddressRange></BSSAddressRange>
+            <RepFail>1</RepFail>
+            <useFile>0</useFile>
+            <TextAddressRange>0x08000000</TextAddressRange>
+            <DataAddressRange>0x20000000</DataAddressRange>
+            <pXoBase></pXoBase>
+            <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
-            <IncludeDir></IncludeDir>
-            <Misc>-Wl,-gc-sections</Misc>
-            <ScatterFile>..\BSP\CORE\stm32f10x.ld</ScatterFile>
-          </LDarm>
-        </TargetArm>
+            <IncludeLibsPath></IncludeLibsPath>
+            <Misc></Misc>
+            <LinkerInputFile></LinkerInputFile>
+            <DisabledWarnings></DisabledWarnings>
+          </LDads>
+        </TargetArmAds>
       </TargetOption>
       <Groups>
         <Group>
@@ -284,11 +390,6 @@
               <FilePath>..\app\control.c</FilePath>
             </File>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\main.c</FilePath>
-            </File>
-            <File>
               <FileName>init.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\init.c</FilePath>
@@ -298,20 +399,175 @@
               <FileType>1</FileType>
               <FilePath>..\app\irq.c</FilePath>
             </File>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\main.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>middleware</GroupName>
+          <GroupName>bsp</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32f10x_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\CORE\stm32f10x_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f10x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\CORE\system_stm32f10x.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f10x_md.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\BSP\CORE\startup_stm32f10x_md.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>device</GroupName>
+          <Files>
+            <File>
+              <FileName>fonts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\sh1106\fonts.c</FilePath>
+            </File>
+            <File>
+              <FileName>sh1106.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\sh1106\sh1106.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\ssd1306\ssd1306.c</FilePath>
+            </File>
+            <File>
+              <FileName>st7789.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\st7789\st7789.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>driver</GroupName>
+          <Files>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>misc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>nvic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\nvic.c</FilePath>
+            </File>
+            <File>
+              <FileName>sh1106_iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\sh1106_iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>Systick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\Systick.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\flash\flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_example.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Driver\flash\flash_example.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>driver_framework</GroupName>
+          <Files>
+            <File>
+              <FileName>dev_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\dev_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>df_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\spi\df_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>df_lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\lcd\df_lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>df_key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\key\df_key.c</FilePath>
+            </File>
+            <File>
+              <FileName>df_iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\i2c\df_iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>df_display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\display\df_display.c</FilePath>
+            </File>
+            <File>
+              <FileName>df_fonts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver_Framework\lcd\df_fonts.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>shell</GroupName>
           <Files>
             <File>
               <FileName>shell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Middleware\shell\shell.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>trans</GroupName>
+          <Files>
             <File>
               <FileName>stde.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Middleware\trans\stde.c</FilePath>
+            </File>
+            <File>
+              <FileName>terminal_link.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middleware\trans\terminal_link.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -330,79 +586,6 @@
             </File>
           </Files>
         </Group>
-        <Group>
-          <GroupName>device</GroupName>
-        </Group>
-        <Group>
-          <GroupName>core</GroupName>
-          <Files>
-            <File>
-              <FileName>startup_stm32f10x_md.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\startup_stm32f10x_md.c</FilePath>
-            </File>
-            <File>
-              <FileName>syscalls.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\syscalls.c</FilePath>
-            </File>
-            <File>
-              <FileName>sysmem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\sysmem.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f10x_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\stm32f10x_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>system_stm32f10x.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\system_stm32f10x.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>driver</GroupName>
-          <Files>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\led.c</FilePath>
-            </File>
-            <File>
-              <FileName>misc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\misc.c</FilePath>
-            </File>
-            <File>
-              <FileName>nvic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\nvic.c</FilePath>
-            </File>
-            <File>
-              <FileName>Systick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\Systick.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\usart.c</FilePath>
-            </File>
-          </Files>
-        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -410,32 +593,7 @@
   <RTE>
     <apis/>
     <components/>
-    <files>
-      <file attr="config" category="header" name="RTE_Driver\Config\RTE_Device.h" version="1.1.2">
-        <instance index="0" removed="1">RTE\Device\STM32F103C8\RTE_Device.h</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="source" condition="STM32F1xx MD ARMCC" name="Device\Source\ARM\startup_stm32f10x_md.s" version="1.0.1">
-        <instance index="0" removed="1">RTE\Device\STM32F103C8\startup_stm32f10x_md.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="source" name="Device\StdPeriph_Driver\templates\stm32f10x_conf.h" version="3.6.0">
-        <instance index="0" removed="1">RTE\Device\STM32F103C8\stm32f10x_conf.h</instance>
-        <component Cclass="Device" Cgroup="StdPeriph Drivers" Csub="Framework" Cvendor="Keil" Cversion="3.6.0" condition="STM32F1xx STDPERIPH"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos/>
-      </file>
-      <file attr="config" category="source" name="Device\Source\system_stm32f10x.c" version="1.0.1">
-        <instance index="0" removed="1">RTE\Device\STM32F103C8\system_stm32f10x.c</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos/>
-      </file>
-    </files>
+    <files/>
   </RTE>
 
   <LayerInfo>

@@ -1,5 +1,5 @@
-#include "df_display.h"
-#include "df_lcd.h"
+#include "display/df_display.h"
+#include "lcd/df_lcd.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -192,7 +192,7 @@ static int Display_Clear(void)
 // 实例化全局管理器
 DisplayManager_t Display = {
     .Register = Display_Register,
-    .RegisterLCD = Display_RegisterLCD,
+    .RegisterLCD = NULL,
     .Select = Display_Select,
     .Output = Display_Output,
     .Printf = Display_Printf,

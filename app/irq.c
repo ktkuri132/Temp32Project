@@ -1,5 +1,5 @@
 #include <stm32f10x.h>
-#include <shell.h>
+#include <shell/shell.h>
 #include <driver.h>
 #include "main.h"
 #include <stddef.h>

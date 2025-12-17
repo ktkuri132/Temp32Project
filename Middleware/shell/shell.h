@@ -1,6 +1,6 @@
 #ifndef __SEHLL_H
 #define __SEHLL_H
-#include <shell_style.h>
+#include <shell/shell_style.h>
 #include <stdint.h>
 #include <stdbool.h>
 

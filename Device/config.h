@@ -5,8 +5,8 @@
 
 // 选择使用的外围设备
 #define SH1106
-#include <df_iic.h>
-#include <df_lcd.h>
+#include <i2c/df_iic.h>
+#include <lcd/df_lcd.h>
 #define On_Chip_IIC
 #define __SOFTI2C_
 

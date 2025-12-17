@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <stdbool.h>
-#include "df_display.h" // 引入显示框架定义
+#include "display/df_display.h" // 引入显示框架定义
 
 /* ================= 颜色定义 (RGB565) ================= */
 #define LCD_COLOR_BLACK 0x0000
@@ -29,16 +29,17 @@
 
 /* ================= 字体结构定义 ================= */
 
-typedef union {
-    const uint8_t (*b8)[6]; // 字体数据表指针 (二维数组，2字节每字符)
+typedef union
+{
+    const uint8_t (*b8)[6];   // 字体数据表指针 (二维数组，2字节每字符)
     const uint8_t (*b16)[16]; // 字体数据表指针 (二维数组，16字节每字符)
 } LCD_FontTable_t;
 
 typedef struct
 {
     LCD_FontTable_t table; // 字体数据表
-    uint16_t Width;       // 字符宽度
-    uint16_t Height;      // 字符高度
+    uint16_t Width;        // 字符宽度
+    uint16_t Height;       // 字符高度
 } LCD_Font_t;
 
 /* ================= LCD 控制句柄 ================= */
@@ -87,7 +88,7 @@ void LCD_DrawRect(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16
 void LCD_FillRect(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
 void LCD_DrawCircle(LCD_Handler_t *lcd, uint16_t x0, uint16_t y0, uint16_t r, uint32_t color);
 void LCD_ShowImg(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint8_t *img);
-void LCD_WriteByte(LCD_Handler_t *lcd,uint16_t x,uint16_t y,uint8_t byte,bool mode);
+void LCD_WriteByte(LCD_Handler_t *lcd, uint16_t x, uint16_t y, uint8_t byte, bool mode);
 
 // 文本显示 (固定位置)
 void LCD_SetFont(LCD_Handler_t *lcd, LCD_Font_t *font);

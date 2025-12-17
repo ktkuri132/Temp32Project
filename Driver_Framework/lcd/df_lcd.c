@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern const uint8_t Font8x16_Table[]; // 字体数据表声明
 
 
 /* ================= 实现 ================= */
@@ -16,7 +15,7 @@ void LCD_Handler_Init(LCD_Handler_t *lcd, uint16_t width, uint16_t height)
     lcd->Height = height;
     lcd->CursorX = 0;
     lcd->CursorY = 0;
-    lcd->CurrentFont = &Font8x16; // 默认字体
+    lcd->CurrentFont = NULL;
     lcd->TextColor = LCD_COLOR_WHITE;
     lcd->BackColor = LCD_COLOR_BLACK;
     lcd->TerminalMode = false;
@@ -208,8 +207,13 @@ void LCD_ShowChar(LCD_Handler_t *lcd, uint16_t x, uint16_t y, char c)
 {
     if (!lcd || !lcd->CurrentFont)
         return;
-    LCD_ShowImg(lcd, x, y, 1, lcd->CurrentFont->Height,
-                lcd->CurrentFont->table[c - 32]);
+    if(lcd->CurrentFont->Height == 8){
+        LCD_ShowImg(lcd, x, y, 1, lcd->CurrentFont->Height,
+                    lcd->CurrentFont->table.b8[c - 32]);
+    } else if(lcd->CurrentFont->Height ==16){
+        LCD_ShowImg(lcd, x, y, 1, lcd->CurrentFont->Height,
+                lcd->CurrentFont->table.b16[c - 32]);
+    }
 }
 
 void LCD_ShowString(LCD_Handler_t *lcd, uint16_t x, uint16_t y, const char *str)
