@@ -5,11 +5,6 @@
 
 extern const uint8_t Font8x16_Table[]; // 字体数据表声明
 
-LCD_Font_t Font8x16 = {
-    .table = Font8x16_Table,
-    .Width = 8,
-    .Height = 16
-};
 
 /* ================= 实现 ================= */
 

@@ -28,9 +28,15 @@
 #define LCD_COLOR_PINK 0xF81F
 
 /* ================= 字体结构定义 ================= */
+
+typedef union {
+    const uint8_t (*b8)[6]; // 字体数据表指针 (二维数组，2字节每字符)
+    const uint8_t (*b16)[16]; // 字体数据表指针 (二维数组，16字节每字符)
+} LCD_FontTable_t;
+
 typedef struct
 {
-    const uint8_t (*table)[16]; // 字体数据表
+    LCD_FontTable_t table; // 字体数据表
     uint16_t Width;       // 字符宽度
     uint16_t Height;      // 字符高度
 } LCD_Font_t;

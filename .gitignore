@@ -1,2 +1,4 @@
 .cache/
 build
+build/compile_commands.json
+build/CMakeCache.txt
