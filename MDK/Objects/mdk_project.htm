@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Objects\mdk_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\mdk_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Thu Dec 18 00:56:47 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6240002: Last Updated: Thu Dec 18 23:44:49 2025
 <BR><P>
 <H3>Maximum Stack Usage =        432 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; LCD_Printf &rArr; LCD_ShowChar &rArr; LCD_ShowImg &rArr; LCD_WriteByte &rArr; LCD_DrawPoint
+sh1106_dev_init &rArr; LCD_Printf &rArr; LCD_ShowChar &rArr; LCD_ShowImg &rArr; LCD_WriteByte &rArr; LCD_DrawPoint
 <P>
 <H3>
 Mutually Recursive functions
@@ -280,14 +280,14 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[53]"></a>__aeabi_dadd</STRONG> (Thumb, 322 bytes, Stack size 48 bytes, dadd.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
-<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+<BR><BR>[Calls]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
-<LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
+<BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 </UL>
 
 <P><STRONG><a name="[58]"></a>__aeabi_dsub</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, dadd.o(.text), UNUSED)
@@ -325,18 +325,18 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[54]"></a>__aeabi_llsl</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR><BR>[Called By]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 
 <P><STRONG><a name="[97]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
 
 <P><STRONG><a name="[5d]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<BR><BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 
 <P><STRONG><a name="[98]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
@@ -350,15 +350,15 @@ Global Symbols
 <P><STRONG><a name="[9a]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, iusefp.o(.text), UNUSED)
 
 <P><STRONG><a name="[57]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, depilogue.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR><BR>[Called By]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
 
 <P><STRONG><a name="[56]"></a>_double_epilogue</STRONG> (Thumb, 156 bytes, Stack size 32 bytes, depilogue.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
-<LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
+<BR><BR>[Calls]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
 <BR>[Called By]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
@@ -390,8 +390,8 @@ Global Symbols
 <P><STRONG><a name="[60]"></a>BIE_UART</STRONG> (Thumb, 258 bytes, Stack size 32 bytes, shell.o(.text.BIE_UART))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = BIE_UART &rArr; Shell_Deal &rArr; Cmd_match &rArr; printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printf
-<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Shell_Deal
+<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Shell_Deal
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
@@ -447,15 +447,14 @@ Global Symbols
 <P><STRONG><a name="[67]"></a>LCD_Printf</STRONG> (Thumb, 264 bytes, Stack size 296 bytes, df_lcd.o(.text.LCD_Printf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 408<LI>Call Chain = LCD_Printf &rArr; LCD_ShowChar &rArr; LCD_ShowImg &rArr; LCD_WriteByte &rArr; LCD_DrawPoint
 </UL>
-<BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsnprintf
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Terminal_Scroll
+<BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Terminal_Scroll
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_ShowChar
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsnprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sh1106_dev_init
+<BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sh1106_dev_init
 </UL>
 
-<P><STRONG><a name="[86]"></a>LCD_SetFont</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, df_lcd.o(.text.LCD_SetFont))
+<P><STRONG><a name="[85]"></a>LCD_SetFont</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, df_lcd.o(.text.LCD_SetFont))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LCD_SetFont
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sh1106_dev_init
@@ -485,11 +484,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Printf
 </UL>
 
-<P><STRONG><a name="[85]"></a>LCD_Update</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, df_lcd.o(.text.LCD_Update))
+<P><STRONG><a name="[86]"></a>LCD_Update</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, df_lcd.o(.text.LCD_Update))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LCD_Update
 </UL>
-<BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sh1106_dev_init
+<BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sh1106_dev_init
 </UL>
 
 <P><STRONG><a name="[6e]"></a>LCD_WriteByte</STRONG> (Thumb, 144 bytes, Stack size 24 bytes, df_lcd.o(.text.LCD_WriteByte))
@@ -579,11 +577,11 @@ Global Symbols
 <P><STRONG><a name="[61]"></a>Shell_Deal</STRONG> (Thumb, 480 bytes, Stack size 144 bytes, shell.o(.text.Shell_Deal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = Shell_Deal &rArr; Cmd_match &rArr; printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printf
+<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_Switch
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_match
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printf
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtok
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcmp
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_Switch
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cmd_match
 </UL>
 <BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BIE_UART
 </UL>
@@ -714,14 +712,14 @@ Global Symbols
 <P><STRONG><a name="[c]"></a>delay_ms</STRONG> (Thumb, 62 bytes, Stack size 12 bytes, delay.o(.text.delay_ms))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = delay_ms
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> delay.o(.data.delay)
-<LI> sh1106_iic.o(.data.i2c1_bus)
+<BR>[Address Reference Count : 2]<UL><LI> sh1106_iic.o(.data.i2c1_bus)
+<LI> delay.o(.data.delay)
 </UL>
 <P><STRONG><a name="[d]"></a>delay_us</STRONG> (Thumb, 60 bytes, Stack size 12 bytes, delay.o(.text.delay_us))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = delay_us
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> delay.o(.data.delay)
-<LI> sh1106_iic.o(.data.i2c1_bus)
+<BR>[Address Reference Count : 2]<UL><LI> sh1106_iic.o(.data.i2c1_bus)
+<LI> delay.o(.data.delay)
 </UL>
 <P><STRONG><a name="[4f]"></a>fputc</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, usart.o(.text.fputc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fputc
@@ -773,12 +771,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> led.o(.data.led)
 </UL>
-<P><STRONG><a name="[4c]"></a>main</STRONG> (Thumb, 86 bytes, Stack size 24 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 432<LI>Call Chain = main &rArr; LCD_Printf &rArr; LCD_ShowChar &rArr; LCD_ShowImg &rArr; LCD_WriteByte &rArr; LCD_DrawPoint
+<P><STRONG><a name="[4c]"></a>main</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = main &rArr; Device_Registration &rArr; printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Update
-<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Printf
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Device_Registration
+<BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Device_Registration
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -792,12 +788,12 @@ Global Symbols
 <P><STRONG><a name="[7]"></a>sh1106_dev_init</STRONG> (Thumb, 206 bytes, Stack size 24 bytes, sh1106_iic.o(.text.sh1106_dev_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 432<LI>Call Chain = sh1106_dev_init &rArr; LCD_Printf &rArr; LCD_ShowChar &rArr; LCD_ShowImg &rArr; LCD_WriteByte &rArr; LCD_DrawPoint
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printf
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Clear
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetFont
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SH1106_Init
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Update
+<BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Update
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Printf
+<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Clear
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_SetFont
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SH1106_Init
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> init.o(.data.Dev_info_poor)
 </UL>
@@ -916,22 +912,22 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[8b]"></a>_fp_digits</STRONG> (Thumb, 366 bytes, Stack size 64 bytes, printfa.o(i._fp_digits), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
+<BR><BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
 <P><STRONG><a name="[89]"></a>_printf_core</STRONG> (Thumb, 1744 bytes, Stack size 136 bytes, printfa.o(i._printf_core), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
+<BR><BR>[Calls]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
-<LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0vsnprintf
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0printf

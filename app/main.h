@@ -11,6 +11,7 @@
 #include <dev_frame.h>
 #include <lcd/df_lcd.h>
 #include <sh1106/sh1106.h>
+#include <ssd1306/ssd1306.h>
 #include <lcd/df_fonts.h>
 
 extern shell Shell; // Shell协议结构体实例
@@ -22,5 +23,6 @@ extern Ut debug;
 extern Lt led;
 extern At adc1;
 extern Dt delay;
-extern LCD_Handler_t lcd_oled;
+// extern LCD_Handler_t lcd_sh1106;
+extern LCD_Handler_t lcd_ssd1306;
 #endif

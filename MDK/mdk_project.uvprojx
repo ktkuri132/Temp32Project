@@ -449,6 +449,16 @@
               <FileType>1</FileType>
               <FilePath>..\Device\st7789\st7789.c</FilePath>
             </File>
+            <File>
+              <FileName>inv_mpu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\mpu6050\inv_mpu.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_mpu_dmp_motion_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\mpu6050\inv_mpu_dmp_motion_driver.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

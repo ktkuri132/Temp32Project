@@ -8,6 +8,7 @@
 #define DEBUG_UART_NAME "usart_debug"
 #define ONBOARD_LED_NAME "led_onboard"
 #define OLED_SH1106_NAME "oled_dp"
+#define OLED_SSD1306_NAME "oled_dp"
 #define ADC1_NAME       "adc1"
 
 void NVIC_Init(void);
@@ -39,5 +40,7 @@ void delay_us(uint32_t us);
 
 void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color);
 int sh1106_dev_init(dev_arg_t arg);
+void SSD1306_SetPixel(uint16_t x, uint16_t y, uint32_t color);
+int ssd1306_dev_init(dev_arg_t arg);
 
 #endif

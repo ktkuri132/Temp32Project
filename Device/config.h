@@ -4,14 +4,39 @@
 #include <stdint.h>
 
 // 选择使用的外围设备
-#define SH1106
-#include <i2c/df_iic.h>
-#include <lcd/df_lcd.h>
-#define On_Chip_IIC
+// #define SH1106
+#define SSD1306
+#define MPU6050
+
+// 通信总线选择
 #define __SOFTI2C_
 
+
+#ifdef __SOFTI2C_
+#include <i2c/df_iic.h>
 extern SIAS i2c1_bus;
 #define i2c_Dev i2c1_bus
+#endif
+
+#ifdef SH1106
+
+#include <lcd/df_lcd.h>
+#define On_Chip_IIC
+
+#endif
+
+#ifdef SSD1306
+
+#include <lcd/df_lcd.h>
+#define On_Chip_IIC
+
+#endif
+
+#ifdef MPU6050
+#include <df_delay.h>
+#define i2c_dev i2c1_bus
+extern Dt delay;
+#endif
 
 
 #endif

@@ -10,6 +10,8 @@
 ".\objects\sh1106.o"
 ".\objects\ssd1306.o"
 ".\objects\st7789.o"
+".\objects\inv_mpu.o"
+".\objects\inv_mpu_dmp_motion_driver.o"
 ".\objects\adc.o"
 ".\objects\delay.o"
 ".\objects\led.o"

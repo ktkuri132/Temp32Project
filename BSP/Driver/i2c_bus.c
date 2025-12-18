@@ -3,9 +3,7 @@
 
 #include "i2c/df_iic.h"
 #include <driver.h>
-#include <lcd/df_fonts.h>
-#include <lcd/df_lcd.h>
-#include <sh1106/sh1106.h>
+
 
 void iic1_pins_config(void)
 {
@@ -78,41 +76,3 @@ SIAS i2c1_bus = {
     .Soft_SDA_OUT = iic1_sda_out,
     .Soft_READ_SDA = iic1_read_sda,
 };
-
-
-void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color){
-    (void)color; // 未使用参数防止编译警告
-    SH1106_DrawPoint(x, y);
-}
-
-int sh1106_dev_init(dev_arg_t arg)
-{
-    LCD_Handler_t *lcd = (LCD_Handler_t *)arg.ptr;
-    if( lcd == NULL)
-    {
-        error("sh1106_dev_init: lcd handler is NULL!\n");
-        return -1;
-    }
-    if( lcd->SetPixel == NULL)
-    {
-        error("sh1106_dev_init: lcd SetPixel function is NULL!\n");
-        return -1;
-    }
-    if( lcd->Width != 128 || lcd->Height != 64)
-    {
-        error("sh1106_dev_init: lcd size mismatch! Expected 128x64.\n");
-        return -1;
-    }
-    if( lcd->Update == NULL)
-    {
-        error("sh1106_dev_init: lcd Update function is NULL!\n");
-        return -1;
-    }
-    SH1106_Init();
-    LCD_SetFont(lcd, &JetBrains_Mono_Font_8x16);
-    LCD_Clear(lcd, 0x00000000); // 清屏，黑色背景
-    LCD_Printf(lcd, "System Start\n");
-    LCD_Printf(lcd, "SH1106 OLED Initialized.\n");
-    LCD_Update(lcd);
-    return 0;
-}

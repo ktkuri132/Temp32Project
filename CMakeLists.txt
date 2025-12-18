@@ -39,6 +39,7 @@ include_directories(
     app
     BSP/CORE
     BSP/Driver
+    Device/mpu6050
     Device/sh1106
     Device/ssd1306
     Device/st7789
@@ -73,10 +74,11 @@ set(CONTROL_SOURCES
 set(DRIVER_SOURCES
     BSP/Driver/adc.c
     BSP/Driver/delay.c
+    BSP/Driver/i2c_bus.c
     BSP/Driver/led.c
     BSP/Driver/misc.c
     BSP/Driver/nvic.c
-    BSP/Driver/sh1106_iic.c
+    BSP/Driver/oled_dev.c
     BSP/Driver/Systick.c
     BSP/Driver/usart.c
 )
@@ -112,6 +114,11 @@ set(KEY_SOURCES
 set(LCD_SOURCES
     Driver_Framework/lcd/df_fonts.c
     Driver_Framework/lcd/df_lcd.c
+)
+
+set(MPU6050_SOURCES
+    Device/mpu6050/inv_mpu.c
+    Device/mpu6050/inv_mpu_dmp_motion_driver.c
 )
 
 set(SH1106_SOURCES
@@ -152,6 +159,7 @@ set(SOURCE_FILES
     ${I2C_SOURCES}
     ${KEY_SOURCES}
     ${LCD_SOURCES}
+    ${MPU6050_SOURCES}
     ${SH1106_SOURCES}
     ${SHELL_SOURCES}
     ${SPI_SOURCES}

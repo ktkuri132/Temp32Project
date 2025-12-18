@@ -9,8 +9,6 @@
 int main()
 {
     Device_Registration(Dev_info_poor); // 初始化设备模型
-    LCD_Printf(&lcd_oled, "This is a test of the LCD terminal mode.\n");
-    LCD_Update(&lcd_oled); // 更新显示内容
     while (1)
     {
 
