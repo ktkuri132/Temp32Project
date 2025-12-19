@@ -1,4 +1,5 @@
-./objects/adc.o: ..\BSP\Driver\adc.c ..\BSP\Driver\driver.h \
-  ..\BSP\CORE\stm32f10x.h ..\BSP\CMSIS\Core\Include\core_cm3.h \
-  ..\BSP\CORE\system_stm32f10x.h ..\Driver_Framework\dev_frame.h \
+./objects/adc.o: ..\BSP\stm32f1\Driver\adc.c \
+  ..\BSP\stm32f1\Driver\driver.h ..\BSP\stm32f1\CORE\stm32f10x.h \
+  ..\BSP\CMSIS\Core\Include\core_cm3.h \
+  ..\BSP\stm32f1\CORE\system_stm32f10x.h ..\Driver_Framework\dev_frame.h \
   ..\Middleware\shell\shell_style.h ..\Driver_Framework\df_adc.h

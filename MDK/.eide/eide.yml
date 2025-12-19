@@ -1,0 +1,217 @@
+version: "4.1"
+name: mdk_project
+type: ARM
+deviceName: null
+packDir: null
+srcDirs: []
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders:
+    - name: app
+      files:
+        - path: ../app/control.c
+        - path: ../app/init.c
+        - path: ../app/irq.c
+        - path: ../app/main.c
+      folders: []
+    - name: bsp
+      files:
+        - path: ../BSP/stm32f1/CORE/stm32f10x_it.c
+        - path: ../BSP/stm32f1/CORE/system_stm32f10x.c
+        - path: ../BSP/stm32f1/CORE/startup_stm32f10x_md.s
+      folders: []
+    - name: device
+      files:
+        - path: ../Device/sh1106/fonts.c
+        - path: ../Device/sh1106/sh1106.c
+        - path: ../Device/ssd1306/ssd1306.c
+        - path: ../Device/st7789/st7789.c
+        - path: ../Device/mpu6050/inv_mpu.c
+        - path: ../Device/mpu6050/inv_mpu_dmp_motion_driver.c
+      folders: []
+    - name: driver
+      files:
+        - path: ../BSP/stm32f1/Driver/adc.c
+        - path: ../BSP/stm32f1/Driver/delay.c
+        - path: ../BSP/stm32f1/Driver/i2c_bus.c
+        - path: ../BSP/stm32f1/Driver/led.c
+        - path: ../BSP/stm32f1/Driver/misc.c
+        - path: ../BSP/stm32f1/Driver/nvic.c
+        - path: ../BSP/stm32f1/Driver/oled_dev.c
+        - path: ../BSP/stm32f1/Driver/Systick.c
+        - path: ../BSP/stm32f1/Driver/usart.c
+        - path: ../BSP/stm32f1/Driver/flash/flash.c
+        - path: ../BSP/stm32f1/Driver/flash/flash_example.c
+      folders: []
+    - name: driver_framework
+      files:
+        - path: ../Driver_Framework/dev_frame.c
+        - path: ../Driver_Framework/spi/df_spi.c
+        - path: ../Driver_Framework/lcd/df_lcd.c
+        - path: ../Driver_Framework/key/df_key.c
+        - path: ../Driver_Framework/i2c/df_iic.c
+        - path: ../Driver_Framework/display/df_display.c
+        - path: ../Driver_Framework/lcd/df_fonts.c
+      folders: []
+    - name: shell
+      files:
+        - path: ../Middleware/shell/shell.c
+      folders: []
+    - name: trans
+      files:
+        - path: ../Middleware/trans/stde.c
+        - path: ../Middleware/trans/terminal_link.c
+      folders: []
+    - name: control
+      files:
+        - path: ../Control/filter.c
+        - path: ../Control/pid.c
+      folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: d3217bda4bbe8c594f42f253f0033420
+targets:
+  f103_project:
+    cppPreprocessAttrs:
+      defineList:
+        - STM32F10X_MD
+      incList:
+        - ../app
+        - ../BSP
+        - ../BSP/CMSIS
+        - ../BSP/CMSIS/Core
+        - ../BSP/CMSIS/Core/Include
+        - ../BSP/CMSIS/Core/Include/m-profile
+        - ../BSP/stm32f1/CORE
+        - ../BSP/stm32f1/Driver
+        - ../BSP/stm32f1/Driver/flash
+        - ../Control
+        - ../Device
+        - ../Driver_Framework
+        - ../Middleware
+        - .cmsis/include
+        - RTE/_f103_project
+      libList: []
+    excludeList: []
+    toolchain: AC6
+    toolchainConfigMap:
+      AC6:
+        archExtensions: ""
+        cpuType: Cortex-M3
+        floatingPointHardware: none
+        options:
+          version: 3
+          afterBuildTasks: []
+          asm-compiler:
+            $use: asm-auto
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            language-c: gnu99
+            language-cpp: c++11
+            one-elf-section-per-function: true
+            optimization: level-0
+            short-enums#wchar: true
+            warnings: no-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: true
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            misc-controls: --diag_suppress=L6329
+            output-format: elf
+            ro-base: "0x08000000"
+            rw-base: "0x20000000"
+        scatterFilePath: ""
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x5000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x10000"
+                startAddr: "0x8000000"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: IROM
+        useCustomScatterFile: false
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+      OpenOCD:
+        baseAddr: "0x08000000"
+        bin: ""
+        interface: cmsis-dap
+        target: stm32f1x
+    uploader: OpenOCD

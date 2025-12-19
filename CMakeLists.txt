@@ -17,15 +17,15 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(SIZE arm-none-eabi-size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-project(32_temp_project C CXX ASM)
+project(General_template_Project C CXX ASM)
 
 # 编译标志 (软件浮点)
-set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
-set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
-set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
+set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
+set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f1/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
 
 # 宏定义
 add_definitions(-DSTM32F10X_MD)
@@ -37,8 +37,6 @@ include_directories(
     Driver_Framework
     Middleware
     app
-    BSP/CORE
-    BSP/Driver
     Device/mpu6050
     Device/sh1106
     Device/ssd1306
@@ -50,8 +48,10 @@ include_directories(
     Driver_Framework/spi
     Middleware/shell
     Middleware/trans
-    BSP/Driver/flash
+    BSP/stm32f1/CORE
+    BSP/stm32f1/Driver
     BSP/CMSIS/Core/Include
+    BSP/stm32f1/Driver/flash
     BSP/CMSIS/Core/Include/a-profile
     BSP/CMSIS/Core/Include/m-profile
     BSP/CMSIS/Core/Include/r-profile
@@ -59,11 +59,11 @@ include_directories(
 
 # 源文件分组
 set(CORE_SOURCES
-    BSP/CORE/startup_stm32f10x_md.c
-    BSP/CORE/stm32f10x_it.c
-    BSP/CORE/syscalls.c
-    BSP/CORE/sysmem.c
-    BSP/CORE/system_stm32f10x.c
+    BSP/stm32f1/CORE/startup_stm32f10x_md.c
+    BSP/stm32f1/CORE/stm32f10x_it.c
+    BSP/stm32f1/CORE/syscalls.c
+    BSP/stm32f1/CORE/sysmem.c
+    BSP/stm32f1/CORE/system_stm32f10x.c
 )
 
 set(CONTROL_SOURCES
@@ -72,15 +72,15 @@ set(CONTROL_SOURCES
 )
 
 set(DRIVER_SOURCES
-    BSP/Driver/adc.c
-    BSP/Driver/delay.c
-    BSP/Driver/i2c_bus.c
-    BSP/Driver/led.c
-    BSP/Driver/misc.c
-    BSP/Driver/nvic.c
-    BSP/Driver/oled_dev.c
-    BSP/Driver/Systick.c
-    BSP/Driver/usart.c
+    BSP/stm32f1/Driver/adc.c
+    BSP/stm32f1/Driver/delay.c
+    BSP/stm32f1/Driver/i2c_bus.c
+    BSP/stm32f1/Driver/led.c
+    BSP/stm32f1/Driver/misc.c
+    BSP/stm32f1/Driver/nvic.c
+    BSP/stm32f1/Driver/oled_dev.c
+    BSP/stm32f1/Driver/Systick.c
+    BSP/stm32f1/Driver/usart.c
 )
 
 set(DRIVER_FRAMEWORK_SOURCES
@@ -99,8 +99,8 @@ set(DISPLAY_SOURCES
 )
 
 set(FLASH_SOURCES
-    BSP/Driver/flash/flash.c
-    BSP/Driver/flash/flash_example.c
+    BSP/stm32f1/Driver/flash/flash.c
+    BSP/stm32f1/Driver/flash/flash_example.c
 )
 
 set(I2C_SOURCES
@@ -135,6 +135,7 @@ set(SPI_SOURCES
 )
 
 set(SSD1306_SOURCES
+    Device/ssd1306/fonts.c
     Device/ssd1306/ssd1306.c
 )
 

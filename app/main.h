@@ -23,6 +23,6 @@ extern Ut debug;
 extern Lt led;
 extern At adc1;
 extern Dt delay;
-// extern LCD_Handler_t lcd_sh1106;
-extern LCD_Handler_t lcd_ssd1306;
+extern LCD_Handler_t lcd_sh1106;
+// extern LCD_Handler_t lcd_ssd1306;
 #endif

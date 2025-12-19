@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>mdk_porject</TargetName>
+      <TargetName>f103_project</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>6240000::V6.24::ARMCLANG</pCCUsed>
@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\app;..\BSP;..\BSP\CMSIS;..\BSP\CMSIS\Core;..\BSP\CMSIS\Core\Include;..\BSP\CMSIS\Core\Include\m-profile;..\BSP\CORE;..\BSP\Driver;..\BSP\Driver\flash;..\Control;..\Device;..\Driver_Framework;..\Middleware</IncludePath>
+              <IncludePath>..\app;..\BSP;..\BSP\CMSIS;..\BSP\CMSIS\Core;..\BSP\CMSIS\Core\Include;..\BSP\CMSIS\Core\Include\m-profile;..\BSP\stm32f1\CORE;..\BSP\stm32f1\Driver;..\BSP\stm32f1\Driver\flash;..\Control;..\Device;..\Driver_Framework;..\Middleware</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -412,17 +412,17 @@
             <File>
               <FileName>stm32f10x_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\stm32f10x_it.c</FilePath>
+              <FilePath>..\BSP\stm32f1\CORE\stm32f10x_it.c</FilePath>
             </File>
             <File>
               <FileName>system_stm32f10x.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\CORE\system_stm32f10x.c</FilePath>
+              <FilePath>..\BSP\stm32f1\CORE\system_stm32f10x.c</FilePath>
             </File>
             <File>
               <FileName>startup_stm32f10x_md.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\BSP\CORE\startup_stm32f10x_md.s</FilePath>
+              <FilePath>..\BSP\stm32f1\CORE\startup_stm32f10x_md.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -467,52 +467,57 @@
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\adc.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\adc.c</FilePath>
             </File>
             <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\delay.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_bus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\stm32f1\Driver\i2c_bus.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\led.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\led.c</FilePath>
             </File>
             <File>
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\misc.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\misc.c</FilePath>
             </File>
             <File>
               <FileName>nvic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\nvic.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\nvic.c</FilePath>
             </File>
             <File>
-              <FileName>sh1106_iic.c</FileName>
+              <FileName>oled_dev.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\sh1106_iic.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\oled_dev.c</FilePath>
             </File>
             <File>
               <FileName>Systick.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\Systick.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\Systick.c</FilePath>
             </File>
             <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\usart.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\usart.c</FilePath>
             </File>
             <File>
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\flash\flash.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\flash\flash.c</FilePath>
             </File>
             <File>
               <FileName>flash_example.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Driver\flash\flash_example.c</FilePath>
+              <FilePath>..\BSP\stm32f1\Driver\flash\flash_example.c</FilePath>
             </File>
           </Files>
         </Group>

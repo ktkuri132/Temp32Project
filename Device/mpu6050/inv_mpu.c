@@ -43,8 +43,8 @@
  * min(int a, int b)
  */
 #ifdef __SOFTI2C_
-#define i2c_write(adder,reg,len,buf)       Soft_IIC_Write_Len(&i2c_dev,adder,reg,len,buf)
-#define i2c_read(adder,reg,len,buf)        Soft_IIC_Read_Len(&i2c_dev,adder,reg,len,buf)
+#define i2c_write      mpu6050_i2c_write
+#define i2c_read       mpu6050_i2c_read
 #define MPU_IIC_Init()    Soft_IIC_Init(&i2c_dev)
 #elif defined __HARDI2C_
 #define i2c_write       Hard_IIC_Wirter_Data
@@ -428,7 +428,7 @@ const struct gyro_reg_s reg = {
 
 
 const struct hw_s hw={
-  0xD0,	 //addr
+  0xd0,	 //addr
   1024,	 //max_fifo
   118,	 //num_reg
   340,	 //temp_sens
