@@ -17,7 +17,7 @@ void Soft_IIC_Start(SIAS *i2c_dev) {
     // i2c_dev->delay_us(4);
     i2c_dev->Soft_IIC_SDA(
         0);  // START:when CLK is high,DATA change form high to low
-    // i2c_dev->delay_us(1);
+//    i2c_dev->delay_us(1);
     i2c_dev->Soft_IIC_SCL(0);  // 钳住I2C总线，准备发送或接收数据
 }
 // 产生IIC停止信号
@@ -38,9 +38,9 @@ uint8_t Soft_IIC_Wait_Ack(SIAS *i2c_dev) {
     uint8_t ucErrTime = 0;
     i2c_dev->Soft_SDA_IN();  // SDA设置为输入
     i2c_dev->Soft_IIC_SDA(1);
-    i2c_dev->delay_us(1);
+//    i2c_dev->delay_us(1);
     i2c_dev->Soft_IIC_SCL(1);
-    // i2c_dev->delay_us(1);
+//    i2c_dev->delay_us(1);
     while (i2c_dev->Soft_READ_SDA()) {
         ucErrTime++;
         if (ucErrTime > 250) {
@@ -56,7 +56,7 @@ void Soft_IIC_Ack(SIAS *i2c_dev) {
     i2c_dev->Soft_IIC_SCL(0);
     i2c_dev->Soft_SDA_OUT();
     i2c_dev->Soft_IIC_SDA(0);
-    i2c_dev->delay_us(1);
+//    i2c_dev->delay_us(1);
     i2c_dev->Soft_IIC_SCL(1);
     // i2c_dev->delay_us(2);
     i2c_dev->Soft_IIC_SCL(0);
@@ -66,7 +66,7 @@ void Soft_IIC_NAck(SIAS *i2c_dev) {
     i2c_dev->Soft_IIC_SCL(0);
     i2c_dev->Soft_SDA_OUT();
     i2c_dev->Soft_IIC_SDA(1);
-    i2c_dev->delay_us(1);
+//    i2c_dev->delay_us(1);
     i2c_dev->Soft_IIC_SCL(1);
     // delay_us(2);
     i2c_dev->Soft_IIC_SCL(0);
@@ -82,11 +82,11 @@ void Soft_IIC_Send_Byte(SIAS *i2c_dev, uint8_t txd) {
     for (t = 0; t < 8; t++) {
         i2c_dev->Soft_IIC_SDA((txd & 0x80) >> 7);
         txd <<= 1;
-        i2c_dev->delay_us(1);
+//        i2c_dev->delay_us(1);
         i2c_dev->Soft_IIC_SCL(1);
-        i2c_dev->delay_us(1);
+//        i2c_dev->delay_us(1);
         i2c_dev->Soft_IIC_SCL(0);
-        i2c_dev->delay_us(1);
+//        i2c_dev->delay_us(1);
     }
 }
 // 读1个字节，ack=1时，发送ACK，ack=0，发送nACK
@@ -95,11 +95,11 @@ uint8_t Soft_IIC_Receive_Byte(SIAS *i2c_dev, unsigned char ack) {
     i2c_dev->Soft_SDA_IN();  // SDA设置为输入
     for (i = 0; i < 8; i++) {
         i2c_dev->Soft_IIC_SCL(0);
-        // i2c_dev->delay_us(1);
+//        i2c_dev->delay_us(1);
         i2c_dev->Soft_IIC_SCL(1);
         receive <<= 1;
         if (i2c_dev->Soft_READ_SDA()) receive++;
-        i2c_dev->delay_us(1);
+//        i2c_dev->delay_us(1);
     }
     if (!ack)
         Soft_IIC_NAck(i2c_dev);  // 发送nACK
@@ -174,7 +174,6 @@ uint8_t Soft_IIC_Read_Len(SIAS *i2c_dev, uint8_t addr, uint8_t reg, uint8_t len,
     Soft_IIC_Send_Byte(i2c_dev, addr | 0);  // 发送器件地址+写命令
     if (Soft_IIC_Wait_Ack(i2c_dev))         // 等待应答
     {
-        ;
         printf("未检测到IIC设备");
         Soft_IIC_Stop(i2c_dev);
         return 1;

@@ -71,7 +71,7 @@
 #define SH1106_FILLED 1
 
 /*初始化函数*/
-void SH1106_Init(void);
+uint8_t SH1106_Init(void);
 
 /*更新函数*/
 void SH1106_Update(void);
@@ -96,7 +96,7 @@ void SH1106_Printf(int16_t X, int16_t Y, uint8_t FontSize, char *format, ...);
 
 /*绘图函数*/
 void SH1106_DrawPoint(int16_t X, int16_t Y);
-uint8_t SH1106_GetPoint(int16_t X, int16_t Y);
+uint32_t SH1106_GetPoint(uint16_t X, uint16_t Y);
 void SH1106_DrawLine(int16_t X0, int16_t Y0, int16_t X1, int16_t Y1);
 void SH1106_DrawRectangle(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, uint8_t IsFilled);
 void SH1106_DrawTriangle(int16_t X0, int16_t Y0, int16_t X1, int16_t Y1, int16_t X2, int16_t Y2, uint8_t IsFilled);

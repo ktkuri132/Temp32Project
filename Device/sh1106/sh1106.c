@@ -358,13 +358,13 @@ void SH1106_WriteData(uint8_t *Data, uint8_t Count)
 
 #endif
 
-void SH1106_Init(void)
+uint8_t SH1106_Init(void)
 {
     SH1106_GPIO_Init(); // 先调用底层的端口初始化
 
     /*写入一系列的命令，对SH1106进行初始化配置*/
-    SH1106_WriteCommand(0xAE); // 设置显示开启/关闭，0xAE关闭，0xAF开启
-
+    if(SH1106_WriteCommand(0xAE)) // 设置显示开启/关闭，0xAE关闭，0xAF开启
+        return 1;
     SH1106_WriteCommand(0xD5); // 设置显示时钟分频比/振荡器频率
     SH1106_WriteCommand(0x80); // 0x00~0xFF
 
@@ -403,6 +403,7 @@ void SH1106_Init(void)
 
     SH1106_Clear();  // 清空显存数组
     SH1106_Update(); // 更新显示，清屏，防止初始化后未显示内容时花屏
+    return 0;
 }
 
 /**
@@ -1097,7 +1098,7 @@ void SH1106_DrawPoint(int16_t X, int16_t Y)
  * 参    数：Y 指定点的纵坐标，范围：-32768~32767，屏幕区域：0~63
  * 返 回 值：指定位置点是否处于点亮状态，1：点亮，0：熄灭
  */
-uint8_t SH1106_GetPoint(int16_t X, int16_t Y)
+uint32_t SH1106_GetPoint(uint16_t X, uint16_t Y)
 {
     if (X >= 0 && X <= 127 && Y >= 0 && Y <= 63) // 超出屏幕的内容不读取
     {

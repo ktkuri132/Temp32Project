@@ -31,7 +31,7 @@
 
 typedef union
 {
-    const uint8_t (*b8)[6];   // 字体数据表指针 (二维数组，2字节每字符)
+    const uint8_t (*b8)[8];   // 字体数据表指针 (二维数组，2字节每字符)
     const uint8_t (*b16)[16]; // 字体数据表指针 (二维数组，16字节每字符)
 } LCD_FontTable_t;
 
@@ -99,6 +99,7 @@ void LCD_ShowString(LCD_Handler_t *lcd, uint16_t x, uint16_t y, const char *str)
 // 终端模式 (流式输出)
 void LCD_Terminal_Enable(LCD_Handler_t *lcd, bool enable);
 void LCD_Terminal_Clear(LCD_Handler_t *lcd);
+void LCD_TerminalOut(LCD_Handler_t *lcd,uint8_t* str);
 void LCD_Printf(LCD_Handler_t *lcd, const char *fmt, ...);
 
 // 显存操作

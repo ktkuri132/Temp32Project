@@ -37,5 +37,6 @@ typedef struct Dev_Model_Core_TypeDef {
 } dev_info_t;
 
 int Device_Registration(dev_info_t dev_info[]);
+int Find_Device(dev_info_t dev_info[],const char *name, dev_info_t **device);
 
 #endif

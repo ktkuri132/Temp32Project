@@ -23,13 +23,13 @@ LCD_Handler_t lcd_sh1106 = {
     .Width = SH1106_WIDTH,
     .Height = SH1106_HEIGHT,
     .SetPixel = SH1106_SetPixel,
-    .GetPixel = NULL, // 可选实现
-    .FillRect = NULL, // 可选实现
+    .GetPixel = SH1106_GetPoint, // 可选实现
+    .FillRect = SH1106_FillRect, // 可选实现
     .Update = SH1106_Update,
     .ScrollHard = NULL, // 可选实现
     .CursorX = 0,
     .CursorY = 0,
-    .CurrentFont = &JetBrains_Mono_Font_8x16, // 可选设置
+    .CurrentFont = &Consolas_Font_8x16, // 可选设置
     .TextColor = 0xFFFFFFFF,
     .BackColor = 0x00000000,
     .TerminalMode = true};
@@ -50,11 +50,18 @@ LCD_Handler_t lcd_sh1106 = {
 //    .TerminalMode = true};
 
 dev_info_t Dev_info_poor[] = {
-    {.name = DEBUG_UART_NAME,
-     .init = usart1_init,
-     .enable = usart1_start,
-     .disable = usart1_stop,
-     .arg.ptr = (void *)&debug},
+
+    {.name = OLED_SH1106_NAME,
+  .init = sh1106_dev_init,
+  .enable = NULL,
+  .disable = NULL,
+  .arg.ptr = (void *)&lcd_sh1106},
+
+    // {.name = DEBUG_UART_NAME,
+    //  .init = usart1_init,
+    //  .enable = usart1_start,
+    //  .disable = usart1_stop,
+    //  .arg.ptr = (void *)&debug},
 
     // {.name = "SysTick",
     //  .init = systick_init,
@@ -74,11 +81,7 @@ dev_info_t Dev_info_poor[] = {
      .disable = led_off,
      .arg.ptr = NULL},
 
- {.name = OLED_SH1106_NAME,
-  .init = sh1106_dev_init,
-  .enable = NULL,
-  .disable = NULL,
-  .arg.ptr = (void *)&lcd_sh1106},
+
 
 //{.name = OLED_SSD1306_NAME,
 //     .init = ssd1306_dev_init,

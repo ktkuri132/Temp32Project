@@ -46,3 +46,22 @@ int Device_Registration(dev_info_t dev_info[])
     }
     return 0;
 }
+
+int Find_Device(dev_info_t dev_info[],const char *name, dev_info_t **device)
+{
+    if (name == NULL || device == NULL)
+    {
+        return -1; // 参数错误
+    }
+    unsigned int i = 0;
+    while (dev_info[i].name[0] != '\0')
+    {
+        if (strcmp(dev_info[i].name, name) == 0)
+        {
+            *device = &dev_info[i];
+            return 0; // 找到设备
+        }
+        i++;
+    }
+    return -1; // 未找到设备
+}

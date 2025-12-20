@@ -4,19 +4,18 @@
 #include "i2c/df_iic.h"
 #include <driver.h>
 
-
 void iic1_pins_config(void)
 {
     RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
-    // 配置 PB8, PB9 为开漏输出 50MHz，用于软件IIC
+    // 配置 PB8, PB9 为推挽输出 50MHz，用于软件IIC
     // PB8 配置在 CRH 位[3:0]
-    // MODE8 = 0b11 (50MHz), CNF8 = 0b01 (开漏通用输出)
+    // MODE8 = 0b11 (50MHz), CNF8 = 0b00 (推挽通用输出)
     GPIOB->CRH &= ~(0xF << 0);
-    GPIOB->CRH |= ((0x3 << 0) | (0x1 << 2));
+    GPIOB->CRH |= (0x3 << 0);
     // PB9 配置在 CRH 位[7:4]
-    // MODE9 = 0b11 (50MHz), CNF9 = 0b01 (开漏通用输出)
+    // MODE9 = 0b11 (50MHz), CNF9 = 0b00 (推挽通用输出)
     GPIOB->CRH &= ~(0xF << 4);
-    GPIOB->CRH |= ((0x3 << 4) | (0x1 << 6));
+    GPIOB->CRH |= (0x3 << 4);
     // 默认拉高（外部需上拉，或使能内部上拉）
     // 使能上拉：将 ODR 对应位置置1，并配置为输入上拉时使用。
     GPIOB->ODR |= (1 << 8) | (1 << 9);
@@ -56,9 +55,9 @@ void iic1_sda_in(void)
 
 void iic1_sda_out(void)
 {
-    // 将 PB9 配置为开漏输出 50MHz：MODE9=11, CNF9=01
+    // 将 PB9 配置为推挽输出 50MHz：MODE9=11, CNF9=00
     GPIOB->CRH &= ~(0xF << 4);
-    GPIOB->CRH |= ((0x3 << 4) | (0x1 << 6));
+    GPIOB->CRH |= (0x3 << 4);
 }
 
 uint8_t iic1_read_sda(void)
@@ -68,8 +67,8 @@ uint8_t iic1_read_sda(void)
 
 SIAS i2c1_bus = {
     .Soft_IIC_GPIO_Port_Init = iic1_pins_config,
-    .delay_us = delay_us,  // 用户需自行实现延时函数并赋值
-    .dealy_ms = delay_ms,  // 用户需自行实现延时函数并赋值
+    .delay_us = delay_us, // 用户需自行实现延时函数并赋值
+    .dealy_ms = delay_ms, // 用户需自行实现延时函数并赋值
     .Soft_IIC_SCL = iic1_scl,
     .Soft_IIC_SDA = iic1_sda,
     .Soft_SDA_IN = iic1_sda_in,

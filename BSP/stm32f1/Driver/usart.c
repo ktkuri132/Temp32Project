@@ -76,17 +76,19 @@ uint8_t USART1_ReceiveChar(void *None, uint8_t *data)
     return *data;       // 返回接收到的字符
 }
 
+#include <lcd/df_lcd.h>
+
 #ifndef __clang__
 
 int printf(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    char buffer[256]; // 缓冲区大小可以根据需要调整
+    char buffer[50]; // 缓冲区大小可以根据需要调整
     int len = vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
-
     USART1_SendString(buffer); // 发送格式化字符串到USART1
+    LCD_TerminalOut(&lcd_sh1106, (uint8_t*)buffer);
     return len;                // 返回发送的字符长度
 }
 
@@ -94,8 +96,9 @@ int printf(const char *format, ...)
 
 int fputc(int ch, FILE *f)
 {
-	while (!(USART1->SR & (1 << 7))); // 等待TXE标志
-	USART1->DR = (uint8_t)ch;
+	// while (!(USART1->SR & (1 << 7))); // 等待TXE标志
+	// USART1->DR = (uint8_t)ch;
+    LCD_TerminalOut(&lcd_sh1106, (uint8_t*)&ch);
 	return ch;
 }
 

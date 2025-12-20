@@ -22,7 +22,8 @@ extern SIAS i2c1_bus;
 
 #include <lcd/df_lcd.h>
 #define On_Chip_IIC
-
+void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color);
+void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
 #endif
 
 #ifdef SSD1306

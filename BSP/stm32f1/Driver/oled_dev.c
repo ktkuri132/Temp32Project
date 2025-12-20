@@ -5,8 +5,21 @@
 #include <config.h>
 void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color)
 {
+    if( color )
+        SH1106_DrawPoint(x, y);
+    else
+        SH1106_ClearArea(x, y, 1, 1);
+}
+
+void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color)
+{
     (void)color; // 未使用参数防止编译警告
-    SH1106_DrawPoint(x, y);
+    if(x == 0 && y == 0 )
+    {
+        SH1106_Clear();
+        return;
+    }
+    SH1106_ClearArea(x, y, w, h);
 }
 
 // void SSD1306_SetPixel(uint16_t x, uint16_t y, uint32_t color){
@@ -37,11 +50,14 @@ int sh1106_dev_init(dev_arg_t arg)
         error("sh1106_dev_init: lcd Update function is NULL!\n");
         return -1;
     }
-    SH1106_Init();
-    LCD_SetFont(lcd, &JetBrains_Mono_Font_8x16);
+    if(SH1106_Init())
+    {
+        error("sh1106_dev_init: SH1106_Init failed!\n");
+        return -1;
+    }
+    LCD_Clear(lcd, 0); // 清屏，黑色背景
     LCD_Printf(lcd, "System Start\n");
     LCD_Printf(lcd, "SH1106 OLED Initialized.\n");
-    LCD_Update(lcd);
     return 0;
 }
 

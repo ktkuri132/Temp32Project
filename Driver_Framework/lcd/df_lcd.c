@@ -293,18 +293,8 @@ void LCD_Terminal_Scroll(LCD_Handler_t *lcd, uint16_t lines)
         lcd->Update();
 }
 
-void LCD_Printf(LCD_Handler_t *lcd, const char *fmt, ...)
+void LCD_TerminalOut(LCD_Handler_t *lcd,uint8_t* str)
 {
-    if (!lcd || !lcd->CurrentFont)
-        return;
-
-    char buf[256];
-    va_list args;
-    va_start(args, fmt);
-    vsnprintf(buf, sizeof(buf), fmt, args);
-    va_end(args);
-
-    char *str = buf;
     while (*str)
     {
         char c = *str++;
@@ -338,9 +328,23 @@ void LCD_Printf(LCD_Handler_t *lcd, const char *fmt, ...)
             lcd->CursorX += lcd->CurrentFont->Width;
         }
     }
-
     if (lcd->Update)
         lcd->Update();
+}
+
+void LCD_Printf(LCD_Handler_t *lcd, const char *fmt, ...)
+{
+    if (!lcd || !lcd->CurrentFont)
+        return;
+
+    char buf[256];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
+
+    LCD_TerminalOut(lcd, (uint8_t*)buf);
+
 }
 
 void LCD_Update(LCD_Handler_t *lcd)
