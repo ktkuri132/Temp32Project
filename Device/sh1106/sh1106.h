@@ -38,7 +38,7 @@
 #define SH1106_WriteCommand(Command) Soft_IIC_Write_Byte(&i2c_Dev, SH1106_ADDRESS, SH1106_Command_Mode, Command)  // Soft_IIC_WriteByte(SH1106_ADDRESS,SH1106_Command_Mode,Command)
 #define SH1106_WriteData(Data, Count) Soft_IIC_Write_Len(&i2c_Dev, SH1106_ADDRESS, SH1106_Data_Mode, Count, Data) // Soft_IIC_WriteData(SH1106_ADDRESS,SH1106_Data_Mode,Data,Count)
 #define SH1106_GPIO_Init() Soft_IIC_Init(&i2c_Dev)                                                                // Soft_IIC_Init()
-
+#define SH1106_Device_AckCheak() Soft_IIC_Cheak(&i2c_Dev, SH1106_ADDRESS)
 #endif
 
 #elif defined On_Chip_SPI
@@ -72,7 +72,7 @@
 
 /*初始化函数*/
 uint8_t SH1106_Init(void);
-
+uint8_t SH1106_CheakDevice(void);
 /*更新函数*/
 void SH1106_Update(void);
 void SH1106_UpdateArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);

@@ -14,6 +14,7 @@ int main()
     mpu_dmp_init();                     // 初始化MPU6050 DMP功能
     while (1)
     {
+        SH1106_CheakDevice();                  // 检测SH1106设备
         mpu_dmp_get_data(&pitch, &roll, &yaw); // 获取DMP数据
         printf("%.2f,%.2f\n", pitch, roll);
         // led.toggle(arg_null);

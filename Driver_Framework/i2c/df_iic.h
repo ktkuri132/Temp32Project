@@ -34,5 +34,5 @@ uint8_t Soft_IIC_Write_Byte(SIAS *i2c_dev, uint8_t addr, uint8_t reg,
                             uint8_t data);  // IIC写一个字节
 uint8_t Soft_IIC_Read_Byte(SIAS *i2c_dev, uint8_t addr,
                            uint8_t reg);  // IIC读一个字节
-
+uint8_t Soft_IIC_Cheak(SIAS *i2c_dev,uint8_t addr);
 #endif

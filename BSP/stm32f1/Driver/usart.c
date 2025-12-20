@@ -87,7 +87,7 @@ int printf(const char *format, ...)
     char buffer[50]; // 缓冲区大小可以根据需要调整
     int len = vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
-    USART1_SendString(buffer); // 发送格式化字符串到USART1
+    // USART1_SendString(buffer); // 发送格式化字符串到USART1
     LCD_TerminalOut(&lcd_sh1106, (uint8_t*)buffer);
     return len;                // 返回发送的字符长度
 }

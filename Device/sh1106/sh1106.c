@@ -406,6 +406,27 @@ uint8_t SH1106_Init(void)
     return 0;
 }
 
+/// @brief 检测SH1106设备是否存在
+/// @param none
+/// @return 0：设备存在，-1：设备不存在
+uint8_t SH1106_CheakDevice(void)
+{
+    static uint8_t initialized = 0;
+    if (!initialized)
+    {
+        if(SH1106_Init()){
+            return -1; // 设备不存在
+        }
+        initialized = 1;
+    } else {
+        if(SH1106_Device_AckCheak()){
+            initialized = 0; // 如果写命令失败，标记为未初始化
+            return 0; // 设备不存在
+        }
+    }
+    return 0; // 假设设备总是存在
+}
+
 /**
  * 函    数：SH1106设置显示光标位置
  * 参    数：Page 指定光标所在的页，范围：0~7

@@ -194,3 +194,16 @@ uint8_t Soft_IIC_Read_Len(SIAS *i2c_dev, uint8_t addr, uint8_t reg, uint8_t len,
     Soft_IIC_Stop(i2c_dev);  // 产生一个停止条件
     return 0;
 }
+
+
+uint8_t Soft_IIC_Cheak(SIAS *i2c_dev,uint8_t addr){
+    Soft_IIC_Start(i2c_dev);
+    Soft_IIC_Send_Byte(i2c_dev, addr | 0);
+    if (Soft_IIC_Wait_Ack(i2c_dev))         // 等待应答
+    {
+        Soft_IIC_Stop(i2c_dev);
+        return 1;
+    }
+    Soft_IIC_Stop(i2c_dev);
+    return 0;
+}

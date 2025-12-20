@@ -2806,7 +2806,7 @@ u8 mpu_dmp_init(void)
 {
 
 	u8 res=0;
-	MPU_IIC_Init();
+	// MPU_IIC_Init();
 	if(mpu_init()==0)
 	{
 
