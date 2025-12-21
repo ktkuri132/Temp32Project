@@ -102,8 +102,8 @@ int printf(const char *format, ...)
     char buffer[50];
     int len = vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
-    // USART1_SendString(buffer);
-    LCD_TerminalOut(&lcd_sh1106, (uint8_t*)buffer);
+    USART1_SendString(buffer);
+    // LCD_TerminalOut(&lcd_sh1106, (uint8_t*)buffer);
     return len;
 }
 

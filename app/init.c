@@ -51,17 +51,17 @@ LCD_Handler_t lcd_sh1106 = {
 
 dev_info_t Dev_info_poor[] = {
 
-    {.name = OLED_SH1106_NAME,
-  .init = sh1106_dev_init,
-  .enable = NULL,
-  .disable = NULL,
-  .arg.ptr = (void *)&lcd_sh1106},
+//     {.name = OLED_SH1106_NAME,
+//   .init = sh1106_dev_init,
+//   .enable = NULL,
+//   .disable = NULL,
+//   .arg.ptr = (void *)&lcd_sh1106},
 
-    // {.name = DEBUG_UART_NAME,
-    //  .init = usart1_init,
-    //  .enable = usart1_start,
-    //  .disable = usart1_stop,
-    //  .arg.ptr = (void *)&debug},
+    {.name = DEBUG_UART_NAME,
+     .init = usart1_init,
+     .enable = usart1_start,
+     .disable = usart1_stop,
+     .arg.ptr = (void *)&debug},
 
     // {.name = "SysTick",
     //  .init = systick_init,

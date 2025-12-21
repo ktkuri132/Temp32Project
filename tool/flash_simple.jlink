@@ -1,0 +1,10 @@
+connect
+device STM32F407VE
+si SWD
+speed 50000
+halt
+erase
+loadfile build\General_template_Project.hex
+r
+g
+qc

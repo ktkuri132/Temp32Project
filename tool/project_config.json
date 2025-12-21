@@ -35,10 +35,11 @@
     "scanf_float": true
   },
   "defines": [
-    "STM32F40_41xxx"
+    "STM32F40_41xxx",
+    "STM32F10X_MD"
   ],
   "download": {
-    "interface": "cmsis-dap",
+    "interface": "jlink",
     "target": "stm32f4x",
     "speed": "50000"
   },
@@ -61,6 +62,7 @@
       "BSP/stm32f4/Driver/usart.c",
       "Control/filter.c",
       "Control/pid.c",
+      "Device/hmc588/hmc588.c",
       "Device/mpu6050/inv_mpu.c",
       "Device/mpu6050/inv_mpu_dmp_motion_driver.c",
       "Device/sh1106/fonts.c",
@@ -81,28 +83,29 @@
     ],
     "headers": [],
     "include_dirs": [
-      "Middleware",
-      "app",
-      "Device/st7789",
-      "Device/sh1106",
-      "Device/mpu6050",
       "Device/ssd1306",
-      "Driver_Framework",
-      "Middleware/trans",
-      "Control",
-      "Driver_Framework/spi",
-      "BSP/CMSIS/Core/Include/a-profile",
-      "BSP/stm32f4/Driver",
-      "BSP/CMSIS/Core/Include",
-      "BSP/stm32f4/CORE",
-      "Driver_Framework/display",
-      "BSP/CMSIS/Core/Include/r-profile",
       "Driver_Framework/lcd",
-      "Driver_Framework/key",
+      "Driver_Framework/display",
       "Driver_Framework/i2c",
+      "app",
+      "Device/mpu6050",
       "Middleware/shell",
+      "BSP/CMSIS/Core/Include/m-profile",
+      "Middleware/trans",
+      "Driver_Framework",
+      "BSP/CMSIS/Core/Include/a-profile",
+      "BSP/CMSIS/Core/Include/r-profile",
+      "Driver_Framework/spi",
+      "BSP/stm32f4/Driver",
+      "Device/st7789",
       "Device",
-      "BSP/CMSIS/Core/Include/m-profile"
+      "Middleware",
+      "Control",
+      "Device/sh1106",
+      "Driver_Framework/key",
+      "Device/hmc588",
+      "BSP/stm32f4/CORE",
+      "BSP/CMSIS/Core/Include"
     ],
     "subdirs": [],
     "static_libraries": []

@@ -29,6 +29,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-ab
 
 # 宏定义
 add_definitions(-DSTM32F40_41xxx)
+add_definitions(-DSTM32F10X_MD)
 
 # 头文件目录
 include_directories(
@@ -37,6 +38,7 @@ include_directories(
     Driver_Framework
     Middleware
     app
+    Device/hmc588
     Device/mpu6050
     Device/sh1106
     Device/ssd1306
@@ -94,6 +96,10 @@ set(DISPLAY_SOURCES
     Driver_Framework/display/df_display.c
 )
 
+set(HMC588_SOURCES
+    Device/hmc588/hmc588.c
+)
+
 set(I2C_SOURCES
     Driver_Framework/i2c/df_iic.c
 )
@@ -147,6 +153,7 @@ set(SOURCE_FILES
     ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
     ${DISPLAY_SOURCES}
+    ${HMC588_SOURCES}
     ${I2C_SOURCES}
     ${KEY_SOURCES}
     ${LCD_SOURCES}

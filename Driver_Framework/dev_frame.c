@@ -22,10 +22,10 @@ int Device_Registration(dev_info_t dev_info[])
                 // 初始化成功
                 dev_info[i].status = 1;
 #ifdef __FRONT_H
-                success("Device %s initialized successfully.\n",
+                success("Device %s initialized successfully.\r\n",
                         dev_info[i].name);
 #else
-                printf("Device %s initialized successfully.\n",
+                printf("Device %s initialized successfully.\r\n",
                        dev_info[i].name);
 #endif
             }
