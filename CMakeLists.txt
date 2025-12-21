@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.16)
 
 # 项目配置
 set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_SYSTEM_PROCESSOR cortex-m3)
-set(TARGET_CHIP STM32F103C8)
+set(CMAKE_SYSTEM_PROCESSOR cortex-m4)
+set(TARGET_CHIP STM32F407VE)
 set(TARGET_BOARD BLUEPILL)
 
 # 工具链
@@ -19,16 +19,16 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 project(General_template_Project C CXX ASM)
 
-# 编译标志 (软件浮点)
-set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
-set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
-set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -Wall -fstack-usage -O0 -g3")
+# 编译标志 (硬件浮点 (FPU: fpv4-sp-d16))
+set(CMAKE_C_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_CXX_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_ASM_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f1/CORE/stm32f10x.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f4/CORE/stm32f4xx.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
 
 # 宏定义
-add_definitions(-DSTM32F10X_MD)
+add_definitions(-DSTM32F40_41xxx)
 
 # 头文件目录
 include_directories(
@@ -48,10 +48,9 @@ include_directories(
     Driver_Framework/spi
     Middleware/shell
     Middleware/trans
-    BSP/stm32f1/CORE
-    BSP/stm32f1/Driver
+    BSP/stm32f4/CORE
+    BSP/stm32f4/Driver
     BSP/CMSIS/Core/Include
-    BSP/stm32f1/Driver/flash
     BSP/CMSIS/Core/Include/a-profile
     BSP/CMSIS/Core/Include/m-profile
     BSP/CMSIS/Core/Include/r-profile
@@ -59,11 +58,9 @@ include_directories(
 
 # 源文件分组
 set(CORE_SOURCES
-    BSP/stm32f1/CORE/startup_stm32f10x_md.c
-    BSP/stm32f1/CORE/stm32f10x_it.c
-    BSP/stm32f1/CORE/syscalls.c
-    BSP/stm32f1/CORE/sysmem.c
-    BSP/stm32f1/CORE/system_stm32f10x.c
+    BSP/stm32f4/CORE/startup_stm32f40_41xxx.c
+    BSP/stm32f4/CORE/stm32f4xx_it.c
+    BSP/stm32f4/CORE/system_stm32f4xx.c
 )
 
 set(CONTROL_SOURCES
@@ -72,15 +69,15 @@ set(CONTROL_SOURCES
 )
 
 set(DRIVER_SOURCES
-    BSP/stm32f1/Driver/adc.c
-    BSP/stm32f1/Driver/delay.c
-    BSP/stm32f1/Driver/i2c_bus.c
-    BSP/stm32f1/Driver/led.c
-    BSP/stm32f1/Driver/misc.c
-    BSP/stm32f1/Driver/nvic.c
-    BSP/stm32f1/Driver/oled_dev.c
-    BSP/stm32f1/Driver/Systick.c
-    BSP/stm32f1/Driver/usart.c
+    BSP/stm32f4/Driver/adc.c
+    BSP/stm32f4/Driver/delay.c
+    BSP/stm32f4/Driver/i2c_bus.c
+    BSP/stm32f4/Driver/i2c_dev.c
+    BSP/stm32f4/Driver/led.c
+    BSP/stm32f4/Driver/misc.c
+    BSP/stm32f4/Driver/nvic.c
+    BSP/stm32f4/Driver/Systick.c
+    BSP/stm32f4/Driver/usart.c
 )
 
 set(DRIVER_FRAMEWORK_SOURCES
@@ -90,17 +87,11 @@ set(DRIVER_FRAMEWORK_SOURCES
 set(APP_SOURCES
     app/control.c
     app/init.c
-    app/irq.c
     app/main.c
 )
 
 set(DISPLAY_SOURCES
     Driver_Framework/display/df_display.c
-)
-
-set(FLASH_SOURCES
-    BSP/stm32f1/Driver/flash/flash.c
-    BSP/stm32f1/Driver/flash/flash_example.c
 )
 
 set(I2C_SOURCES
@@ -156,7 +147,6 @@ set(SOURCE_FILES
     ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
     ${DISPLAY_SOURCES}
-    ${FLASH_SOURCES}
     ${I2C_SOURCES}
     ${KEY_SOURCES}
     ${LCD_SOURCES}

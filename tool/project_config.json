@@ -1,0 +1,110 @@
+{
+  "project": {
+    "name": "General_template_Project",
+    "chip": "STM32F407VE",
+    "board": "BLUEPILL",
+    "architecture": "cortex-m4",
+    "instruction_set": "thumb",
+    "float_type": "硬件浮点 (FPU: fpv4-sp-d16)"
+  },
+  "toolchain": {
+    "c_compiler": "arm-none-eabi-gcc",
+    "cxx_compiler": "arm-none-eabi-g++",
+    "asm_compiler": "arm-none-eabi-gcc",
+    "ar": "arm-none-eabi-ar",
+    "objcopy": "arm-none-eabi-objcopy",
+    "size": "arm-none-eabi-size"
+  },
+  "build": {
+    "optimization": "O0",
+    "debug_info": "g3",
+    "warnings": false,
+    "wall": false,
+    "werror": false,
+    "stack_usage": true
+  },
+  "linker": {
+    "specs": [
+      "nosys.specs",
+      "nano.specs"
+    ],
+    "script": "BSP/stm32f4/CORE/stm32f4xx.ld",
+    "gc_sections": true,
+    "map_file": true,
+    "printf_float": true,
+    "scanf_float": true
+  },
+  "defines": [
+    "STM32F40_41xxx"
+  ],
+  "download": {
+    "interface": "cmsis-dap",
+    "target": "stm32f4x",
+    "speed": "50000"
+  },
+  "files": {
+    "sources": [
+      "app/control.c",
+      "app/init.c",
+      "app/main.c",
+      "BSP/stm32f4/CORE/startup_stm32f40_41xxx.c",
+      "BSP/stm32f4/CORE/stm32f4xx_it.c",
+      "BSP/stm32f4/CORE/system_stm32f4xx.c",
+      "BSP/stm32f4/Driver/adc.c",
+      "BSP/stm32f4/Driver/delay.c",
+      "BSP/stm32f4/Driver/i2c_bus.c",
+      "BSP/stm32f4/Driver/i2c_dev.c",
+      "BSP/stm32f4/Driver/led.c",
+      "BSP/stm32f4/Driver/misc.c",
+      "BSP/stm32f4/Driver/nvic.c",
+      "BSP/stm32f4/Driver/Systick.c",
+      "BSP/stm32f4/Driver/usart.c",
+      "Control/filter.c",
+      "Control/pid.c",
+      "Device/mpu6050/inv_mpu.c",
+      "Device/mpu6050/inv_mpu_dmp_motion_driver.c",
+      "Device/sh1106/fonts.c",
+      "Device/sh1106/sh1106.c",
+      "Device/ssd1306/fonts.c",
+      "Device/ssd1306/ssd1306.c",
+      "Device/st7789/st7789.c",
+      "Driver_Framework/dev_frame.c",
+      "Driver_Framework/display/df_display.c",
+      "Driver_Framework/i2c/df_iic.c",
+      "Driver_Framework/key/df_key.c",
+      "Driver_Framework/lcd/df_fonts.c",
+      "Driver_Framework/lcd/df_lcd.c",
+      "Driver_Framework/spi/df_spi.c",
+      "Middleware/shell/shell.c",
+      "Middleware/trans/stde.c",
+      "Middleware/trans/terminal_link.c"
+    ],
+    "headers": [],
+    "include_dirs": [
+      "Middleware",
+      "app",
+      "Device/st7789",
+      "Device/sh1106",
+      "Device/mpu6050",
+      "Device/ssd1306",
+      "Driver_Framework",
+      "Middleware/trans",
+      "Control",
+      "Driver_Framework/spi",
+      "BSP/CMSIS/Core/Include/a-profile",
+      "BSP/stm32f4/Driver",
+      "BSP/CMSIS/Core/Include",
+      "BSP/stm32f4/CORE",
+      "Driver_Framework/display",
+      "BSP/CMSIS/Core/Include/r-profile",
+      "Driver_Framework/lcd",
+      "Driver_Framework/key",
+      "Driver_Framework/i2c",
+      "Middleware/shell",
+      "Device",
+      "BSP/CMSIS/Core/Include/m-profile"
+    ],
+    "subdirs": [],
+    "static_libraries": []
+  }
+}

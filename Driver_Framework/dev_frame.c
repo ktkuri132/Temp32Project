@@ -1,6 +1,6 @@
 #include "dev_frame.h"
 #include "shell/shell_style.h"
-
+#include <string.h>
 int Device_Registration(dev_info_t dev_info[])
 {
     if (dev_info == NULL)

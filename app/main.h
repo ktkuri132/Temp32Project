@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#include <stm32f10x.h>
+
 #include <driver.h>
 #include <shell/shell.h>
 #include <df_uart.h>

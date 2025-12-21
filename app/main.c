@@ -11,12 +11,13 @@ float pitch, roll, yaw;
 int main()
 {
     Device_Registration(Dev_info_poor); // 初始化设备模型
-    mpu_dmp_init();                     // 初始化MPU6050 DMP功能
+    // mpu_dmp_init();                     // 初始化MPU6050 DMP功能
     while (1)
     {
-        SH1106_CheakDevice();                  // 检测SH1106设备
-        mpu_dmp_get_data(&pitch, &roll, &yaw); // 获取DMP数据
-        printf("%.2f,%.2f\n", pitch, roll);
+        // SH1106_CheakDevice();                  // 检测SH1106设备
+        // mpu_dmp_get_data(&pitch, &roll, &yaw); // 获取DMP数据
+        printf("%.2f\n", pitch);
+        pitch += 0.01f;
         // led.toggle(arg_null);
         // delay.ms(500);
     }

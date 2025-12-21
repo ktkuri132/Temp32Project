@@ -1,0 +1,223 @@
+Dependencies for Project 'mdk_project_f407', Target 'f407_project': (DO NOT MODIFY !)
+CompilerVersion: 6240000::V6.24::ARMCLANG
+F (..\app\control.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/control.o -MMD)
+F (..\app\init.c)(0x69467D0C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/init.o -MMD)
+I (..\app\main.h)(0x6946AB45)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Middleware\shell\shell.h)(0x69438D3C)
+I (..\Driver_Framework\df_uart.h)(0x69438D3C)
+I (..\Driver_Framework\df_led.h)(0x693EB475)
+I (..\Driver_Framework\df_adc.h)(0x693EB475)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Device\sh1106\sh1106.h)(0x694680E3)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Device\sh1106\fonts.h)(0x69438D3C)
+I (..\Device\ssd1306\ssd1306.h)(0x6944B1AD)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x69466EA1)
+F (..\app\main.c)(0x6946A9F4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/main.o -MMD)
+I (..\app\main.h)(0x6946AB45)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Middleware\shell\shell.h)(0x69438D3C)
+I (..\Driver_Framework\df_uart.h)(0x69438D3C)
+I (..\Driver_Framework\df_led.h)(0x693EB475)
+I (..\Driver_Framework\df_adc.h)(0x693EB475)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Device\sh1106\sh1106.h)(0x694680E3)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Device\sh1106\fonts.h)(0x69438D3C)
+I (..\Device\ssd1306\ssd1306.h)(0x6944B1AD)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x69466EA1)
+I (..\Device\mpu6050\inv_mpu.h)(0x6944B1AD)
+F (..\BSP\stm32f4\CORE\stm32f4xx_it.c)(0x6944DA95)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/stm32f4xx_it.o -MMD)
+I (..\BSP\stm32f4\CORE\stm32f4xx_it.h)(0x6944DA95)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+F (..\BSP\stm32f4\CORE\system_stm32f4xx.c)(0x6944DA95)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/system_stm32f4xx.o -MMD)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+F (..\BSP\stm32f4\CORE\startup_stm32f40_41xxx.s)(0x6946B06F)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__MICROLIB SETA 1"-Wa,armasm,--pd,"__UVISION_VERSION SETA 543" -Wa,armasm,--pd,"STM32F407xx SETA 1"-o ./objects/startup_stm32f40_41xxx.o)
+F (..\Device\mpu6050\inv_mpu.c)(0x69468177)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/inv_mpu.o -MMD)
+I (..\Device\mpu6050\inv_mpu.h)(0x6944B1AD)
+I (..\Device\mpu6050\inv_mpu_dmp_motion_driver.h)(0x6944B1AD)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+F (..\Device\mpu6050\inv_mpu_dmp_motion_driver.c)(0x6944B1AD)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/inv_mpu_dmp_motion_driver.o -MMD)
+I (..\Device\mpu6050\inv_mpu.h)(0x6944B1AD)
+I (..\Device\mpu6050\inv_mpu_dmp_motion_driver.h)(0x6944B1AD)
+I (..\Device\mpu6050\dmpKey.h)(0x6944B1AD)
+I (..\Device\mpu6050\dmpmap.h)(0x6944B1AD)
+F (..\Device\sh1106\fonts.c)(0x694207F1)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/fonts.o -MMD)
+I (..\Device\sh1106\fonts.h)(0x69438D3C)
+I (..\Device\sh1106\sh1106.h)(0x694680E3)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+F (..\Device\sh1106\sh1106.c)(0x694681E4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/sh1106.o -MMD)
+I (..\Device\sh1106\sh1106.h)(0x694680E3)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\Device\sh1106\fonts.h)(0x69438D3C)
+F (..\Device\ssd1306\ssd1306.c)(0x6944B1AD)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/ssd1306.o -MMD)
+I (..\Device\ssd1306\ssd1306.h)(0x6944B1AD)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+F (..\Device\st7789\st7789.c)(0x693EB475)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/st7789.o -MMD)
+I (..\Device\st7789\st7789.h)(0x693EB475)
+F (..\BSP\stm32f4\Driver\adc.c)(0x69469AD4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/adc.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Driver_Framework\df_adc.h)(0x693EB475)
+F (..\BSP\stm32f4\Driver\delay.c)(0x69469AD4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/delay.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+F (..\BSP\stm32f4\Driver\i2c_bus.c)(0x6946A064)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/i2c_bus.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+F (..\BSP\stm32f4\Driver\i2c_dev.c)(0x6946AF54)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/i2c_dev.o -MMD)
+I (..\Device\sh1106\sh1106.h)(0x694680E3)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\Device\sh1106\fonts.h)(0x69438D3C)
+I (..\Device\ssd1306\ssd1306.h)(0x6944B1AD)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x69466EA1)
+F (..\BSP\stm32f4\Driver\led.c)(0x6946A530)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/led.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Driver_Framework\df_led.h)(0x693EB475)
+F (..\BSP\stm32f4\Driver\misc.c)(0x6946AF3E)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/misc.o -MMD)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+F (..\BSP\stm32f4\Driver\nvic.c)(0x6946A03B)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/nvic.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+F (..\BSP\stm32f4\Driver\Systick.c)(0x69469AD4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/systick.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+F (..\BSP\stm32f4\Driver\usart.c)(0x6946B121)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/usart.o -MMD)
+I (..\BSP\stm32f4\Driver\driver.h)(0x6946A746)
+I (..\BSP\stm32f4\CORE\stm32f4xx.h)(0x6944DA95)
+I (..\BSP\CMSIS\Core\Include\core_cm4.h)(0x6926FEE4)
+I (..\BSP\stm32f4\CORE\system_stm32f4xx.h)(0x6944DA95)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+I (..\BSP\stm32f4\Driver\misc.h)(0x5710F355)
+I (..\Driver_Framework\df_uart.h)(0x69438D3C)
+I (..\app\main.h)(0x6946AB45)
+I (..\Middleware\shell\shell.h)(0x69438D3C)
+I (..\Driver_Framework\df_led.h)(0x693EB475)
+I (..\Driver_Framework\df_adc.h)(0x693EB475)
+I (..\Driver_Framework\df_delay.h)(0x693EB475)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Device\sh1106\sh1106.h)(0x694680E3)
+I (..\Device\config.h)(0x69463C7B)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+I (..\Device\sh1106\fonts.h)(0x69438D3C)
+I (..\Device\ssd1306\ssd1306.h)(0x6944B1AD)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x69466EA1)
+F (..\Driver_Framework\dev_frame.c)(0x6946AB2C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/dev_frame.o -MMD)
+I (..\Driver_Framework\dev_frame.h)(0x694675DD)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+F (..\Driver_Framework\spi\df_spi.c)(0x69438D3C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/df_spi.o -MMD)
+I (..\Driver_Framework\spi\df_spi.h)(0x6940AF3D)
+F (..\Driver_Framework\lcd\df_fonts.c)(0x69466CE5)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/df_fonts.o -MMD)
+I (..\Driver_Framework\lcd\df_fonts.h)(0x69466EA1)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+F (..\Driver_Framework\lcd\df_lcd.c)(0x6946724C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/df_lcd.o -MMD)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+F (..\Driver_Framework\key\df_key.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/df_key.o -MMD)
+I (..\Driver_Framework\key\df_key.h)(0x6926FEE4)
+F (..\Driver_Framework\i2c\df_iic.c)(0x69468002)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/df_iic.o -MMD)
+I (..\Driver_Framework\i2c\df_iic.h)(0x6946800E)
+F (..\Driver_Framework\display\df_display.c)(0x69438D3C)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/df_display.o -MMD)
+I (..\Driver_Framework\display\df_display.h)(0x6940B1AB)
+I (..\Driver_Framework\lcd\df_lcd.h)(0x69466DDE)
+F (..\Middleware\shell\shell.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/shell.o -MMD)
+I (..\Middleware\shell\shell.h)(0x69438D3C)
+I (..\Middleware\shell\shell_style.h)(0x6926FEE4)
+F (..\Middleware\trans\stde.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/stde.o -MMD)
+I (..\Middleware\trans\stde.h)(0x6926FEE4)
+F (..\Middleware\trans\terminal_link.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/terminal_link.o -MMD)
+I (..\Middleware\trans\terminal_link.h)(0x6926FEE4)
+F (..\Control\filter.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/filter.o -MMD)
+F (..\Control\pid.c)(0x6926FEE4)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../app -I ../BSP/CMSIS/Core/Include -I ../BSP/CMSIS/Core/Include/m-profile -I ../BSP/stm32f4/CORE -I ../BSP/stm32f4/Driver -I ../Control -I ../Device -I ../Driver_Framework -I ../Middleware-D__UVISION_VERSION="543" -DSTM32F407xx -DSTM32F40_41xxx-o ./objects/pid.o -MMD)

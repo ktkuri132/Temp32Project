@@ -1,5 +1,5 @@
-./objects/irq.o: ..\app\irq.c ..\BSP\stm32f1\CORE\stm32f10x.h \
-  ..\BSP\CMSIS\Core\Include\core_cm3.h \
+./objects/irq.o: ..\BSP\stm32f1\Driver\irq.c \
+  ..\BSP\stm32f1\CORE\stm32f10x.h ..\BSP\CMSIS\Core\Include\core_cm3.h \
   ..\BSP\stm32f1\CORE\system_stm32f10x.h ..\Middleware\shell\shell.h \
   ..\Middleware\shell\shell_style.h ..\BSP\stm32f1\Driver\driver.h \
   ..\Driver_Framework\dev_frame.h ..\app\main.h \

@@ -12,13 +12,13 @@ from pathlib import Path
 class ProjectConfig:
     """项目配置管理类"""
 
-    CONFIG_FILE = "build/project_config.json"
+    CONFIG_FILE = "tool/project_config.json"
 
     DEFAULT_CONFIG = {
         "project": {
             "name": "",  # 自动从文件夹名获取
-            "chip": "STM32F103C8",
-            "board": "BLUEPILL",
+            "chip": "",
+            "board": "",
             "architecture": "",  # 自动从芯片名推导
             "instruction_set": "thumb",
             "float_type": "",  # 自动从架构推导
@@ -66,9 +66,9 @@ class ProjectConfig:
 
     def __init__(self, project_root="."):
         self.project_root = Path(project_root)
-        # 确保 build 目录存在
-        build_dir = self.project_root / "build"
-        build_dir.mkdir(exist_ok=True)
+        # 确保 tool 目录存在
+        tool_dir = self.project_root / "tool"
+        tool_dir.mkdir(exist_ok=True)
         self.config_file = self.project_root / self.CONFIG_FILE
         self.config = self.load_config()
 
@@ -394,6 +394,94 @@ class CMakeGenerator:
 
         return False
 
+    def get_bsp_chip_dir(self, chip_name):
+        """根据芯片名称获取对应的BSP目录名
+
+        例如:
+        - STM32F103C8 -> stm32f1
+        - STM32F407VG -> stm32f4
+        - STM32G431KB -> stm32g4
+        """
+        chip_upper = chip_name.upper()
+
+        # 提取芯片系列（例如 STM32F1, STM32F4, STM32G4 等）
+        import re
+        match = re.match(r'(STM32[A-Z])\d', chip_upper)
+        if match:
+            series = match.group(1).lower()  # 例如: stm32f
+            # 提取系列号（例如 F1, F4, G4）
+            series_match = re.match(r'STM32([A-Z])(\d)', chip_upper)
+            if series_match:
+                letter = series_match.group(1).lower()  # 例如: f, g, h
+                number = series_match.group(2)  # 例如: 1, 4, 7
+                return f"stm32{letter}{number}"  # 例如: stm32f1, stm32f4
+
+        return None
+
+    def get_all_bsp_chip_dirs(self):
+        """获取BSP目录下所有芯片目录（排除CMSIS）"""
+        bsp_dir = self.project_root / 'BSP'
+        if not bsp_dir.exists():
+            bsp_dir = self.project_root / 'bsp'
+
+        if not bsp_dir.exists():
+            return set()
+
+        chip_dirs = set()
+        for item in bsp_dir.iterdir():
+            if item.is_dir() and item.name.lower() != 'cmsis':
+                chip_dirs.add(item.name.lower())
+
+        return chip_dirs
+
+    def should_exclude_bsp_chip_dir(self, dir_path, dir_name):
+        """判断是否应该排除BSP中的芯片目录
+
+        参数:
+            dir_path: 当前目录路径 (Path对象)
+            dir_name: 子目录名称
+
+        返回:
+            True 如果应该排除该目录
+        """
+        dir_name_lower = dir_name.lower()
+        path_parts = [p.lower() for p in dir_path.parts]
+
+        # 检查是否在BSP/bsp目录下
+        if 'bsp' not in path_parts:
+            return False
+
+        # 获取BSP目录的索引
+        try:
+            bsp_idx = path_parts.index('bsp')
+        except ValueError:
+            return False
+
+        # 检查当前目录是否正好是BSP目录
+        if len(path_parts) - 1 != bsp_idx:
+            return False  # 不是BSP目录的直接子目录
+
+        # CMSIS目录永远不排除
+        if dir_name_lower == 'cmsis':
+            return False
+
+        # 获取当前配置的芯片
+        current_chip = self.config.get('project.chip', '')
+        target_bsp_dir = self.get_bsp_chip_dir(current_chip)
+
+        if target_bsp_dir is None:
+            return False  # 无法确定目标目录，不排除
+
+        # 检查当前子目录是否是芯片目录
+        all_chip_dirs = self.get_all_bsp_chip_dirs()
+
+        if dir_name_lower in all_chip_dirs:
+            # 这是一个芯片目录，检查是否与目标匹配
+            if dir_name_lower != target_bsp_dir:
+                return True  # 排除不匹配的芯片目录
+
+        return False
+
     def scan_include_dirs(self):
         """专门扫描头文件目录"""
         include_dirs = set()
@@ -403,6 +491,9 @@ class CMakeGenerator:
 
             # 过滤要排除的目录
             dirs[:] = [d for d in dirs if d not in self.exclude_dirs and not d.startswith('.')]
+
+            # 过滤BSP中不匹配的芯片目录
+            dirs[:] = [d for d in dirs if not self.should_exclude_bsp_chip_dir(root_path, d)]
 
             # 检查当前目录是否包含头文件
             has_headers = any(f.endswith(tuple(self.header_extensions)) for f in files)
@@ -469,6 +560,9 @@ class CMakeGenerator:
 
             # 过滤目录
             dirs[:] = [d for d in dirs if d not in self.exclude_dirs and not d.startswith('.')]
+
+            # 过滤BSP中不匹配的芯片目录
+            dirs[:] = [d for d in dirs if not self.should_exclude_bsp_chip_dir(root_path, d)]
 
             # 检查子目录CMakeLists.txt
             if root_path != self.project_root and (root_path / "CMakeLists.txt").exists():
@@ -575,6 +669,9 @@ class CMakeGenerator:
 
             # 过滤要排除的目录
             dirs[:] = [d for d in dirs if d not in self.exclude_dirs and not d.startswith('.')]
+
+            # 过滤BSP中不匹配的芯片目录
+            dirs[:] = [d for d in dirs if not self.should_exclude_bsp_chip_dir(root_path, d)]
 
             for file in files:
                 file_path = root_path / file
@@ -849,15 +946,55 @@ source [find target/{target}.cfg]
 adapter speed {speed}
 '''
 
-        # 确保 build 目录存在
-        build_dir = self.project_root / 'build'
-        build_dir.mkdir(exist_ok=True)
-        idea_cfg_file = build_dir / 'idea.cfg'
+        # 确保 tool 目录存在
+        tool_dir = self.project_root / 'tool'
+        tool_dir.mkdir(exist_ok=True)
+        idea_cfg_file = tool_dir / 'idea.cfg'
         try:
             idea_cfg_file.write_text(idea_cfg_content, encoding='utf-8')
             print(f"生成 idea.cfg 文件")
         except Exception as e:
             print(f"生成 idea.cfg 失败: {e}")
+
+    def generate_gitignore(self):
+        """生成.gitignore文件"""
+        gitignore_file = self.project_root / '.gitignore'
+
+        # 默认排除内容
+        gitignore_content = '''# 构建输出
+build/
+
+# 缓存文件夹
+.cache/
+
+# VS Code配置
+.vscode/
+
+# Python缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# Keil MDK构建输出
+MDK/Objects/
+MDK/Listings/
+MDK/JLinkLog.txt
+
+# 其他临时文件
+*.bak
+*.tmp
+*.log
+'''
+
+        # 只在文件不存在时生成
+        if not gitignore_file.exists():
+            try:
+                gitignore_file.write_text(gitignore_content, encoding='utf-8')
+                print("生成 .gitignore 文件")
+            except Exception as e:
+                print(f"生成 .gitignore 失败: {e}")
+        else:
+            print(".gitignore 文件已存在，跳过生成")
 
     def generate_vscode_config(self):
         """生成VS Code配置文件"""
@@ -887,8 +1024,8 @@ adapter speed {speed}
         actual_compiler_path = self.get_compiler_from_compile_commands()
 
         # 获取架构信息
-        arch = self.config.get('project.architecture', 'cortex-m3')
-        chip = self.config.get('project.chip', 'STM32F103C8')
+        arch = self.config.get('project.architecture', '')
+        chip = self.config.get('project.chip', '')
 
         # 获取头文件路径
         include_paths = self.config.get('files.include_dirs', [])
@@ -1111,7 +1248,9 @@ adapter speed {speed}
                         compile_flags.append(f"-I{path_pattern}")
 
         # 生成compile_flags.txt文件
-        compile_flags_file = self.project_root / 'compile_flags.txt'
+        tool_dir = self.project_root / 'tool'
+        tool_dir.mkdir(exist_ok=True)
+        compile_flags_file = tool_dir / 'compile_flags.txt'
         try:
             with open(compile_flags_file, 'w', encoding='utf-8') as f:
                 for flag in compile_flags:
@@ -1169,8 +1308,8 @@ adapter speed {speed}
         defines = self.config.get('defines', [])
 
         # 获取架构信息
-        arch = self.config.get('project.architecture', 'cortex-m3')
-        chip = self.config.get('project.chip', 'STM32F103C8')
+        arch = self.config.get('project.architecture', '')
+        chip = self.config.get('project.chip', '')
 
         # 根据架构添加相应的宏
         arch_defines = []
@@ -1235,7 +1374,7 @@ adapter speed {speed}
         # 根据接口类型选择调试器
         if interface == 'jlink':
             server_type = 'jlink'
-            device = self.config.get('project.chip', 'STM32F103C8')
+            device = self.config.get('project.chip', '')
         else:
             server_type = 'openocd'
             device = None
@@ -1461,6 +1600,9 @@ adapter speed {speed}
         # 生成idea.cfg文件
         self.generate_idea_cfg()
 
+        # 生成.gitignore文件
+        self.generate_gitignore()
+
         # 生成VS Code配置文件
         self.generate_vscode_config()
 
@@ -1479,8 +1621,8 @@ adapter speed {speed}
 
 def main():
     parser = argparse.ArgumentParser(description='STM32 CMakeLists.txt生成器')
-    parser.add_argument('--chip', default='STM32F103C8', help='芯片型号')
-    parser.add_argument('--board', default='BLUEPILL', help='开发板')
+    parser.add_argument('--chip', default='', help='芯片型号')
+    parser.add_argument('--board', default='', help='开发板')
     parser.add_argument('--force', action='store_true', help='强制覆盖')
     parser.add_argument('--dir', default='.', help='项目目录')
 

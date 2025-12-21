@@ -1,7 +1,8 @@
 ./objects/init.o: ..\app\init.c ..\app\main.h \
-  ..\BSP\stm32f1\CORE\stm32f10x.h ..\BSP\CMSIS\Core\Include\core_cm3.h \
-  ..\BSP\stm32f1\CORE\system_stm32f10x.h ..\BSP\stm32f1\Driver\driver.h \
-  ..\Driver_Framework\dev_frame.h ..\Middleware\shell\shell_style.h \
+  ..\BSP\stm32f4\Driver\driver.h ..\BSP\stm32f4\CORE\stm32f4xx.h \
+  ..\BSP\CMSIS\Core\Include\core_cm4.h \
+  ..\BSP\stm32f4\CORE\system_stm32f4xx.h ..\Driver_Framework\dev_frame.h \
+  ..\Middleware\shell\shell_style.h ..\BSP\stm32f4\Driver\misc.h \
   ..\Middleware\shell\shell.h ..\Driver_Framework\df_uart.h \
   ..\Driver_Framework\df_led.h ..\Driver_Framework\df_adc.h \
   ..\Driver_Framework\df_delay.h ..\Driver_Framework\lcd\df_lcd.h \

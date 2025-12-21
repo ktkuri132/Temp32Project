@@ -395,11 +395,6 @@
               <FilePath>..\app\init.c</FilePath>
             </File>
             <File>
-              <FileName>irq.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\irq.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\main.c</FilePath>
@@ -495,11 +490,6 @@
               <FilePath>..\BSP\stm32f1\Driver\nvic.c</FilePath>
             </File>
             <File>
-              <FileName>oled_dev.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\stm32f1\Driver\oled_dev.c</FilePath>
-            </File>
-            <File>
               <FileName>Systick.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\stm32f1\Driver\Systick.c</FilePath>
@@ -518,6 +508,16 @@
               <FileName>flash_example.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\stm32f1\Driver\flash\flash_example.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_dev.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\stm32f1\Driver\i2c_dev.c</FilePath>
+            </File>
+            <File>
+              <FileName>irq.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\stm32f1\Driver\irq.c</FilePath>
             </File>
           </Files>
         </Group>

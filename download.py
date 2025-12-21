@@ -7,13 +7,13 @@ from pathlib import Path
 class ProjectConfig:
     """项目配置管理类"""
 
-    CONFIG_FILE = "build/project_config.json"
+    CONFIG_FILE = "tool/project_config.json"
 
     def __init__(self, project_root="."):
         self.project_root = Path(project_root)
-        # 确保 build 目录存在
-        build_dir = self.project_root / "build"
-        build_dir.mkdir(exist_ok=True)
+        # 确保 tool 目录存在
+        tool_dir = self.project_root / "tool"
+        tool_dir.mkdir(exist_ok=True)
         self.config_file = self.project_root / self.CONFIG_FILE
         self.config = self.load_config()
 
@@ -108,9 +108,9 @@ adapter speed {speed}
 '''
 
     try:
-        # 确保 build 目录存在
-        Path('build').mkdir(exist_ok=True)
-        with open('build/idea.cfg', 'w', encoding='utf-8') as f:
+        # 确保 tool 目录存在
+        Path('tool').mkdir(exist_ok=True)
+        with open('tool/idea.cfg', 'w', encoding='utf-8') as f:
             f.write(idea_cfg_content)
         print(f"已更新 idea.cfg 文件")
     except Exception as e:
@@ -137,8 +137,10 @@ g
 qc
 '''
 
-    script_path = Path('build/flash_simple.jlink')
+    script_path = Path('tool/flash_simple.jlink')
     try:
+        # 确保itool目录存在
+        script_path.parent.mkdir(exist_ok=True)
         with open(script_path, 'w', encoding='utf-8') as f:
             f.write(jlink_script_content)
         print(f"已创建 J-Link 脚本: {script_path}")

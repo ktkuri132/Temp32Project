@@ -3,6 +3,7 @@
 
 #include <stm32f10x.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <dev_frame.h>
 
 #define DEBUG_UART_NAME "usart_debug"
