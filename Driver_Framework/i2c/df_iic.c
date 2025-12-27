@@ -7,6 +7,7 @@ void Soft_IIC_Init(SIAS *i2c_dev) {
     }
     i2c_dev->Soft_IIC_SCL(1);
     i2c_dev->Soft_IIC_SDA(1);
+    i2c_dev->soft_iic_init_flag = true;
 }
 
 // 产生IIC起始信号

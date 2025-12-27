@@ -149,7 +149,10 @@ uint8_t HMC5883L_IsConnected(void)
  */
 uint8_t HMC5883L_Init(void)
 {
-	Soft_IIC_Init(&i2c_dev); // 初始化软件I2C
+	if(i2c_dev.soft_iic_init_flag==false)
+	{
+		Soft_IIC_Init(&i2c_dev);
+	}
 	/* 检查设备是否存在 */
 	if (!HMC5883L_IsConnected())
 	{

@@ -360,7 +360,9 @@ void SSD1306_WriteData(uint8_t *Data, uint8_t Count)
 
 void SSD1306_Init(void)
 {
-    SSD1306_GPIO_Init(); // 先调用底层的端口初始化
+    if(i2c_dev.soft_iic_init_flag == 0){
+        SSD1306_GPIO_Init(); // 先调用底层的端口初始化
+    }
 
     /*写入一系列的命令，对SSD1306进行初始化配置*/
     SSD1306_WriteCommand(0xAE); // 设置显示开启/关闭，0xAE关闭，0xAF开启

@@ -9,4 +9,5 @@
   ..\Driver_Framework\display\df_display.h ..\Device\sh1106\sh1106.h \
   ..\Device\config.h ..\Driver_Framework\i2c\df_iic.h \
   ..\Device\sh1106\fonts.h ..\Device\ssd1306\ssd1306.h \
-  ..\Driver_Framework\lcd\df_fonts.h ..\Device\mpu6050\inv_mpu.h
+  ..\Driver_Framework\lcd\df_fonts.h ..\Device\mpu6050\inv_mpu.h \
+  ..\Device\hmc588\hmc588.h

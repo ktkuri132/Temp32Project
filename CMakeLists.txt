@@ -38,6 +38,7 @@ include_directories(
     Driver_Framework
     Middleware
     app
+    Device/bmp280
     Device/hmc588
     Device/mpu6050
     Device/sh1106
@@ -45,6 +46,7 @@ include_directories(
     Device/st7789
     Driver_Framework/display
     Driver_Framework/i2c
+    Driver_Framework/irq
     Driver_Framework/key
     Driver_Framework/lcd
     Driver_Framework/spi
@@ -92,6 +94,10 @@ set(APP_SOURCES
     app/main.c
 )
 
+set(BMP280_SOURCES
+    Device/bmp280/bmp280.c
+)
+
 set(DISPLAY_SOURCES
     Driver_Framework/display/df_display.c
 )
@@ -102,6 +108,10 @@ set(HMC588_SOURCES
 
 set(I2C_SOURCES
     Driver_Framework/i2c/df_iic.c
+)
+
+set(IRQ_SOURCES
+    Driver_Framework/irq/df_irq.c
 )
 
 set(KEY_SOURCES
@@ -152,9 +162,11 @@ set(SOURCE_FILES
     ${DRIVER_SOURCES}
     ${DRIVER_FRAMEWORK_SOURCES}
     ${APP_SOURCES}
+    ${BMP280_SOURCES}
     ${DISPLAY_SOURCES}
     ${HMC588_SOURCES}
     ${I2C_SOURCES}
+    ${IRQ_SOURCES}
     ${KEY_SOURCES}
     ${LCD_SOURCES}
     ${MPU6050_SOURCES}

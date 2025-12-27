@@ -183,8 +183,9 @@ void SH1106_WriteData(uint8_t *Data, uint8_t Count)
 
 uint8_t SH1106_Init(void)
 {
-    SH1106_GPIO_Init(); // 先调用底层的端口初始化
-
+    if(i2c_Dev.soft_iic_init_flag == 0){
+        SH1106_GPIO_Init(); // 先调用底层的端口初始化
+    }
     /*写入一系列的命令，对SH1106进行初始化配置*/
     if(SH1106_WriteCommand(0xAE)) // 设置显示开启/关闭，0xAE关闭，0xAF开启
         return 1;

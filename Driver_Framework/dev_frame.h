@@ -25,6 +25,9 @@ typedef union {
 // 传递void**指针
 #define arg_argv(a) ((dev_arg_t){.argv = a})
 
+#define DEV_INFO_END \
+  { .name = "", .init = NULL, .enable = NULL, .disable = NULL }
+
 // 设备模型核心头文件
 typedef struct Dev_Model_Core_TypeDef {
   int index;                 // 设备索引

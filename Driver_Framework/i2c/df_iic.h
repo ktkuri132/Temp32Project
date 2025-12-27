@@ -3,8 +3,9 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
-
+#include <stdbool.h>
 typedef struct Soft_IIC_APIs_Struct {
+    bool soft_iic_init_flag;              // 软件IIC初始化标志
     void (*Soft_IIC_GPIO_Port_Init)(void);  // IIC GPIO端口初始化函数
     void (*delay_us)(uint32_t nus);         // 延时函数
     void (*dealy_ms)(uint32_t nms);         // 延时函数

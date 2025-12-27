@@ -2955,8 +2955,9 @@ u8 mpu_dmp_init(void)
     u8 res = 0;
 
     /* 初始化I2C总线 */
-    MPU_IIC_Init();
-
+    if(i2c_dev.soft_iic_init_flag == 0){
+        MPU_IIC_Init();
+    }
     /* 初始化MPU传感器 */
     if (mpu_init() == 0)
     {

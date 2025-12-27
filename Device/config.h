@@ -5,9 +5,10 @@
 #include <driver.h>
 // 选择使用的外围设备
  #define SH1106
-//#define SSD1306
+// #define SSD1306
 #define MPU6050
 #define HMC5883L
+#define BMP280
 
 // 通信总线选择
 #define __SOFTI2C_
@@ -44,5 +45,9 @@ uint8_t mpu6050_i2c_read(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *da
 #define i2c_dev i2c1_bus
 #endif
 
+#ifdef BMP280
+#include <i2c/df_iic.h>
+#define i2c_dev i2c1_bus
+#endif
 
 #endif

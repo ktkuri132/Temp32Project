@@ -1,1 +1,1 @@
-./objects/filter.o: ..\Control\filter.c
+./objects/filter.o: ..\Control\filter.c ..\Control\filter.h

@@ -79,10 +79,10 @@ void MCU_Shell_Init(shell *sh, DeviceFamily *log) {
 }
 
 // 串口1中断处理函数：检测数据格式，接收数据
-void BIE_UART(void *Parameters, Sysfpoint *sfp, shell *sh, EnvVar *env,
+void BIE_UART(uint8_t Parameters, Sysfpoint *sfp, shell *sh, EnvVar *env,
               DeviceFamily *log) {
     printf(RESET_ALL);
-    sh->Data_Receive(Parameters, &(sh->c));  // 接收数据
+    sh->c = Parameters;
     // 如果是回车键
     if (sh->c == '\r' || sh->c == '\n') {
         sh->Data[sh->Res_len] = '\0';  // 添加字符串结束符

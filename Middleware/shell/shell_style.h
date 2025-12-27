@@ -59,16 +59,16 @@
 #define CURSOR_GET_POS "\033[6n"  // 获取光标位置
 #define TERM_IDENTIFY "\033[c"    // 查询终端类型
 
+#define out_log(fmt, ...) \
+    printf(FG_MAGENTA "[LOG][%s:%d][%s] " fmt "\n" RESET_ALL, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define error(fmt, ...) \
-    printf(FG_RED "Error: " fmt RESET_ALL, ##__VA_ARGS__)
+    printf(FG_RED "[ERROR][%s:%d][%s] " fmt "\n" RESET_ALL, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define warning(fmt, ...) \
-    printf(FG_YELLOW "Warning: " fmt RESET_ALL, ##__VA_ARGS__)
+    printf(FG_YELLOW "[WARN][%s:%d][%s] " fmt "\n" RESET_ALL, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define info(fmt, ...) \
-    printf(FG_GREEN "Info: " fmt RESET_ALL, ##__VA_ARGS__)
+    printf(FG_GREEN "[INFO][%s:%d][%s] " fmt "\n" RESET_ALL, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define debug(fmt, ...) \
-    printf(FG_BLUE "Debug: " fmt RESET_ALL, ##__VA_ARGS__)
+    printf(FG_BLUE "[DEBUG][%s:%d][%s] " fmt "\n" RESET_ALL, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define success(fmt, ...) \
-    printf(FG_CYAN "Success: " fmt RESET_ALL, ##__VA_ARGS__)
-
-
+    printf(FG_CYAN "[SUCCESS][%s:%d][%s] " fmt "\n" RESET_ALL, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #endif

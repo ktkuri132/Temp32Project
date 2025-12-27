@@ -9,6 +9,7 @@
 
   <project>
     <PathAndName>.\mdk_project.uvprojx</PathAndName>
+    <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 
   <project>
