@@ -3,7 +3,50 @@
 
 #ifdef USE_DEVICE_SH1106
 
+/*============================ HAL接口实例 ============================*/
+device_i2c_hal_t *sh1106_i2c_hal = NULL;
+
 uint8_t SH1106_DisplayBuf[8][128];
+
+/*============================ 底层通信函数 ============================*/
+/**
+ * @brief 写入命令到SH1106
+ * @param command 命令字节
+ * @return 0-成功，非0-失败
+ */
+static int SH1106_WriteCommand(uint8_t command)
+{
+    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
+        return -1;
+    return sh1106_i2c_hal->write_byte(SH1106_ADDRESS, SH1106_Command_Mode, command);
+}
+
+/**
+ * @brief 写入数据到SH1106
+ * @param data 数据缓冲区
+ * @param count 数据长度
+ * @return 0-成功，非0-失败
+ */
+static int SH1106_WriteData(uint8_t *data, uint8_t count)
+{
+    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
+        return -1;
+    return sh1106_i2c_hal->write_bytes(SH1106_ADDRESS, SH1106_Data_Mode, count, data);
+}
+
+/**
+ * @brief 检查SH1106设备应答
+ * @return 0-设备存在，非0-设备不存在
+ */
+static int SH1106_Device_AckCheck(void)
+{
+    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
+        return -1;
+    
+    /* 尝试读取一个字节来检测设备 */
+    uint8_t dummy;
+    return sh1106_i2c_hal->read_byte(SH1106_ADDRESS, 0x00, &dummy);
+}
 
 #ifdef Peripheral_SPI
 #include <stm32f4xx_gpio.h>
@@ -181,12 +224,24 @@ void SH1106_WriteData(uint8_t *Data, uint8_t Count)
 
 #endif
 
+/**
+ * @brief 初始化SH1106并绑定HAL接口
+ * @param hal I2C HAL接口指针
+ * @return 0-成功，非0-失败
+ */
+int SH1106_Init_HAL(device_i2c_hal_t *hal)
+{
+    if (!hal || !hal->initialized)
+        return -1;
+    
+    sh1106_i2c_hal = hal;
+    return 0;
+}
+
 uint8_t SH1106_Init(void)
 {
-    if (i2c_Dev.soft_iic_init_flag == 0)
-    {
-        SH1106_GPIO_Init(); // 先调用底层的端口初始化
-    }
+    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
+        return 1; // HAL未初始化
     /*写入一系列的命令，对SH1106进行初始化配置*/
     if (SH1106_WriteCommand(0xAE)) // 设置显示开启/关闭，0xAE关闭，0xAF开启
         return 1;
@@ -247,7 +302,7 @@ uint8_t SH1106_CheakDevice(void)
     }
     else
     {
-        if (SH1106_Device_AckCheak())
+        if (SH1106_Device_AckCheck())
         {
             initialized = 0; // 如果写命令失败，标记为未初始化
             return 0;        // 设备不存在
@@ -513,6 +568,26 @@ uint32_t SH1106_GetPoint(uint16_t X, uint16_t Y)
     }
 
     return 0; // 否则，返回0
+}
+
+
+void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color)
+{
+    if (color)
+        SH1106_DrawPoint(x, y);
+    else
+        SH1106_ClearArea(x, y, 1, 1);
+}
+
+void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color)
+{
+    (void)color;
+    if (x == 0 && y == 0)
+    {
+        SH1106_Clear();
+        return;
+    }
+    SH1106_ClearArea(x, y, w, h);
 }
 
 #endif

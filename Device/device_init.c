@@ -88,10 +88,10 @@ int Device_MPU6050_Init(void)
 /**
  * @brief 初始化SH1106 OLED显示屏
  * @return 0-成功，负值-失败
- * @note SH1106使用旧的I2C/SPI接口，不需要HAL绑定
  */
 int Device_SH1106_Init(void)
 {
+    SH1106_Init_HAL(&g_device_i2c_hal);
     return SH1106_Init();
 }
 #endif
