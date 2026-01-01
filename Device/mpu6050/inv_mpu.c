@@ -4,6 +4,14 @@
     See included License.txt for License information.
  $
  */
+
+/* MPU6050 库内部需要 MPU6050 宏来选择芯片型号 */
+#ifdef USE_DEVICE_MPU6050
+#ifndef MPU6050
+#define MPU6050
+#endif
+#endif
+
 /**
  *  @addtogroup  DRIVERS Sensor Driver Layer
  *  @brief       Hardware drivers to communicate with sensors via I2C.
@@ -25,6 +33,7 @@
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include <config.h>
+#include <df_delay.h>
 
 #define MOTION_DRIVER_TARGET_MSP430
 
@@ -40,15 +49,20 @@
  * fabsf(float x)
  * min(int a, int b)
  */
+
+extern Dt delay;
+extern SIAS i2c_Dev;
+
 #ifdef __SOFTI2C_
 #define i2c_write mpu6050_i2c_write
 #define i2c_read mpu6050_i2c_read
-#define MPU_IIC_Init() Soft_IIC_Init(&i2c_dev)
+#define MPU_IIC_Init() Soft_IIC_Init(&i2c_Dev)
 #elif defined __HARDI2C_
 #define i2c_write Hard_IIC_Wirter_Data
 #define i2c_read Hard_IIC_Read_Data
 #define MPU_IIC_Init Hard_IIC_Init
 #endif
+
 #define delay_ms delay.ms
 #define get_ms mget_ms
 
@@ -1836,7 +1850,7 @@ int mpu_set_int_latched(unsigned char enable)
     return 0;
 }
 
-#ifdef MPU6050
+#ifdef USE_DEVICE_MPU6050
 static int get_accel_prod_shift(float *st_shift)
 {
     unsigned char tmp[4], shift_code[3], ii;
@@ -2119,7 +2133,7 @@ static int get_st_biases(long *gyro, long *accel, unsigned char hw_test)
  */
 int mpu_run_self_test(long *gyro, long *accel)
 {
-#ifdef MPU6050
+#ifdef USE_DEVICE_MPU6050
     const unsigned char tries = 2;
     long gyro_st[3], accel_st[3];
     unsigned char accel_result, gyro_result;
@@ -2659,7 +2673,7 @@ int mpu_lp_motion_interrupt(unsigned short thresh, unsigned char time,
             mpu_get_fifo_config(&st.chip_cfg.cache.fifo_sensors);
         }
 
-#ifdef MPU6050
+#ifdef USE_DEVICE_MPU6050
         /* Disable hardware interrupts for now. */
         set_int_enable(0);
 
@@ -2955,7 +2969,8 @@ u8 mpu_dmp_init(void)
     u8 res = 0;
 
     /* 初始化I2C总线 */
-    if(i2c_dev.soft_iic_init_flag == 0){
+    if (i2c_Dev.soft_iic_init_flag == 0)
+    {
         MPU_IIC_Init();
     }
     /* 初始化MPU传感器 */

@@ -25,10 +25,16 @@
 
 #include "bmp280.h"
 
-#ifdef BMP280
+#ifdef USE_DEVICE_BMP280
 
 #include <string.h>
+#include <df_delay.h>
+
+extern Dt delay;
 #include <math.h>
+
+/*============================ HAL接口实例 ============================*/
+device_i2c_hal_t *bmp280_i2c_hal = NULL; /**< BMP280 I2C HAL接口实例 */
 
 /*============================ 私有宏定义 ============================*/
 #define BMP280_CALIB_DATA_LEN 26 /**< 校准数据长度 (字节) */
@@ -74,12 +80,10 @@ static uint32_t BMP280_CompensatePressure(int32_t adc_P);
  */
 void BMP280_WriteReg(uint8_t reg, uint8_t data)
 {
-#ifdef __SOFTI2C_
-    Soft_IIC_Write_Byte(&i2c_dev, BMP280_I2C_ADDR, reg, data);
-#else
-    /* 硬件I2C实现 */
-    /* TODO: 根据实际硬件I2C接口实现 */
-#endif
+    if (bmp280_i2c_hal && bmp280_i2c_hal->initialized)
+    {
+        bmp280_i2c_hal->write_byte(BMP280_I2C_ADDR, reg, data);
+    }
 }
 
 /**
@@ -87,12 +91,12 @@ void BMP280_WriteReg(uint8_t reg, uint8_t data)
  */
 uint8_t BMP280_ReadReg(uint8_t reg)
 {
-#ifdef __SOFTI2C_
-    return Soft_IIC_Read_Byte(&i2c_dev, BMP280_I2C_ADDR, reg);
-#else
-    /* 硬件I2C实现 */
-    return 0;
-#endif
+    uint8_t data = 0;
+    if (bmp280_i2c_hal && bmp280_i2c_hal->initialized)
+    {
+        bmp280_i2c_hal->read_byte(BMP280_I2C_ADDR, reg, &data);
+    }
+    return data;
 }
 
 /**
@@ -100,16 +104,11 @@ uint8_t BMP280_ReadReg(uint8_t reg)
  */
 uint8_t BMP280_ReadRegs(uint8_t reg, uint8_t *buf, uint8_t len)
 {
-#ifdef __SOFTI2C_
-    return Soft_IIC_Read_Len(&i2c_dev, BMP280_I2C_ADDR, reg, len, buf);
-#else
-    /* 硬件I2C实现 */
-    for (uint8_t i = 0; i < len; i++)
+    if (bmp280_i2c_hal && bmp280_i2c_hal->initialized)
     {
-        buf[i] = BMP280_ReadReg(reg + i);
+        return bmp280_i2c_hal->read_bytes(BMP280_I2C_ADDR, reg, len, buf);
     }
-    return 0;
-#endif
+    return -1;
 }
 
 /*============================ 私有函数实现 ============================*/
@@ -198,16 +197,27 @@ static uint32_t BMP280_CompensatePressure(int32_t adc_P)
 /*============================ 初始化与配置函数 ============================*/
 
 /**
+ * @brief   绑定I2C HAL接口
+ * @param   hal  I2C HAL接口指针
+ * @note    必须在调用任何其他BMP280函数之前调用
+ */
+void BMP280_BindHAL(device_i2c_hal_t *hal)
+{
+    bmp280_i2c_hal = hal;
+}
+
+/**
  * @brief   BMP280初始化函数（使用默认配置）
  * @return  0-成功, 负值-错误码
  * @note    默认配置：温度×1, 气压×4, 正常模式, 待机125ms, IIR滤波×4
  */
 int8_t BMP280_Init(void)
 {
-#ifdef __SOFTI2C_
-    /* 初始化软件I2C */
-    Soft_IIC_Init(&i2c_dev);
-#endif
+    /* 检查HAL接口是否已绑定 */
+    if (!bmp280_i2c_hal || !bmp280_i2c_hal->initialized)
+    {
+        return BMP280_ERR_NOT_INIT;
+    }
 
     /* 检查设备是否连接 */
     if (!BMP280_IsConnected())
@@ -224,7 +234,10 @@ int8_t BMP280_Init(void)
 
     /* 软复位 */
     BMP280_SoftReset();
-    delay.ms(10);
+    if (bmp280_i2c_hal->delay_ms)
+    {
+        bmp280_i2c_hal->delay_ms(10);
+    }
 
     /* 读取校准参数 */
     if (BMP280_ReadCalibData() != BMP280_OK)
@@ -264,7 +277,7 @@ int8_t BMP280_InitWithConfig(BMP280_Config_t *config)
 
 #ifdef __SOFTI2C_
     /* 初始化软件I2C */
-    Soft_IIC_Init(&i2c_dev);
+    Soft_IIC_Init(&i2c_Dev);
 #endif
 
     /* 检查设备是否连接 */
@@ -597,7 +610,7 @@ uint8_t BMP280_ReadStatus(void)
 uint8_t BMP280_IsConnected(void)
 {
 
-    if(Soft_IIC_Cheak(&i2c_dev, BMP280_I2C_ADDR))
+    if (Soft_IIC_Cheak(&i2c_Dev, BMP280_I2C_ADDR))
     {
         return 0;
     }
@@ -635,4 +648,4 @@ int8_t BMP280_GetConfig(BMP280_Config_t *config)
     return BMP280_OK;
 }
 
-#endif /* BMP280 */
+#endif /* USE_DEVICE_BMP280 */

@@ -2,7 +2,7 @@
 #define __SSD1306_H_
 
 #include <config.h>
-#ifdef SSD1306
+#ifdef USE_DEVICE_SSD1306
 #include "fonts.h"
 #include <stdarg.h>
 #include <string.h>

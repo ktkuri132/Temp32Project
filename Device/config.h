@@ -1,18 +1,21 @@
+/**
+ * @file    config.h
+ * @brief   设备驱动配置文件 (自动生成)
+ * @details 本文件由构建系统自动生成，请勿手动编辑
+ *          通过修改 tool/project_config.json 来配置设备驱动
+ * @warning 此文件会在每次构建时重新生成，手动修改将会丢失
+ */
+
 #ifndef __CONFIG_H_
 #define __CONFIG_H_
 
 #include <stdint.h>
 #include <driver.h>
-// 选择使用的外围设备
- #define SH1106
-// #define SSD1306
-#define MPU6050
-#define HMC5883L
-#define BMP280
 
-// 通信总线选择
+/*============================ 设备驱动配置 ============================*/
+
+/* I2C通信总线选择 */
 #define __SOFTI2C_
-
 
 #ifdef __SOFTI2C_
 #include <i2c/df_iic.h>
@@ -20,34 +23,20 @@ extern SIAS i2c1_bus;
 #define i2c_Dev i2c1_bus
 #endif
 
-#ifdef SH1106
-#include <lcd/df_lcd.h>
-#define On_Chip_IIC
-void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color);
-void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
-#endif
+/* SH1106 OLED显示屏配置 */
+#ifdef USE_DEVICE_SH1106
+#endif /* USE_DEVICE_SH1106 */
 
-#ifdef SSD1306
-#include <lcd/df_lcd.h>
-#define On_Chip_IIC
-#endif
+/* MPU6050 六轴IMU配置 */
+#ifdef USE_DEVICE_MPU6050
+#endif /* USE_DEVICE_MPU6050 */
 
-#ifdef MPU6050
-#include <df_delay.h>
-#define i2c_dev i2c1_bus
-extern Dt delay;
-uint8_t mpu6050_i2c_write(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);
-uint8_t mpu6050_i2c_read(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);
-#endif
+/* HMC5883L 三轴磁力计配置 */
+#ifdef USE_DEVICE_HMC588
+#endif /* USE_DEVICE_HMC588 */
 
-#ifdef HMC5883L
-#include <i2c/df_iic.h>
-#define i2c_dev i2c1_bus
-#endif
+/* BMP280 气压温度传感器配置 */
+#ifdef USE_DEVICE_BMP280
+#endif /* USE_DEVICE_BMP280 */
 
-#ifdef BMP280
-#include <i2c/df_iic.h>
-#define i2c_dev i2c1_bus
-#endif
-
-#endif
+#endif /* __CONFIG_H_ */

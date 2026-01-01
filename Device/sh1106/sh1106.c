@@ -1,7 +1,7 @@
 #include "sh1106.h"
 #include <math.h>
 
-#ifdef SH1106
+#ifdef USE_DEVICE_SH1106
 
 uint8_t SH1106_DisplayBuf[8][128];
 
@@ -183,11 +183,12 @@ void SH1106_WriteData(uint8_t *Data, uint8_t Count)
 
 uint8_t SH1106_Init(void)
 {
-    if(i2c_Dev.soft_iic_init_flag == 0){
+    if (i2c_Dev.soft_iic_init_flag == 0)
+    {
         SH1106_GPIO_Init(); // 先调用底层的端口初始化
     }
     /*写入一系列的命令，对SH1106进行初始化配置*/
-    if(SH1106_WriteCommand(0xAE)) // 设置显示开启/关闭，0xAE关闭，0xAF开启
+    if (SH1106_WriteCommand(0xAE)) // 设置显示开启/关闭，0xAE关闭，0xAF开启
         return 1;
     SH1106_WriteCommand(0xD5); // 设置显示时钟分频比/振荡器频率
     SH1106_WriteCommand(0x80); // 0x00~0xFF
@@ -238,14 +239,18 @@ uint8_t SH1106_CheakDevice(void)
     static uint8_t initialized = 0;
     if (!initialized)
     {
-        if(SH1106_Init()){
+        if (SH1106_Init())
+        {
             return -1; // 设备不存在
         }
         initialized = 1;
-    } else {
-        if(SH1106_Device_AckCheak()){
+    }
+    else
+    {
+        if (SH1106_Device_AckCheak())
+        {
             initialized = 0; // 如果写命令失败，标记为未初始化
-            return 0; // 设备不存在
+            return 0;        // 设备不存在
         }
     }
     return 0; // 假设设备总是存在
@@ -271,7 +276,6 @@ void SH1106_SetCursor(uint8_t Page, uint8_t X)
     SH1106_WriteCommand(0x10 | ((X & 0xF0) >> 4)); // 设置X位置高4位
     SH1106_WriteCommand(0x00 | (X & 0x0F));        // 设置X位置低4位
 }
-
 
 /**
  * 函    数：将SH1106显存数组更新到SH1106屏幕
@@ -423,7 +427,6 @@ void SH1106_ReverseArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height)
     }
 }
 
-
 /**
  * 函    数：SH1106显示图像
  * 参    数：X 指定图像左上角的横坐标，范围：-32768~32767，屏幕区域：0~127
@@ -476,7 +479,6 @@ void SH1106_ShowImage(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, const
     }
 }
 
-
 /**
  * 函    数：SH1106在指定位置画一个点
  * 参    数：X 指定点的横坐标，范围：-32768~32767，屏幕区域：0~127
@@ -512,7 +514,5 @@ uint32_t SH1106_GetPoint(uint16_t X, uint16_t Y)
 
     return 0; // 否则，返回0
 }
-
-
 
 #endif

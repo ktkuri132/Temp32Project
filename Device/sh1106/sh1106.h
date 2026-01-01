@@ -2,13 +2,12 @@
 #define __SH1106_H_
 
 #include <config.h>
-#ifdef SH1106
+#ifdef USE_DEVICE_SH1106
 #include "fonts.h"
 #include <stdarg.h>
 #include <string.h>
 // #define Peripheral_SPI      // 此处定义外设自带SPI
 #define Peripheral_IIC // 此处定义外设自带IIC
-
 
 #define SH1106_WIDTH 128
 #define SH1106_HEIGHT 64

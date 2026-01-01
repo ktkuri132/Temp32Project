@@ -1,3 +1,7 @@
-C:/General_template_Project/build/CMakeFiles/General_template_Project.elf.dir
-C:/General_template_Project/build/CMakeFiles/edit_cache.dir
-C:/General_template_Project/build/CMakeFiles/rebuild_cache.dir
+C:/32_temp_project/build/CMakeFiles/32_temp_project.elf.dir
+C:/32_temp_project/build/CMakeFiles/edit_cache.dir
+C:/32_temp_project/build/CMakeFiles/rebuild_cache.dir
+C:/32_temp_project/build/BSP/CMakeFiles/edit_cache.dir
+C:/32_temp_project/build/BSP/CMakeFiles/rebuild_cache.dir
+C:/32_temp_project/build/Device/CMakeFiles/edit_cache.dir
+C:/32_temp_project/build/Device/CMakeFiles/rebuild_cache.dir

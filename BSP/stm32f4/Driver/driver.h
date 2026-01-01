@@ -38,8 +38,15 @@ int adc1_disable(dev_arg_t arg);
 void delay_ms(uint32_t ms);
 void delay_us(uint32_t us);
 
+void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color);
+void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
+int sh1106_dev_init(dev_arg_t arg);
+
 int sh1106_dev_init(dev_arg_t arg);
 void SSD1306_SetPixel(uint16_t x, uint16_t y, uint32_t color);
 int ssd1306_dev_init(dev_arg_t arg);
+
+uint8_t mpu6050_i2c_write(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);
+uint8_t mpu6050_i2c_read(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);
 
 #endif

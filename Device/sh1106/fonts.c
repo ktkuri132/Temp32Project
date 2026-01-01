@@ -1,5 +1,5 @@
 #include "fonts.h"
-#ifdef SH1106
+#ifdef USE_DEVICE_SH1106
 /**
  * 数据存储格式：
  * 纵向8点，高位在下，先从左到右，再从上到下
@@ -31,7 +31,7 @@
 
 /*宽8像素，高16像素*/
 const uint8_t SH1106_F8x16[][16] =
-{
+    {
 #ifdef USE_ASCLL_SH1106
 
         0x00,
@@ -1560,7 +1560,7 @@ const uint8_t SH1106_F8x16[][16] =
 /*宽6像素，高8像素*/
 const uint8_t SH1106_F6x8[][6] =
     {
-        #ifdef USE_ASCLL_SH1106
+#ifdef USE_ASCLL_SH1106
         0x00,
         0x00,
         0x00,
@@ -2131,7 +2131,7 @@ const uint8_t SH1106_F6x8[][6] =
         0x08,
         0x10,
         0x08, // ~ 94
-        #endif
+#endif
 };
 /*********************ASCII字模数据*/
 
@@ -2384,7 +2384,7 @@ const ChineseCell_t SH1106_CF16x16[] = {
     0x80,
     0x80,
     0xFF,
-    #endif
+#endif
 
 };
 
@@ -2394,7 +2394,7 @@ const ChineseCell_t SH1106_CF16x16[] = {
 
 /*测试图像（一个方框，内部一个二极管符号），宽16像素，高16像素*/
 const uint8_t Diode[] = {
-    #ifdef USE_ASCLL_SH1106
+#ifdef USE_ASCLL_SH1106
     0xFF,
     0x01,
     0x81,
@@ -2427,7 +2427,7 @@ const uint8_t Diode[] = {
     0x80,
     0x80,
     0xFF,
-    #endif
+#endif
 };
 #endif
 

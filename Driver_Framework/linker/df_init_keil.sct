@@ -1,0 +1,154 @@
+; ====================================================================
+; @file df_init_keil.sct
+; @brief 驱动框架自动初始化分散加载文件片段（Keil MDK）
+; @details 将以下内容添加到你的 .sct 分散加载文件中
+; @date 2026-01-02
+;
+; 使用方法：
+; 1. 在主分散加载文件(.sct)中包含此文件的内容
+; 2. 或者参考下面的示例修改你的 .sct 文件
+; ====================================================================
+
+; ========================================
+; 在分散加载文件中添加以下内容：
+; ========================================
+
+;LR_IROM1 0x08000000 0x00080000  {    ; Load region size
+;    ER_IROM1 0x08000000 0x00080000  {  ; Load address = execution address
+;        *.o (RESET, +First)
+;        *(InRoot$$Sections)
+;        .ANY (+RO)
+;
+;        ; ===== 驱动框架自动初始化段（RT-Thread风格）=====
+;        .ANY (.df_init_fn.0)    ; 板级初始化（BOARD）
+;        .ANY (.df_init_fn.1)    ; 前置初始化（PREV）
+;        .ANY (.df_init_fn.2)    ; 设备初始化（DEVICE）
+;        .ANY (.df_init_fn.3)    ; 组件初始化（COMPONENT）
+;        .ANY (.df_init_fn.4)    ; 环境初始化（ENV）
+;        .ANY (.df_init_fn.5)    ; 应用初始化（APP）
+;    }
+;
+;    RW_IRAM1 0x20000000 0x00020000  {
+;        .ANY (+RW +ZI)
+;    }
+;}
+
+; ========================================
+; 完整示例：STM32F407 分散加载文件
+; ========================================
+
+; STM32F407 Memory Layout:
+;   Flash: 0x08000000 - 0x080FFFFF (1MB)
+;   RAM:   0x20000000 - 0x2001FFFF (128KB)
+
+LR_IROM1 0x08000000 0x00100000  {    ; 加载域 1MB Flash
+    ER_IROM1 0x08000000 0x00100000  {  ; 执行域 = 加载域
+        ; 启动代码
+        *.o (RESET, +First)
+        *(InRoot$$Sections)
+
+        ; 只读代码和数据
+        .ANY (+RO)
+
+        ; ===== 驱动框架自动初始化段 =====
+        ; 注意：Keil会按段名字典序自动排序
+        .ANY (.df_init_fn.0)    ; 板级初始化（最早）
+        .ANY (.df_init_fn.1)    ; 前置初始化
+        .ANY (.df_init_fn.2)    ; 设备初始化
+        .ANY (.df_init_fn.3)    ; 组件初始化
+        .ANY (.df_init_fn.4)    ; 环境初始化
+        .ANY (.df_init_fn.5)    ; 应用初始化（最晚）
+    }
+
+    ; RAM 执行域
+    RW_IRAM1 0x20000000 0x00020000  {  ; 128KB RAM
+        .ANY (+RW +ZI)
+    }
+}
+
+; ========================================
+; 使用 $Sub$$main 自动初始化
+; ========================================
+
+; Keil MDK 支持 $Sub$$main 和 $Super$$main 机制：
+;   1. $Sub$$main 会在真正的 main 函数之前执行
+;   2. $Super$$main 是原始的 main 函数
+;   3. 在 df_init.h 中已经定义了 $Sub$$main，会自动调用 DF_Framework_Init()
+;
+; 因此使用 Keil 时，只需：
+;   1. 在 .sct 文件中添加上述初始化段
+;   2. 在某个源文件中调用 DF_INIT_AUTO_ENABLE()（可选，Keil会自动处理）
+;   3. 在各模块中使用 DF_BOARD_INIT() 等宏注册初始化函数
+;
+; 示例：
+;   static int log_init(void) { return 0; }
+;   DF_BOARD_INIT(log_init);  // 自动注册到 .df_init_fn.0 段
+
+; ========================================
+; 段边界符号（供 C 代码使用）
+; ========================================
+
+; Keil 使用特殊的语法来定义段边界：
+;   DF_InitFnSection$$Base  - 段起始地址
+;   DF_InitFnSection$$Limit - 段结束地址
+;
+; 但是我们使用的是多个分散的段（.df_init_fn.0 ~ .df_init_fn.5），
+; 需要在链接时将它们视为一个连续的区域。
+;
+; 方案1：使用执行域名作为边界（推荐）
+; 修改 df_init.c 中的 Keil 部分，使用 Image$$ 符号：
+;   Image$$ER_IROM1$$Base
+;   Image$$ER_IROM1$$Limit
+;
+; 方案2：定义一个包含所有初始化段的区域
+; 在分散加载文件中：
+;   DF_INIT_START 0x08000000 UNINIT 0x0  {
+;       .ANY (.df_init_fn.*)
+;   }
+; 然后使用 Image$$DF_INIT_START$$Base/Limit
+
+; ========================================
+; 推荐的分散加载文件结构（含段边界）
+; ========================================
+
+;LR_IROM1 0x08000000 0x00100000  {
+;    ER_IROM1 0x08000000 0x00100000  {
+;        *.o (RESET, +First)
+;        *(InRoot$$Sections)
+;        .ANY (+RO)
+;    }
+;
+;    ; 驱动框架初始化段（独立执行域）
+;    DF_InitFnSection +0 {
+;        .ANY (.df_init_fn.0)
+;        .ANY (.df_init_fn.1)
+;        .ANY (.df_init_fn.2)
+;        .ANY (.df_init_fn.3)
+;        .ANY (.df_init_fn.4)
+;        .ANY (.df_init_fn.5)
+;    }
+;
+;    RW_IRAM1 0x20000000 0x00020000  {
+;        .ANY (+RW +ZI)
+;    }
+;}
+
+; 使用这种方式后，在 C 代码中可以使用：
+;   extern const int DF_InitFnSection$$Base;
+;   extern const int DF_InitFnSection$$Limit;
+
+; ====================================================================
+; 说明文档
+; ====================================================================
+
+; 优点：
+;   1. 不需要修改原有链接脚本的主要结构
+;   2. 自动按优先级排序初始化函数
+;   3. 支持 $Sub$$main 自动调用
+;   4. 可以随时添加新的初始化函数
+;
+; 注意事项：
+;   1. 段名必须以 .df_init_fn. 开头
+;   2. 后面的数字决定执行顺序（0-5）
+;   3. 使用 KEEP() 或 .ANY 确保不被优化掉
+;   4. 确保所有段放在 Flash 区域

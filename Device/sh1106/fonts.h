@@ -1,10 +1,11 @@
-#ifndef __SH1106_FRONT_H
-#define __SH1106_FRONT_H
-
+#ifndef __SH1106_FONTS_H__
+#define __SH1106_FONTS_H__
 
 #include <stdint.h>
-#include <sh1106/sh1106.h>
-#ifdef SH1106
+
+#ifdef USE_DEVICE_SH1106
+
+#include "sh1106.h"
 
 /*字符集定义*/
 /*以下两个宏定义只可解除其中一个的注释*/

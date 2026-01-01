@@ -1,3 +1,5 @@
+#ifdef USE_DEVICE_ST7789
+
 #include "st7789.h"
 #include <stddef.h>
 

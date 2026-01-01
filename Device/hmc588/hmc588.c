@@ -5,10 +5,16 @@
  * @note    支持软件I2C和硬件I2C两种通信方式
  */
 
+#ifdef USE_DEVICE_HMC588
+#include <df_delay.h>
+
+extern Dt delay;
+
 #include "hmc588.h"
 #include <math.h>
 
-#ifdef HMC5883L
+/*============================ HAL接口实例 ============================*/
+device_i2c_hal_t *hmc5883l_i2c_hal = NULL; /**< HMC5883L I2C HAL接口实例 */
 
 /*============================ 私有变量定义 ============================*/
 
@@ -20,7 +26,6 @@ static uint8_t hmc5883l_cra_value = 0x70;
 
 /** @brief 存储当前校准参数 */
 static HMC5883L_Calibration_t hmc5883l_calib = {0, 0, 0, 1.0f, 1.0f, 1.0f};
-
 
 /*============================ 基础读写函数实现 ============================*/
 
@@ -34,7 +39,7 @@ void HMC_WriteReg(uint8_t RegAddress, uint8_t Data)
 {
 #ifdef __SOFTI2C_
 	/* 使用软件I2C写入单字节 */
-	Soft_IIC_Write_Byte(&i2c_dev, HMC5883L_ADDRESS, RegAddress, Data);
+	Soft_IIC_Write_Byte(&i2c_Dev, HMC5883L_ADDRESS, RegAddress, Data);
 #else
 	/* 使用硬件I2C写入 */
 	I2C_GenerateSTART(I2C1, ENABLE);				   // 生成起始条件
@@ -62,35 +67,12 @@ uint8_t HMC_ReadReg(uint8_t RegAddress)
 {
 	uint8_t Data = 0;
 
-#ifdef __SOFTI2C_
-	/* 使用软件I2C读取单字节 */
-	return Soft_IIC_Read_Byte(&i2c_dev, HMC5883L_ADDRESS, RegAddress);
-#else
-	/* 使用硬件I2C读取 */
-	I2C_GenerateSTART(I2C1, ENABLE);				   // 生成起始条件
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT); // 等待EV5
+	if (hmc5883l_i2c_hal && hmc5883l_i2c_hal->initialized)
+	{
+		hmc5883l_i2c_hal->read_byte(HMC5883L_ADDRESS, RegAddress, &Data);
+	}
 
-	I2C_Send7bitAddress(I2C1, HMC5883L_ADDRESS, I2C_Direction_Transmitter); // 发送从机地址
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);		// 等待EV6
-
-	I2C_SendData(I2C1, RegAddress);							// 发送寄存器地址
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED); // 等待EV8_2
-
-	I2C_GenerateSTART(I2C1, ENABLE);				   // 生成重复起始条件
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT); // 等待EV5
-
-	I2C_Send7bitAddress(I2C1, HMC5883L_ADDRESS, I2C_Direction_Receiver); // 发送从机地址，接收方向
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED);		 // 等待EV6
-
-	I2C_AcknowledgeConfig(I2C1, DISABLE); // 提前禁用应答
-	I2C_GenerateSTOP(I2C1, ENABLE);		  // 提前申请停止条件
-
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED); // 等待EV7
-	Data = I2C_ReceiveData(I2C1);						 // 接收数据
-
-	I2C_AcknowledgeConfig(I2C1, ENABLE); // 恢复应答使能
 	return Data;
-#endif
 }
 
 /**
@@ -102,20 +84,24 @@ uint8_t HMC_ReadReg(uint8_t RegAddress)
  */
 uint8_t HMC_ReadLen(uint8_t RegAddress, uint8_t len, uint8_t *buf)
 {
-#ifdef __SOFTI2C_
-	/* 使用软件I2C连续读取 */
-	return Soft_IIC_Read_Len(&i2c_dev, HMC5883L_ADDRESS, RegAddress, len, buf);
-#else
-	/* 硬件I2C连续读取需要单独实现 */
-	for (uint8_t i = 0; i < len; i++)
+	if (hmc5883l_i2c_hal && hmc5883l_i2c_hal->initialized)
 	{
-		buf[i] = HMC_ReadReg(RegAddress + i);
+		return hmc5883l_i2c_hal->read_bytes(HMC5883L_ADDRESS, RegAddress, len, buf);
 	}
-	return 0;
-#endif
+	return -1;
 }
 
 /*============================ 初始化和配置函数实现 ============================*/
+
+/**
+ * @brief   绑定I2C HAL接口
+ * @param   hal  I2C HAL接口指针
+ * @note    必须在调用任何其他HMC5883L函数之前调用
+ */
+void HMC5883L_BindHAL(device_i2c_hal_t *hal)
+{
+	hmc5883l_i2c_hal = hal;
+}
 
 /**
  * @brief   获取设备ID
@@ -149,9 +135,10 @@ uint8_t HMC5883L_IsConnected(void)
  */
 uint8_t HMC5883L_Init(void)
 {
-	if(i2c_dev.soft_iic_init_flag==false)
+	/* 检查HAL接口是否已绑定 */
+	if (!hmc5883l_i2c_hal || !hmc5883l_i2c_hal->initialized)
 	{
-		Soft_IIC_Init(&i2c_dev);
+		return (uint8_t)-1;
 	}
 	/* 检查设备是否存在 */
 	if (!HMC5883L_IsConnected())
@@ -696,4 +683,4 @@ uint8_t HMC5883L_Reset(void)
 	return HMC5883L_Init();
 }
 
-#endif /* HMC5883L */
+#endif /* USE_DEVICE_HMC588 */

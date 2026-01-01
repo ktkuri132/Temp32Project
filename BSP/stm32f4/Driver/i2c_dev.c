@@ -1,8 +1,13 @@
+#include <config.h>
+#ifdef USE_DEVICE_SH1106
 #include <sh1106/sh1106.h>
+#endif
 #include <ssd1306/ssd1306.h>
 #include <lcd/df_lcd.h>
 #include <lcd/df_fonts.h>
-#include <config.h>
+#include <df_delay.h>
+
+extern Dt delay;
 
 /**
  * STM32F4 I2C设备驱动
@@ -31,7 +36,7 @@ void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t co
 void SSD1306_SetPixel(uint16_t x, uint16_t y, uint32_t color)
 {
     (void)color;
-//    SSD1306_DrawPoint(x, y);
+    //    SSD1306_DrawPoint(x, y);
 }
 
 int sh1106_dev_init(dev_arg_t arg)
@@ -92,7 +97,7 @@ int ssd1306_dev_init(dev_arg_t arg)
         error("ssd1306_dev_init: lcd Update function is NULL!\n");
         return -1;
     }
-//    SSD1306_Init();
+    //    SSD1306_Init();
     LCD_Clear(lcd, 0x00000000);
     LCD_Printf(lcd, "System Start\n");
     LCD_Printf(lcd, "SSD1306 OLED Initialized.\n");
@@ -101,10 +106,10 @@ int ssd1306_dev_init(dev_arg_t arg)
 
 uint8_t mpu6050_i2c_write(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data)
 {
-    return Soft_IIC_Write_Len(&i2c_dev, addr, reg, length, data);
+    return Soft_IIC_Write_Len(&i2c_Dev, addr, reg, length, data);
 }
 
 uint8_t mpu6050_i2c_read(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data)
 {
-    return Soft_IIC_Read_Len(&i2c_dev, addr, reg, length, data);
+    return Soft_IIC_Read_Len(&i2c_Dev, addr, reg, length, data);
 }

@@ -1,7 +1,7 @@
 #include "ssd1306.h"
 #include <math.h>
 
-#ifdef SSD1306
+#ifdef USE_DEVICE_SSD1306
 
 uint8_t SSD1306_DisplayBuf[8][64];
 
@@ -360,7 +360,8 @@ void SSD1306_WriteData(uint8_t *Data, uint8_t Count)
 
 void SSD1306_Init(void)
 {
-    if(i2c_dev.soft_iic_init_flag == 0){
+    if (i2c_dev.soft_iic_init_flag == 0)
+    {
         SSD1306_GPIO_Init(); // 先调用底层的端口初始化
     }
 
@@ -1724,4 +1725,4 @@ void SSD1306_DrawArc(int16_t X, int16_t Y, uint8_t Radius, int16_t StartAngle, i
 
 /*****************江协科技|版权所有****************/
 /*****************jiangxiekeji.com*****************/
-#endif
+#endif // USE_DEVICE_SSD1306

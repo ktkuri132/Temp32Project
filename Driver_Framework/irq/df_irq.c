@@ -33,6 +33,7 @@
  */
 
 #include "df_irq.h"
+#include "df_init.h"
 #include <shell/shell_style.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -138,7 +139,7 @@ int irq_handle_loader(irq_handle_t ih[], uint16_t irq_num, void *argv[])
         /* 步骤2：检查中断状态，防止数据覆盖 */
         if (ih[irq_handle_index].irq_state == PENDING)
         {
-            return -1;  /* 加载失败，数据被丢弃 */
+            return -1; /* 加载失败，数据被丢弃 */
         }
         else
         {
@@ -231,5 +232,21 @@ int irq_handle_runner(irq_handle_t ih[])
             ih_temp[j].irq_state = DISABLE;
         }
     }
-    return -1;     /* 没有待处理的中断 */
+    return -1; /* 没有待处理的中断 */
 }
+
+// ============ 自动初始化 ============
+/**
+ * @brief 中断管理框架自动初始化函数
+ * @details 在框架初始化时自动调用，初始化中断管理框架
+ * @return 0表示成功
+ */
+static int df_irq_auto_init(void)
+{
+    // 中断框架暂无需特殊初始化，此函数用于日志记录
+    printf("[I] IRQ: Interrupt framework initialized\n");
+    return 0;
+}
+
+// 将中断框架初始化注册到PREV级别
+DF_INIT_EXPORT(df_irq_auto_init, DF_INIT_EXPORT_PREV);

@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <ssd1306/ssd1306.h>
-#ifdef SSD1306
+#ifdef USE_DEVICE_SSD1306
 
 /*字符集定义*/
 /*以下两个宏定义只可解除其中一个的注释*/

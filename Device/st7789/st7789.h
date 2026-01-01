@@ -1,6 +1,8 @@
 #ifndef __ST7789_H
 #define __ST7789_H
 
+#ifdef USE_DEVICE_ST7789
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -65,5 +67,7 @@ void ST7789_SetPixel(uint16_t x, uint16_t y, uint16_t color);
 
 // 写入图片数据 (RGB565)
 void ST7789_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t *data);
+
+#endif // USE_DEVICE_ST7789
 
 #endif // __ST7789_H
