@@ -5,16 +5,26 @@
 
 /*============================ HAL接口实例 ============================*/
 device_i2c_hal_t *sh1106_i2c_hal = NULL;
+device_spi_hal_t *sh1106_spi_hal = NULL;
+
+/* 通信模式 */
+typedef enum
+{
+    SH1106_MODE_NONE = 0,
+    SH1106_MODE_I2C,
+    SH1106_MODE_SPI
+} sh1106_mode_t;
+
+static sh1106_mode_t sh1106_mode = SH1106_MODE_NONE;
 
 uint8_t SH1106_DisplayBuf[8][128];
 
 /*============================ 底层通信函数 ============================*/
+
 /**
- * @brief 写入命令到SH1106
- * @param command 命令字节
- * @return 0-成功，非0-失败
+ * @brief 写入命令到SH1106 (I2C模式)
  */
-static int SH1106_WriteCommand(uint8_t command)
+static int SH1106_I2C_WriteCommand(uint8_t command)
 {
     if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
         return -1;
@@ -22,12 +32,9 @@ static int SH1106_WriteCommand(uint8_t command)
 }
 
 /**
- * @brief 写入数据到SH1106
- * @param data 数据缓冲区
- * @param count 数据长度
- * @return 0-成功，非0-失败
+ * @brief 写入数据到SH1106 (I2C模式)
  */
-static int SH1106_WriteData(uint8_t *data, uint8_t count)
+static int SH1106_I2C_WriteData(uint8_t *data, uint8_t count)
 {
     if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
         return -1;
@@ -35,215 +42,120 @@ static int SH1106_WriteData(uint8_t *data, uint8_t count)
 }
 
 /**
- * @brief 检查SH1106设备应答
- * @return 0-设备存在，非0-设备不存在
+ * @brief 写入命令到SH1106 (SPI模式)
+ */
+static int SH1106_SPI_WriteCommand(uint8_t command)
+{
+    if (!sh1106_spi_hal || !sh1106_spi_hal->initialized)
+        return -1;
+
+    sh1106_spi_hal->cs_control(true);
+    /* DC=0表示命令 */
+    sh1106_spi_hal->transfer_byte(command);
+    sh1106_spi_hal->cs_control(false);
+    return 0;
+}
+
+/**
+ * @brief 写入数据到SH1106 (SPI模式)
+ */
+static int SH1106_SPI_WriteData(uint8_t *data, uint8_t count)
+{
+    if (!sh1106_spi_hal || !sh1106_spi_hal->initialized)
+        return -1;
+
+    sh1106_spi_hal->cs_control(true);
+    /* DC=1表示数据 */
+    sh1106_spi_hal->transfer_bytes(data, NULL, count);
+    sh1106_spi_hal->cs_control(false);
+    return 0;
+}
+
+/**
+ * @brief 写入命令到SH1106 (统一接口)
+ */
+static int SH1106_WriteCommand(uint8_t command)
+{
+    if (sh1106_mode == SH1106_MODE_I2C)
+        return SH1106_I2C_WriteCommand(command);
+    else if (sh1106_mode == SH1106_MODE_SPI)
+        return SH1106_SPI_WriteCommand(command);
+    return -1;
+}
+
+/**
+ * @brief 写入数据到SH1106 (统一接口)
+ */
+static int SH1106_WriteData(uint8_t *data, uint8_t count)
+{
+    if (sh1106_mode == SH1106_MODE_I2C)
+        return SH1106_I2C_WriteData(data, count);
+    else if (sh1106_mode == SH1106_MODE_SPI)
+        return SH1106_SPI_WriteData(data, count);
+    return -1;
+}
+
+/**
+ * @brief 检查SH1106设备应答 (仅I2C模式)
  */
 static int SH1106_Device_AckCheck(void)
 {
+    if (sh1106_mode != SH1106_MODE_I2C)
+        return 0;
+
     if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
         return -1;
-    
-    /* 尝试读取一个字节来检测设备 */
+
     uint8_t dummy;
     return sh1106_i2c_hal->read_byte(SH1106_ADDRESS, 0x00, &dummy);
 }
 
-#ifdef Peripheral_SPI
-#include <stm32f4xx_gpio.h>
-/**
- * 函    数：SH1106写D0（CLK）高低电平
- * 参    数：要写入D0的电平值，范围：0/1
- * 返 回 值：无
- * 说    明：当上层函数需要写D0时，此函数会被调用
- *           用户需要根据参数传入的值，将D0置为高电平或者低电平
- *           当参数传入0时，置D0为低电平，当参数传入1时，置D0为高电平
- */
-void SH1106_W_D0(uint8_t BitValue)
-{
-    /*根据BitValue的值，将D0置高电平或者低电平*/
-    GPIO_WriteBit(GPIOB, GPIO_Pin_8, (BitAction)BitValue);
-}
+/*============================ HAL初始化函数 ============================*/
 
 /**
- * 函    数：SH1106写D1（MOSI）高低电平
- * 参    数：要写入D1的电平值，范围：0/1
- * 返 回 值：无
- * 说    明：当上层函数需要写D1时，此函数会被调用
- *           用户需要根据参数传入的值，将D1置为高电平或者低电平
- *           当参数传入0时，置D1为低电平，当参数传入1时，置D1为高电平
- */
-void SH1106_W_D1(uint8_t BitValue)
-{
-    /*根据BitValue的值，将D1置高电平或者低电平*/
-    GPIO_WriteBit(GPIOB, GPIO_Pin_9, (BitAction)BitValue);
-}
-
-/**
- * 函    数：SH1106写RES高低电平
- * 参    数：要写入RES的电平值，范围：0/1
- * 返 回 值：无
- * 说    明：当上层函数需要写RES时，此函数会被调用
- *           用户需要根据参数传入的值，将RES置为高电平或者低电平
- *           当参数传入0时，置RES为低电平，当参数传入1时，置RES为高电平
- */
-void SH1106_W_RES(uint8_t BitValue)
-{
-    /*根据BitValue的值，将RES置高电平或者低电平*/
-    GPIO_WriteBit(GPIOB, GPIO_Pin_7, (BitAction)BitValue);
-}
-
-/**
- * 函    数：SH1106写DC高低电平
- * 参    数：要写入DC的电平值，范围：0/1
- * 返 回 值：无
- * 说    明：当上层函数需要写DC时，此函数会被调用
- *           用户需要根据参数传入的值，将DC置为高电平或者低电平
- *           当参数传入0时，置DC为低电平，当参数传入1时，置DC为高电平
- */
-void SH1106_W_DC(uint8_t BitValue)
-{
-    /*根据BitValue的值，将DC置高电平或者低电平*/
-    GPIO_WriteBit(GPIOB, GPIO_Pin_10, (BitAction)BitValue);
-}
-
-/**
- * 函    数：SH1106写CS高低电平
- * 参    数：要写入CS的电平值，范围：0/1
- * 返 回 值：无
- * 说    明：当上层函数需要写CS时，此函数会被调用
- *           用户需要根据参数传入的值，将CS置为高电平或者低电平
- *           当参数传入0时，置CS为低电平，当参数传入1时，置CS为高电平
- */
-void SH1106_W_CS(uint8_t BitValue)
-{
-    /*根据BitValue的值，将CS置高电平或者低电平*/
-    GPIO_WriteBit(GPIOB, GPIO_Pin_11, (BitAction)BitValue);
-}
-
-/**
- * 函    数：SH1106引脚初始化
- * 参    数：无
- * 返 回 值：无
- * 说    明：当上层函数需要初始化时，此函数会被调用
- *           用户需要将D0、D1、RES、DC和CS引脚初始化为推挽输出模式
- */
-void SH1106_GPIO_Init(void)
-{
-    uint32_t i, j;
-
-    /*在初始化前，加入适量延时，待SH1106供电稳定*/
-    for (i = 0; i < 1000; i++)
-    {
-        for (j = 0; j < 1000; j++)
-            ;
-    }
-
-    /*将D0、D1、RES、DC和CS引脚初始化为推挽输出模式*/
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
-    // RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-    /*置引脚默认电平*/
-    SH1106_W_D0(0);
-    SH1106_W_D1(1);
-    SH1106_W_RES(1);
-    SH1106_W_DC(1);
-    SH1106_W_CS(1);
-}
-
-/*********************引脚配置*/
-
-/*通信协议*********************/
-
-/**
- * 函    数：SPI发送一个字节
- * 参    数：Byte 要发送的一个字节数据，范围：0x00~0xFF
- * 返 回 值：无
- */
-void SH1106_SPI_SendByte(uint8_t Byte)
-{
-    uint8_t i;
-
-    /*循环8次，主机依次发送数据的每一位*/
-    for (i = 0; i < 8; i++)
-    {
-        /*使用掩码的方式取出Byte的指定一位数据并写入到D1线*/
-        /*两个!的作用是，让所有非零的值变为1*/
-        SH1106_W_D1(!!(Byte & (0x80 >> i)));
-        SH1106_W_D0(1); // 拉高D0，从机在D0上升沿读取SDA
-        SH1106_W_D0(0); // 拉低D0，主机开始发送下一位数据
-    }
-}
-
-/**
- * 函    数：SH1106写命令
- * 参    数：Command 要写入的命令值，范围：0x00~0xFF
- * 返 回 值：无
- */
-void SH1106_WriteCommand(uint8_t Command)
-{
-    SH1106_W_CS(0);               // 拉低CS，开始通信
-    SH1106_W_DC(0);               // 拉低DC，表示即将发送命令
-    SH1106_SPI_SendByte(Command); // 写入指定命令
-    SH1106_W_CS(1);               // 拉高CS，结束通信
-}
-
-/**
- * 函    数：SH1106写数据
- * 参    数：Data 要写入数据的起始地址
- * 参    数：Count 要写入数据的数量
- * 返 回 值：无
- */
-void SH1106_WriteData(uint8_t *Data, uint8_t Count)
-{
-    uint8_t i;
-
-    SH1106_W_CS(0); // 拉低CS，开始通信
-    SH1106_W_DC(1); // 拉高DC，表示即将发送数据
-    /*循环Count次，进行连续的数据写入*/
-    for (i = 0; i < Count; i++)
-    {
-        SH1106_SPI_SendByte(Data[i]); // 依次发送Data的每一个数据
-    }
-    SH1106_W_CS(1); // 拉高CS，结束通信
-}
-
-#endif
-
-/**
- * @brief 初始化SH1106并绑定HAL接口
+ * @brief 初始化SH1106并绑定I2C HAL接口
  * @param hal I2C HAL接口指针
  * @return 0-成功，非0-失败
  */
-int SH1106_Init_HAL(device_i2c_hal_t *hal)
+int SH1106_Init_HAL_I2C(device_i2c_hal_t *hal)
 {
     if (!hal || !hal->initialized)
         return -1;
-    
+
     sh1106_i2c_hal = hal;
+    sh1106_mode = SH1106_MODE_I2C;
     return 0;
+}
+
+/**
+ * @brief 初始化SH1106并绑定SPI HAL接口
+ * @param hal SPI HAL接口指针
+ * @return 0-成功，非0-失败
+ */
+int SH1106_Init_HAL_SPI(device_spi_hal_t *hal)
+{
+    if (!hal || !hal->initialized)
+        return -1;
+
+    sh1106_spi_hal = hal;
+    sh1106_mode = SH1106_MODE_SPI;
+    return 0;
+}
+
+/**
+ * @brief 兼容旧接口
+ */
+int SH1106_Init_HAL(device_i2c_hal_t *hal)
+{
+    return SH1106_Init_HAL_I2C(hal);
 }
 
 uint8_t SH1106_Init(void)
 {
-    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
-        return 1; // HAL未初始化
-    /*写入一系列的命令，对SH1106进行初始化配置*/
-    if (SH1106_WriteCommand(0xAE)) // 设置显示开启/关闭，0xAE关闭，0xAF开启
+    if (sh1106_mode == SH1106_MODE_NONE)
+        return 1;
+
+    if (SH1106_WriteCommand(0xAE))
         return 1;
     SH1106_WriteCommand(0xD5); // 设置显示时钟分频比/振荡器频率
     SH1106_WriteCommand(0x80); // 0x00~0xFF
@@ -281,14 +193,15 @@ uint8_t SH1106_Init(void)
 
     SH1106_WriteCommand(0xAF); // 开启显示
 
-    SH1106_Clear();  // 清空显存数组
-    SH1106_Update(); // 更新显示，清屏，防止初始化后未显示内容时花屏
+    SH1106_Clear(); // 清空显存数组
+    SH1106_Update();
     return 0;
 }
 
-/// @brief 检测SH1106设备是否存在
-/// @param none
-/// @return 0：设备存在，-1：设备不存在
+/**
+ * @brief 检测SH1106设备是否存在
+ * @return 0-设备存在，非0-设备不存在
+ */
 uint8_t SH1106_CheakDevice(void)
 {
     static uint8_t initialized = 0;
@@ -569,7 +482,6 @@ uint32_t SH1106_GetPoint(uint16_t X, uint16_t Y)
 
     return 0; // 否则，返回0
 }
-
 
 void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color)
 {

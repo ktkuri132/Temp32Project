@@ -37,25 +37,10 @@ static HMC5883L_Calibration_t hmc5883l_calib = {0, 0, 0, 1.0f, 1.0f, 1.0f};
  */
 void HMC_WriteReg(uint8_t RegAddress, uint8_t Data)
 {
-#ifdef __SOFTI2C_
-	/* 使用软件I2C写入单字节 */
-	Soft_IIC_Write_Byte(&i2c_Dev, HMC5883L_ADDRESS, RegAddress, Data);
-#else
-	/* 使用硬件I2C写入 */
-	I2C_GenerateSTART(I2C1, ENABLE);				   // 生成起始条件
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT); // 等待EV5
-
-	I2C_Send7bitAddress(I2C1, HMC5883L_ADDRESS, I2C_Direction_Transmitter); // 发送从机地址
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);		// 等待EV6
-
-	I2C_SendData(I2C1, RegAddress);							// 发送寄存器地址
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED); // 等待EV8_2
-
-	I2C_SendData(I2C1, Data);								// 发送数据
-	HMC_WaitEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED); // 等待EV8_2
-
-	I2C_GenerateSTOP(I2C1, ENABLE); // 生成停止条件
-#endif
+	if (hmc5883l_i2c_hal && hmc5883l_i2c_hal->initialized)
+	{
+		hmc5883l_i2c_hal->write_byte(HMC5883L_ADDRESS, RegAddress, Data);
+	}
 }
 
 /**
@@ -193,7 +178,7 @@ uint8_t HMC5883L_Init_Config(HMC5883L_Config_t *config)
 	HMC_WriteReg(HMC5883L_REG_MODE, config->mode);
 
 	/* 等待首次测量完成 */
-	delay(100);
+	delay.ms(100);
 
 	return 0;
 }
@@ -519,7 +504,7 @@ uint8_t HMC5883L_SelfTest(void)
 	HMC_WriteReg(HMC5883L_REG_CRB, HMC5883L_GAIN_390);
 	HMC_WriteReg(HMC5883L_REG_MODE, HMC5883L_MODE_SINGLE);
 
-	delay(70); // 等待测量完成
+	delay.ms(70); // 等待测量完成
 
 	/* 读取正偏置数据 */
 	HMC_GetData(&x_pos, &y_pos, &z_pos);
@@ -528,7 +513,7 @@ uint8_t HMC5883L_SelfTest(void)
 	HMC_WriteReg(HMC5883L_REG_CRA, HMC5883L_SAMPLES_8 | HMC5883L_RATE_15 | HMC5883L_MEASURE_NEGATIVE);
 	HMC_WriteReg(HMC5883L_REG_MODE, HMC5883L_MODE_SINGLE);
 
-	delay(70); // 等待测量完成
+	delay.ms(70); // 等待测量完成
 
 	/* 读取负偏置数据 */
 	HMC_GetData(&x_neg, &y_neg, &z_neg);
@@ -553,7 +538,7 @@ uint8_t HMC5883L_SelfTest(void)
 	HMC_WriteReg(HMC5883L_REG_CRB, old_crb);
 	HMC_WriteReg(HMC5883L_REG_MODE, old_mode);
 
-	delay(70); // 等待恢复
+	delay.ms(70); // 等待恢复
 
 	return result;
 }
@@ -584,7 +569,7 @@ uint8_t HMC5883L_Calibrate(HMC5883L_Calibration_t *calib, uint16_t samples)
 		/* 等待数据就绪 */
 		while (!HMC5883L_IsDataReady())
 		{
-			delay(5);
+			delay.ms(5);
 		}
 
 		/* 读取原始数据 */
@@ -605,7 +590,7 @@ uint8_t HMC5883L_Calibrate(HMC5883L_Calibration_t *calib, uint16_t samples)
 			z_max = raw_z;
 
 		/* 采样间隔 */
-		delay(50);
+		delay.ms(50);
 	}
 
 	/* 计算硬铁偏移（椭圆中心） */

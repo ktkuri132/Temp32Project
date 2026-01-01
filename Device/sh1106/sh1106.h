@@ -18,12 +18,30 @@
 /*============================ HAL接口声明 ============================*/
 /**
  * @brief SH1106 I2C HAL接口实例
- * @note  在使用SH1106前必须通过Device_SH1106_Init()初始化此指针
  */
 extern device_i2c_hal_t *sh1106_i2c_hal;
 
 /**
- * @brief 初始化SH1106并绑定HAL接口
+ * @brief SH1106 SPI HAL接口实例
+ */
+extern device_spi_hal_t *sh1106_spi_hal;
+
+/**
+ * @brief 初始化SH1106并绑定I2C HAL接口
+ * @param hal I2C HAL接口指针
+ * @return 0-成功，非0-失败
+ */
+int SH1106_Init_HAL_I2C(device_i2c_hal_t *hal);
+
+/**
+ * @brief 初始化SH1106并绑定SPI HAL接口
+ * @param hal SPI HAL接口指针
+ * @return 0-成功，非0-失败
+ */
+int SH1106_Init_HAL_SPI(device_spi_hal_t *hal);
+
+/**
+ * @brief 初始化SH1106并绑定HAL接口（兼容旧接口，默认使用I2C）
  * @param hal I2C HAL接口指针
  * @return 0-成功，非0-失败
  */
@@ -55,7 +73,6 @@ void SH1106_DrawPoint(int16_t X, int16_t Y);
 uint32_t SH1106_GetPoint(uint16_t X, uint16_t Y);
 void SH1106_SetPixel(uint16_t x, uint16_t y, uint32_t color);
 void SH1106_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
-
 
 #endif
 #endif

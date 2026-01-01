@@ -7,6 +7,7 @@
  */
 
 #include "device_hal.h"
+#include <config.h>
 #include <string.h>
 
 /* 根据配置包含相应的底层驱动 */
@@ -79,8 +80,8 @@ int device_i2c_hal_init_soft(device_i2c_hal_t *hal, void *i2c_bus)
     hal->read_byte = soft_i2c_read_byte;
     hal->read_bytes = soft_i2c_read_bytes;
     hal->write_bytes = soft_i2c_write_bytes;
-    hal->delay_ms = delay.ms;
-    hal->delay_us = delay.us;
+    hal->delay_ms = delay_ms;
+    hal->delay_us = delay_us;
     hal->user_data = i2c_bus;
     hal->initialized = true;
 
