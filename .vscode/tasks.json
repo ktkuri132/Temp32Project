@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "python",
       "args": [
-        "${workspaceFolder}/download.py"
+        "${workspaceFolder}/tool/download.py"
       ],
       "problemMatcher": [],
       "group": {

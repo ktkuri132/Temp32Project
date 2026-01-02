@@ -27,6 +27,8 @@ void Default_Handler(void);
 void main(void);
 void SystemInit(void);
 void __libc_init_array(void);
+int df_log_init(void);
+int df_framework_init(void); /* 驱动框架自动初始化 */
 
 /* Cortex-M4 系统中断 - 弱定义 */
 void NMI_Handler(void) __attribute__((weak, alias("Default_Handler")));
@@ -258,6 +260,12 @@ void __attribute__((naked, noreturn)) Reset_Handler(void)
 
     /* 调用C库初始化 */
     __libc_init_array();
+
+    /* 初始化日志系统  */
+    df_log_init();
+
+    /* 调用驱动框架自动初始化 */
+    df_framework_init();
 
     /* 跳转到main函数 */
     main();
