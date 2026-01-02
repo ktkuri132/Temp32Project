@@ -1,26 +1,28 @@
+/**
+ * @file Systick.c
+ * @brief STM32F4 SysTick 系统定时器驱动
+ * @note 支持中断模式和轮询模式
+ */
+
 #include "driver.h"
 #include "df_log.h"
 
-/**
- * STM32F4 SysTick驱动
- * 支持两种模式：
- *   1. 中断模式 - 定时产生中断
- *   2. 计数模式 - 仅计数，用于精确延时（不产生中断）
- */
-
+/*============================ 内部变量 ============================*/
 static systick_mode_t g_systick_mode = SYSTICK_MODE_INTERRUPT;
 
+/*============================ 接口实现 ============================*/
+
 /**
- * @brief 初始化SysTick定时器（中断模式，微秒级）
+ * @brief 初始化 SysTick 定时器（中断模式，微秒级）
  * @param interval_us 中断间隔时间（微秒）
  * @note 最大间隔时间 = (2^24 - 1) / (SystemCoreClock / 1000000) 微秒
- *       对于168MHz时钟，最大约为 99.86ms
+ *       对于 168MHz 时钟，最大约为 99.86ms
  */
 void Systick_Init_us(uint32_t interval_us)
 {
     uint32_t ticks = (SystemCoreClock / 1000000) * interval_us;
 
-    // 检查是否超过24位计数器最大值
+    /* 检查是否超过 24 位计数器最大值 */
     if (ticks > 0xFFFFFF)
     {
         ticks = 0xFFFFFF;
@@ -35,9 +37,9 @@ void Systick_Init_us(uint32_t interval_us)
 }
 
 /**
- * @brief 初始化SysTick定时器（中断模式，毫秒级）
+ * @brief 初始化 SysTick 定时器（中断模式，毫秒级）
  * @param interval_ms 中断间隔时间（毫秒）
- * @note 最大间隔时间约为99ms（168MHz时钟）
+ * @note 最大间隔时间约为 99ms（168MHz 时钟）
  */
 void Systick_Init_ms(uint32_t interval_ms)
 {
@@ -45,16 +47,16 @@ void Systick_Init_ms(uint32_t interval_ms)
 }
 
 /**
- * @brief 初始化SysTick为计数模式（不产生中断）
+ * @brief 初始化 SysTick 为计数模式（不产生中断）
  * @note 用于精确延时，配合 Systick_Delay_us/ms 使用
  */
 void Systick_Init_Polling(void)
 {
     g_systick_mode = SYSTICK_MODE_POLLING;
-    SysTick->LOAD = 0xFFFFFF; // 最大值
+    SysTick->LOAD = 0xFFFFFF; /* 最大值 */
     SysTick->VAL = 0;
     SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
-                    SysTick_CTRL_ENABLE_Msk; // 不使能中断
+                    SysTick_CTRL_ENABLE_Msk; /* 不使能中断 */
 }
 
 /**

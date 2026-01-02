@@ -3,7 +3,6 @@
 
 #include <config.h>
 #ifdef USE_DEVICE_SH1106
-#include "fonts.h"
 #include <stdarg.h>
 #include <string.h>
 #include <device_hal.h>

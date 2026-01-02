@@ -30,7 +30,7 @@
 #include <string.h>
 #include <df_delay.h>
 
-extern Dt delay;
+extern df_delay_t delay;
 #include <math.h>
 
 /*============================ HAL接口实例 ============================*/
@@ -295,7 +295,7 @@ int8_t BMP280_InitWithConfig(BMP280_Config_t *config)
 
     /* 软复位 */
     BMP280_SoftReset();
-    delay.ms(10);
+    delay.ms(arg_u32(10));
 
     /* 读取校准参数 */
     if (BMP280_ReadCalibData() != BMP280_OK)
@@ -610,7 +610,7 @@ uint8_t BMP280_ReadStatus(void)
 uint8_t BMP280_IsConnected(void)
 {
 
-    if (Soft_IIC_Cheak(&i2c_Dev, BMP280_I2C_ADDR))
+    if (Soft_IIC_Check(&i2c_Dev, BMP280_I2C_ADDR))
     {
         return 0;
     }

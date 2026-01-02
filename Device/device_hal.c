@@ -13,7 +13,7 @@
 /* 根据配置包含相应的底层驱动 */
 #ifdef __SOFTI2C_
 #include <i2c/df_iic.h>
-extern SIAS i2c1_bus; /* 外部软件I2C总线 */
+extern df_soft_iic_t i2c1_bus; /* 外部软件I2C总线 */
 #endif
 
 #include <df_delay.h>

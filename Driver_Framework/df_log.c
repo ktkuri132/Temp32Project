@@ -6,9 +6,13 @@
  */
 
 #include "df_log.h"
+#include "df_uart.h"
 #include "df_init.h"
 #include <string.h>
 #include <stdlib.h>
+
+// ============ UART 设备绑定 ============
+static df_uart_t *g_log_uart = NULL;
 
 // ============ 时间戳回调函数（需要用户实现）============
 static uint32_t (*g_get_tick_func)(void) = NULL;
@@ -76,6 +80,76 @@ void log_set_timestamp_func(uint32_t (*get_tick)(void))
 void log_enable_timestamp(bool enable)
 {
     g_log_config.enable_timestamp = enable;
+}
+
+// ============ UART 设备绑定 ============
+/**
+ * @brief 绑定 UART 设备用于日志输出
+ * @param uart UART 设备指针
+ * @note 绑定后，所有日志将通过该 UART 输出
+ */
+void log_set_uart(struct df_uart_struct *uart)
+{
+    g_log_uart = uart;
+
+    // 同时设置输出函数为 UART 发送
+    if (uart != NULL && uart->send != NULL)
+    {
+        // 使用 lambda 风格的包装函数
+        g_log_config.output_func = NULL; // 清除旧的回调
+    }
+}
+
+// ============ 统一输出函数 ============
+/**
+ * @brief 内部统一输出函数
+ * @param str 要输出的字符串
+ */
+static void log_output_internal(const char *str)
+{
+    // 优先使用绑定的 UART 设备
+    if (g_log_uart != NULL && g_log_uart->send != NULL)
+    {
+        g_log_uart->send(arg_ptr((void *)str));
+    }
+    // 其次使用自定义输出函数
+    else if (g_log_config.output_func != NULL)
+    {
+        g_log_config.output_func(str);
+    }
+    // 最后回退到标准输出
+    else
+    {
+        printf("%s", str);
+        fflush(stdout);
+    }
+}
+
+/**
+ * @brief 原始字符串输出（不带格式化）
+ * @param str 要输出的字符串
+ */
+void log_raw(const char *str)
+{
+    if (str != NULL)
+    {
+        log_output_internal(str);
+    }
+}
+
+/**
+ * @brief 格式化输出（不带日志级别/标签）
+ * @param fmt 格式字符串
+ * @param ... 可变参数
+ */
+void log_printf(const char *fmt, ...)
+{
+    static char log_printf_buf[512];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(log_printf_buf, sizeof(log_printf_buf), fmt, args);
+    va_end(args);
+    log_output_internal(log_printf_buf);
 }
 
 // ============ 缓冲区管理 ============
@@ -193,16 +267,8 @@ int log_flush(void)
         }
 
         // 输出数据
-        if (g_log_config.output_func)
-        {
-            temp[chunk_size] = '\0';
-            g_log_config.output_func(temp);
-        }
-        else
-        {
-            fwrite(temp, 1, chunk_size, stdout);
-            fflush(stdout);
-        }
+        temp[chunk_size] = '\0';
+        log_output_internal(temp);
 
         output_count += chunk_size;
     }
@@ -251,15 +317,8 @@ void log_print(log_level_t level, const char *tag, const char *fmt, ...)
     }
     else
     {
-        // 直接输出模式
-        if (g_log_config.output_func)
-        {
-            g_log_config.output_func(full_log);
-        }
-        else
-        {
-            printf("%s", full_log);
-        }
+        // 直接输出模式：使用统一输出函数
+        log_output_internal(full_log);
     }
 }
 

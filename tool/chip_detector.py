@@ -67,6 +67,21 @@ class ChipDetector:
             return f"stm32{letter}{number}"
         return None
 
+    def get_chip_model_dir(self, chip_name):
+        """根据芯片名称获取芯片型号目录名（如 f407）
+
+        从完整芯片名提取型号部分：
+        STM32F407VET6 -> f407
+        STM32F103C8T6 -> f103
+        STM32H743ZIT6 -> h743
+        """
+        chip_lower = chip_name.lower()
+        # 匹配 stm32 + 一个字母 + 3位数字
+        match = re.match(r'stm32([a-z]\d{3})', chip_lower)
+        if match:
+            return match.group(1)  # 返回如 f407, f103, h743
+        return None
+
     def get_all_bsp_chip_dirs(self):
         """获取BSP目录下所有芯片目录（排除CMSIS）"""
         bsp_dir = self.project_root / 'BSP'
@@ -218,6 +233,7 @@ class ChipDetector:
         fpu_info = self.get_fpu_info(arch)
         download_target = self.get_download_target(chip_name)
         bsp_dir = self.get_bsp_chip_dir(chip_name)
+        chip_model_dir = self.get_chip_model_dir(chip_name)
         chip_package = self.get_chip_package(chip_name)
 
         return {
@@ -228,7 +244,8 @@ class ChipDetector:
             'float_description': fpu_info['description'],
             'download_target': download_target,
             'bsp_dir': bsp_dir,
-            'chip_package': chip_package
+            'chip_model_dir': chip_model_dir,  # 如 f407, f103
+            'chip_package': chip_package        # 如 vet6, vgt6
         }
 
 

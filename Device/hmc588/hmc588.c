@@ -8,7 +8,7 @@
 #ifdef USE_DEVICE_HMC588
 #include <df_delay.h>
 
-extern Dt delay;
+extern df_delay_t delay;
 
 #include "hmc588.h"
 #include <math.h>
@@ -178,7 +178,7 @@ uint8_t HMC5883L_Init_Config(HMC5883L_Config_t *config)
 	HMC_WriteReg(HMC5883L_REG_MODE, config->mode);
 
 	/* 等待首次测量完成 */
-	delay.ms(100);
+	delay.ms(arg_u32(100));
 
 	return 0;
 }
@@ -504,7 +504,7 @@ uint8_t HMC5883L_SelfTest(void)
 	HMC_WriteReg(HMC5883L_REG_CRB, HMC5883L_GAIN_390);
 	HMC_WriteReg(HMC5883L_REG_MODE, HMC5883L_MODE_SINGLE);
 
-	delay.ms(70); // 等待测量完成
+	delay.ms(arg_u32(70)); // 等待测量完成
 
 	/* 读取正偏置数据 */
 	HMC_GetData(&x_pos, &y_pos, &z_pos);
@@ -513,7 +513,7 @@ uint8_t HMC5883L_SelfTest(void)
 	HMC_WriteReg(HMC5883L_REG_CRA, HMC5883L_SAMPLES_8 | HMC5883L_RATE_15 | HMC5883L_MEASURE_NEGATIVE);
 	HMC_WriteReg(HMC5883L_REG_MODE, HMC5883L_MODE_SINGLE);
 
-	delay.ms(70); // 等待测量完成
+	delay.ms(arg_u32(70)); // 等待测量完成
 
 	/* 读取负偏置数据 */
 	HMC_GetData(&x_neg, &y_neg, &z_neg);
@@ -538,7 +538,7 @@ uint8_t HMC5883L_SelfTest(void)
 	HMC_WriteReg(HMC5883L_REG_CRB, old_crb);
 	HMC_WriteReg(HMC5883L_REG_MODE, old_mode);
 
-	delay.ms(70); // 等待恢复
+	delay.ms(arg_u32(70)); // 等待恢复
 
 	return result;
 }
@@ -569,7 +569,7 @@ uint8_t HMC5883L_Calibrate(HMC5883L_Calibration_t *calib, uint16_t samples)
 		/* 等待数据就绪 */
 		while (!HMC5883L_IsDataReady())
 		{
-			delay.ms(5);
+			delay.ms(arg_u32(5));
 		}
 
 		/* 读取原始数据 */
@@ -590,7 +590,7 @@ uint8_t HMC5883L_Calibrate(HMC5883L_Calibration_t *calib, uint16_t samples)
 			z_max = raw_z;
 
 		/* 采样间隔 */
-		delay.ms(50);
+		delay.ms(arg_u32(50));
 	}
 
 	/* 计算硬铁偏移（椭圆中心） */

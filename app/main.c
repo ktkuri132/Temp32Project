@@ -7,11 +7,10 @@
 #include <mpu6050/inv_mpu.h>
 #include <hmc588/hmc588.h>
 #include <config.h>
-float pitch, roll, yaw;
-int16_t mag_x, mag_y, mag_z;
+
 int main()
 {
-    Device_Registration(Dev_info_poor); // 初始化设备模型
+
 
     while (1)
     {

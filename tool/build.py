@@ -15,9 +15,9 @@ sys.path.insert(0, str(Path(__file__).parent / 'tool'))
 
 from project_config import ProjectConfig
 from source_scanner import SourceScanner
+from chip_detector import ChipDetector
 from cmake_generator import CMakeGenerator
 from vscode_config_generator import VscodeConfigGenerator, AdditionalConfigGenerator
-from chip_detector import ChipDetector
 from config_generator import ConfigGenerator
 
 
@@ -104,13 +104,19 @@ class ProjectBuilder:
         chip_info = self.chip_detector.get_chip_info(chip_name)
         bsp_chip_dir = chip_info.get('bsp_dir', '')
         chip_package = chip_info.get('chip_package', '')  # 获取芯片封装型号
+        chip_model_dir = chip_info.get('chip_model_dir', '')  # 获取芯片型号目录
 
-        # 扫描BSP源文件，传递chip_package参数以选择正确的封装目录
-        bsp_sources, bsp_include_dirs = self.scanner.scan_bsp_sources(bsp_chip_dir, chip_package)
+        # 扫描BSP源文件，传递chip_package和chip_model_dir参数
+        bsp_sources, bsp_include_dirs = self.scanner.scan_bsp_sources(
+            bsp_chip_dir, chip_package, chip_model_dir
+        )
+        if chip_model_dir:
+            print(f"使用芯片型号目录: {chip_model_dir}")
         if chip_package:
             print(f"使用芯片封装目录: {chip_package}")
         bsp_config = {
             'chip_dir': bsp_chip_dir,
+            'chip_model_dir': chip_model_dir,  # 保存芯片型号目录
             'chip_package': chip_package,  # 保存芯片封装信息
             'sources': [str(src.relative_to(self.project_root / 'BSP').as_posix()) for src in bsp_sources],
             'include_dirs': [str(inc.relative_to(self.project_root).as_posix()) for inc in bsp_include_dirs]

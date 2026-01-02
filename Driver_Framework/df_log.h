@@ -140,6 +140,10 @@ typedef struct
 // ============ 全局日志配置 ============
 extern log_config_t g_log_config;
 
+// ============ UART 设备绑定 ============
+struct df_uart_struct;                          // 前向声明
+void log_set_uart(struct df_uart_struct *uart); // 绑定 UART 设备
+
 // ============ 日志初始化 ============
 void log_init(log_level_t level);
 void log_set_level(log_level_t level);
@@ -156,6 +160,8 @@ size_t log_buffer_get_usage(void);                          // 获取缓冲区�
 bool log_buffer_is_full(void);                              // 检查缓冲区是否满
 // ============ 底层日志函数 ============
 void log_print(log_level_t level, const char *tag, const char *fmt, ...);
+void log_raw(const char *str);         // 原始输出（不带格式）
+void log_printf(const char *fmt, ...); // 格式化输出（不带级别/标签）
 
 // ============ 日志宏定义 ============
 #define LOG_TAG_DEFAULT "DF"
@@ -229,76 +235,79 @@ void log_hex_dump(log_level_t level, const char *tag, const void *data, size_t l
 // ------------ 带对齐的日志宏（简洁格式）------------
 // 格式: [TAG    ] message
 #define out_log(fmt, ...) \
-    printf(FG_MAGENTA "%-8s" RESET_ALL " " fmt "\n", "[LOG]", ##__VA_ARGS__)
+    log_printf(FG_MAGENTA "%-8s" RESET_ALL " " fmt "\n", "[LOG]", ##__VA_ARGS__)
 #define error(fmt, ...) \
-    printf(FG_RED "%-8s" RESET_ALL " " fmt "\n", "[ERROR]", ##__VA_ARGS__)
+    log_printf(FG_RED "%-8s" RESET_ALL " " fmt "\n", "[ERROR]", ##__VA_ARGS__)
 #define warning(fmt, ...) \
-    printf(FG_YELLOW "%-8s" RESET_ALL " " fmt "\n", "[WARN]", ##__VA_ARGS__)
+    log_printf(FG_YELLOW "%-8s" RESET_ALL " " fmt "\n", "[WARN]", ##__VA_ARGS__)
 #define info(fmt, ...) \
-    printf(FG_GREEN "%-8s" RESET_ALL " " fmt "\n", "[INFO]", ##__VA_ARGS__)
+    log_printf(FG_GREEN "%-8s" RESET_ALL " " fmt "\n", "[INFO]", ##__VA_ARGS__)
 #define debug(fmt, ...) \
-    printf(FG_BLUE "%-8s" RESET_ALL " " fmt "\n", "[DEBUG]", ##__VA_ARGS__)
+    log_printf(FG_BLUE "%-8s" RESET_ALL " " fmt "\n", "[DEBUG]", ##__VA_ARGS__)
 #define success(fmt, ...) \
-    printf(FG_CYAN "%-8s" RESET_ALL " " fmt "\n", "[OK]", ##__VA_ARGS__)
+    log_printf(FG_CYAN "%-8s" RESET_ALL " " fmt "\n", "[OK]", ##__VA_ARGS__)
 
 // ------------ 带文件位置的详细日志宏（调试用）------------
 // 格式: [TAG    ] filename.c:123  | func_name            | message
-#define out_log_v(fmt, ...)                                               \
-    printf(FG_MAGENTA "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
-           "[LOG]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define error_v(fmt, ...)                                             \
-    printf(FG_RED "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
-           "[ERROR]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define warning_v(fmt, ...)                                              \
-    printf(FG_YELLOW "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
-           "[WARN]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define info_v(fmt, ...)                                                \
-    printf(FG_GREEN "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
-           "[INFO]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define debug_v(fmt, ...)                                              \
-    printf(FG_BLUE "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
-           "[DEBUG]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define success_v(fmt, ...)                                            \
-    printf(FG_CYAN "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
-           "[OK]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define out_log_v(fmt, ...)                                                   \
+    log_printf(FG_MAGENTA "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
+               "[LOG]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define error_v(fmt, ...)                                                 \
+    log_printf(FG_RED "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
+               "[ERROR]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define warning_v(fmt, ...)                                                  \
+    log_printf(FG_YELLOW "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
+               "[WARN]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define info_v(fmt, ...)                                                    \
+    log_printf(FG_GREEN "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
+               "[INFO]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define debug_v(fmt, ...)                                                  \
+    log_printf(FG_BLUE "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
+               "[DEBUG]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define success_v(fmt, ...)                                                \
+    log_printf(FG_CYAN "%-8s" RESET_ALL " %-20s:%-4d | %-20s | " fmt "\n", \
+               "[OK]", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 
 // ------------ 键值对输出宏（自动对齐）------------
 // 格式: Key              : Value
 #define log_kv(key, fmt, ...) \
-    printf("%-*s : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
+    log_printf("%-*s : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
 
 // 带颜色的键值对
 #define log_kv_info(key, fmt, ...) \
-    printf(FG_GREEN "%-*s" RESET_ALL " : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
+    log_printf(FG_GREEN "%-*s" RESET_ALL " : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
 #define log_kv_warn(key, fmt, ...) \
-    printf(FG_YELLOW "%-*s" RESET_ALL " : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
+    log_printf(FG_YELLOW "%-*s" RESET_ALL " : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
 #define log_kv_error(key, fmt, ...) \
-    printf(FG_RED "%-*s" RESET_ALL " : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
+    log_printf(FG_RED "%-*s" RESET_ALL " : " fmt "\n", LOG_ALIGN_KEY_WIDTH, key, ##__VA_ARGS__)
 
 // ------------ 表格输出辅助宏 ------------
 // 打印分隔线
 #define log_separator(width, ch)          \
     do                                    \
     {                                     \
+        char _sep_buf[(width) + 2];       \
         for (int i = 0; i < (width); i++) \
-            putchar(ch);                  \
-        putchar('\n');                    \
+            _sep_buf[i] = (ch);           \
+        _sep_buf[(width)] = '\n';         \
+        _sep_buf[(width) + 1] = '\0';     \
+        log_raw(_sep_buf);                \
     } while (0)
 
 // 打印表头（自动居中）
 #define log_table_header(fmt, ...) \
-    printf(TEXT_BOLD fmt RESET_ALL "\n", ##__VA_ARGS__)
+    log_printf(TEXT_BOLD fmt RESET_ALL "\n", ##__VA_ARGS__)
 
 // ------------ 进度/状态指示宏 ------------
 // 打印带状态的行
 #define log_status(name, status) \
-    printf("%-*s [%s]\n", LOG_ALIGN_KEY_WIDTH, name, status)
+    log_printf("%-*s [%s]\n", LOG_ALIGN_KEY_WIDTH, name, status)
 
 #define log_status_ok(name) \
-    printf("%-*s [" FG_GREEN "OK" RESET_ALL "]\n", LOG_ALIGN_KEY_WIDTH, name)
+    log_printf("%-*s [" FG_GREEN "OK" RESET_ALL "]\n", LOG_ALIGN_KEY_WIDTH, name)
 #define log_status_fail(name) \
-    printf("%-*s [" FG_RED "FAIL" RESET_ALL "]\n", LOG_ALIGN_KEY_WIDTH, name)
+    log_printf("%-*s [" FG_RED "FAIL" RESET_ALL "]\n", LOG_ALIGN_KEY_WIDTH, name)
 #define log_status_skip(name) \
-    printf("%-*s [" FG_YELLOW "SKIP" RESET_ALL "]\n", LOG_ALIGN_KEY_WIDTH, name)
+    log_printf("%-*s [" FG_YELLOW "SKIP" RESET_ALL "]\n", LOG_ALIGN_KEY_WIDTH, name)
 
 #endif /* __DF_LOG_H__ */

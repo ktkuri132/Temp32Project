@@ -1,27 +1,12 @@
 #include "main.h"
 
-// SH1106适配函数（因为SH1106的接口与LCD_Handler_t不完全兼容）
-static void SH1106_SetPixel_Adapter(uint16_t x, uint16_t y, uint32_t color)
-{
-    // SH1106是单色屏，只要color非0就点亮
-    if (color)
-    {
-        SH1106_DrawPoint(x, y);
-    }
-}
-
-static uint32_t SH1106_GetPixel_Adapter(uint16_t x, uint16_t y)
-{
-    return SH1106_GetPoint(x, y);
-}
-
 shell Shell = {
-    .Shell_Init = false,               // Shell未初始化
-    .c = 0,                            // 初始化接收字符
-    .Res_len = 0,                      // 初始化接收长度
-    .UART_NOTE = 0,                    // 初始化串口节点
-    .RunStae = 0,                      // 初始化运行状态
-    .Data_Receive = USART1_ReceiveChar // 数据接收函数指针
+    .Shell_Init = false, // Shell未初始化
+    .c = 0,              // 初始化接收字符
+    .Res_len = 0,        // 初始化接收长度
+    .UART_NOTE = 0,      // 初始化串口节点
+    .RunStae = 0,        // 初始化运行状态
+    .Data_Receive = NULL // 数据接收函数指针（需要适配新接口）
 };
 
 Sysfpoint Shell_Sysfpoint;
@@ -65,31 +50,13 @@ LCD_Handler_t lcd_sh1106 = {
 //     .BackColor = 0x00000000,
 //     .TerminalMode = true};
 
-dev_info_t Dev_info_poor[] = {
+df_dev_t Dev_info_poor[] = {
 
     //     {.name = OLED_SH1106_NAME,
     //   .init = sh1106_dev_init,
     //   .enable = NULL,
     //   .disable = NULL,
     //   .arg.ptr = (void *)&lcd_sh1106},
-
-    // {.name = DEBUG_UART_NAME,
-    //  .init = usart1_init,
-    //  .enable = usart1_start,
-    //  .disable = usart1_stop,
-    //  .arg.ptr = (void *)&debug},
-
-    // {.name = "SysTick",
-    //  .init = systick_init,
-    //  .enable = NULL,  // SysTick不需要启用函数
-    //  .disable = NULL, // SysTick不需要禁用函数
-    //  .arg.ptr = NULL},
-
-    // {.name = "NVIC",
-    //  .init = nvic_init,
-    //  .enable = NULL,  // NVIC不需要启用函数
-    //  .disable = NULL, // NVIC不需要禁用函数
-    //  .arg.ptr = NULL},
 
     // {.name = ONBOARD_LED_NAME,
     //  .init = led_init,
@@ -102,11 +69,6 @@ dev_info_t Dev_info_poor[] = {
     //     .enable = NULL,
     //     .disable = NULL,
     //     .arg.ptr = (void *)&lcd_ssd1306},
-    // {.name = ADC1_NAME,
-    //  .init = adc1_init,
-    //  .enable = adc1_enable,
-    //  .disable = adc1_disable,
-    //  .arg.ptr = NULL},
 
     {.name = "", // 空字符串表示数组结束
      .init = NULL,
@@ -119,3 +81,19 @@ dev_info_t Dev_info_poor[] = {
 EnvVar env_vars[] = {
     {NULL} // 环境变量列表结束标志
 };
+
+// ============ 自动初始化 ============
+/**
+ * @brief 设备框架自动初始化函数
+ * @details 在框架初始化时自动调用，初始化设备管理框架
+ * @return 0表示成功
+ */
+static int df_device_frame_auto_init(void)
+{
+    // LOG_I("DEV", "Device framework initialized\n");
+    df_dev_register(Dev_info_poor); // 初始化设备模型
+    return 0;
+}
+
+// 将设备框架初始化注册到PREV级别（在BOARD之后）
+DF_INIT_EXPORT(df_device_frame_auto_init, DF_INIT_EXPORT_PREV);

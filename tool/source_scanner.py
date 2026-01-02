@@ -305,7 +305,58 @@ class SourceScanner:
             }
 
     def find_linker_script(self, chip_name):
-        """查找链接脚本文件"""
+        """查找链接脚本文件
+
+        按新目录结构查找：
+        BSP/<bsp_dir>/<model_dir>/<package>/stm32<model><package>.ld
+        例如: BSP/stm32f4/f407/vgt6/stm32f4vgt6.ld
+
+        优先级:
+        1. 精确匹配封装目录下的链接脚本
+        2. 型号目录下的通用链接脚本
+        3. Core目录下的链接脚本
+        4. 全局搜索
+        """
+        chip_lower = chip_name.lower()
+
+        # 从芯片名解析各层目录信息
+        # STM32F407VGT6 -> bsp_dir=stm32f4, model_dir=f407, package=vgt6
+        import re
+        bsp_dir = self.get_bsp_chip_dir(chip_name)  # stm32f4
+        model_match = re.match(r'stm32([a-z]\d{3})', chip_lower)
+        model_dir = model_match.group(1) if model_match else None  # f407
+        package_match = re.match(r'stm32[a-z]\d{3}([a-z]\d*[a-z]*\d*)', chip_lower)
+        chip_package = package_match.group(1) if package_match else None  # vgt6
+
+        # 优先级1: 按新目录结构查找封装特定的链接脚本
+        if bsp_dir and model_dir and chip_package:
+            # BSP/stm32f4/f407/vgt6/stm32f4vgt6.ld
+            package_ld_path = self.project_root / 'BSP' / bsp_dir / model_dir / chip_package
+            if package_ld_path.exists():
+                for ld_file in package_ld_path.glob('*.ld'):
+                    rel_path = ld_file.relative_to(self.project_root)
+                    print(f"找到封装特定链接脚本: {rel_path}")
+                    return rel_path.as_posix()
+
+        # 优先级2: 型号目录下的通用链接脚本
+        if bsp_dir and model_dir:
+            model_ld_path = self.project_root / 'BSP' / bsp_dir / model_dir
+            if model_ld_path.exists():
+                for ld_file in model_ld_path.glob('*.ld'):
+                    rel_path = ld_file.relative_to(self.project_root)
+                    print(f"找到型号通用链接脚本: {rel_path}")
+                    return rel_path.as_posix()
+
+        # 优先级3: Core目录下的链接脚本
+        if bsp_dir:
+            core_ld_path = self.project_root / 'BSP' / bsp_dir / 'Core'
+            if core_ld_path.exists():
+                for ld_file in core_ld_path.glob('*.ld'):
+                    rel_path = ld_file.relative_to(self.project_root)
+                    print(f"找到Core链接脚本: {rel_path}")
+                    return rel_path.as_posix()
+
+        # 优先级4: 全局搜索（兼容旧结构）
         linker_scripts = []
         linker_extensions = {'.ld', '.lds'}
 
@@ -343,12 +394,19 @@ class SourceScanner:
         print(f"使用找到的链接脚本: {rel_path}")
         return rel_path.as_posix()
 
-    def scan_bsp_sources(self, bsp_chip_dir, chip_package=None):
+    def scan_bsp_sources(self, bsp_chip_dir, chip_package=None, chip_model_dir=None):
         """扫描BSP目录下的源文件
 
+        新目录结构:
+        BSP/<bsp_chip_dir>/Core/         # 核心启动文件
+        BSP/<bsp_chip_dir>/Driver/       # 通用驱动
+        BSP/<bsp_chip_dir>/<model_dir>/  # 型号共享驱动 (如 f407)
+        BSP/<bsp_chip_dir>/<model_dir>/<package>/  # 封装特定配置 (如 vgt6)
+
         Args:
-            bsp_chip_dir: 芯片目录名 (如 stm32f4)
-            chip_package: 芯片封装型号 (如 vet6, vgt6)，用于选择正确的封装驱动目录
+            bsp_chip_dir: 芯片系列目录名 (如 stm32f4)
+            chip_package: 芯片封装型号 (如 vet6, vgt6)
+            chip_model_dir: 芯片型号目录 (如 f407, f103)
         """
         bsp_sources = []
         bsp_include_dirs = set()
@@ -357,33 +415,29 @@ class SourceScanner:
         if not bsp_root.exists():
             return bsp_sources, bsp_include_dirs
 
-        # 获取Driver目录下所有封装目录
+        # 扫描 Core 目录
+        core_dir = bsp_root / 'Core'
+        if core_dir.exists():
+            self._scan_dir_for_sources(core_dir, bsp_sources, bsp_include_dirs)
+
+        # 扫描 Driver 目录 (通用外设驱动)
         driver_dir = bsp_root / 'Driver'
-        package_dirs = set()
         if driver_dir.exists():
-            for item in driver_dir.iterdir():
-                if item.is_dir() and not item.name.startswith('.'):
-                    # 检查是否是封装目录 (如 vet6, vgt6, c8t6 等)
-                    dir_name = item.name.lower()
-                    if re.match(r'^[a-z]\d*[a-z]*\d*$', dir_name) and len(dir_name) <= 6:
-                        package_dirs.add(dir_name)
+            self._scan_dir_for_sources(driver_dir, bsp_sources, bsp_include_dirs, recursive=False)
 
-        # 扫描源文件
-        for root, dirs, files in os.walk(bsp_root):
-            root_path = Path(root)
-            dirs[:] = [d for d in dirs if d not in self.exclude_dirs and not d.startswith('.')]
+        # 扫描型号目录 (如 f407)
+        if chip_model_dir:
+            model_dir = bsp_root / chip_model_dir
+            if model_dir.exists():
+                # 扫描型号目录下的共享驱动文件
+                self._scan_dir_for_sources(model_dir, bsp_sources, bsp_include_dirs, recursive=False)
 
-            # 如果指定了chip_package，排除不匹配的封装目录
-            # 当前目录是Driver目录时，过滤掉不匹配的封装子目录
-            if chip_package and root_path == driver_dir:
-                dirs[:] = [d for d in dirs if d.lower() not in package_dirs or d.lower() == chip_package.lower()]
-
-            for file in files:
-                file_path = root_path / file
-                if file_path.suffix in self.source_extensions:
-                    bsp_sources.append(file_path)
-                elif file_path.suffix in self.header_extensions:
-                    bsp_include_dirs.add(root_path)
+                # 扫描封装特定目录 (如 vgt6)
+                if chip_package:
+                    package_dir = model_dir / chip_package
+                    if package_dir.exists():
+                        bsp_include_dirs.add(package_dir)
+                        # 封装目录通常只有头文件和链接脚本，不扫描 .c 文件
 
         # 扫描CMSIS头文件目录
         cmsis_root = self.project_root / 'BSP' / 'CMSIS'
@@ -397,6 +451,35 @@ class SourceScanner:
                     bsp_include_dirs.add(root_path)
 
         return sorted(bsp_sources), sorted(bsp_include_dirs)
+
+    def _scan_dir_for_sources(self, directory, sources_list, includes_set, recursive=True):
+        """扫描指定目录的源文件和头文件
+
+        Args:
+            directory: 要扫描的目录
+            sources_list: 源文件列表（会被修改）
+            includes_set: 头文件目录集合（会被修改）
+            recursive: 是否递归扫描子目录
+        """
+        if recursive:
+            for root, dirs, files in os.walk(directory):
+                root_path = Path(root)
+                dirs[:] = [d for d in dirs if d not in self.exclude_dirs and not d.startswith('.')]
+
+                for file in files:
+                    file_path = root_path / file
+                    if file_path.suffix in self.source_extensions:
+                        sources_list.append(file_path)
+                    elif file_path.suffix in self.header_extensions:
+                        includes_set.add(root_path)
+        else:
+            # 只扫描当前目录，不递归
+            for file in directory.iterdir():
+                if file.is_file():
+                    if file.suffix in self.source_extensions:
+                        sources_list.append(file)
+                    elif file.suffix in self.header_extensions:
+                        includes_set.add(directory)
 
     def scan_device_sources(self):
         """扫描Device目录下的源文件，按设备分组"""

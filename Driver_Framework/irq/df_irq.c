@@ -75,7 +75,7 @@ extern uint32_t get_tick(void);
  *     }
  * @endcode
  */
-int8_t find_irq_handle(irq_handle_t ih[], uint16_t irq_num)
+int8_t df_irq_find(df_irq_t ih[], uint16_t irq_num)
 {
     /* 遍历句柄数组，使�?xFFFF作为结束标记 */
     for (int i = 0; ih[i].irq_num != 0xFFFF; i++)
@@ -132,22 +132,22 @@ int8_t find_irq_handle(irq_handle_t ih[], uint16_t irq_num)
  *     }
  * @endcode
  */
-int irq_handle_loader(irq_handle_t ih[], uint16_t irq_num, void *argv[])
+int df_irq_load(df_irq_t ih[], uint16_t irq_num, df_arg_t argv)
 {
     /* 步骤1：根据中断号查找对应的处理句�?*/
-    int8_t irq_handle_index = find_irq_handle(ih, irq_num);
+    int8_t irq_handle_index = df_irq_find(ih, irq_num);
 
     if (irq_handle_index >= 0)
     {
         /* 步骤2：检查中断状态，防止数据覆盖 */
-        if (ih[irq_handle_index].irq_state == IRQ_STATE_PENDING)
+        if (ih[irq_handle_index].state == DF_IRQ_STATE_PENDING)
         {
             return -1; /* 加载失败，数据被丢弃 */
         }
         else
         {
             /* 步骤3：标记中断状态为待处�?*/
-            ih[irq_handle_index].irq_state = IRQ_STATE_PENDING;
+            ih[irq_handle_index].state = DF_IRQ_STATE_PENDING;
 
             /* 步骤4：保存中断参数，供runner使用 */
             ih[irq_handle_index].argv = argv;
@@ -200,10 +200,10 @@ int irq_handle_loader(irq_handle_t ih[], uint16_t irq_num, void *argv[])
  *     }
  * @endcode
  */
-int irq_handle_runner(irq_handle_t ih[])
+int df_irq_run(df_irq_t ih[])
 {
     /* 分配临时数组用于按优先级排序，大小为最大优先级�?*/
-    static irq_handle_t ih_temp[IRQ_HANDLE_MAX_NUM];
+    static df_irq_t ih_temp[DF_IRQ_MAX_NUM];
     int i = 0, j = 0;
     /*
      * 第一阶段：扫描所有句柄，收集PENDING状态的中断
@@ -211,35 +211,35 @@ int irq_handle_runner(irq_handle_t ih[])
      */
     for (; ih[i].irq_num != 0xFFFF; i++)
     {
-        if (ih[i].irq_state == IRQ_STATE_PENDING) /* 只处理PENDING状�?*/
+        if (ih[i].state == DF_IRQ_STATE_PENDING) /* 只处理PENDING状�?*/
         {
             /* 以优先级为索引存入临时数组，存入结构体的地址 */
-            ih_temp[ih[i].irq_priority] = ih[i];
+            ih_temp[ih[i].priority] = ih[i];
             /* 将状态从PENDING改为READY，表示即将执�?*/
-            ih_temp[ih[i].irq_priority].irq_state = IRQ_STATE_READY;
+            ih_temp[ih[i].priority].state = DF_IRQ_STATE_READY;
         }
-        ih[i].irq_state = IRQ_STATE_DISABLE; /* 清除原句柄状�?*/
+        ih[i].state = DF_IRQ_STATE_DISABLE; /* 清除原句柄状�?*/
     }
     /*
      * 第二阶段：按优先级顺序（�?开始）查找并执�?
      * 优先�?最高，先执�?
      */
-    for (; j < IRQ_HANDLE_MAX_NUM; j++)
+    for (; j < DF_IRQ_MAX_NUM; j++)
     {
         /* 检查该优先级是否有待处理的中断 */
-        if (ih_temp[j].irq_state == IRQ_STATE_READY)
+        if (ih_temp[j].state == DF_IRQ_STATE_READY)
         {
             /* 执行中断回调函数，传入参�?*/
-            ih_temp[j].irq_thread(0, ih_temp[j].argv);
+            ih_temp[j].handler(ih_temp[j].argv);
             /* 执行完毕，清除状�?*/
-            ih_temp[j].irq_state = IRQ_STATE_DISABLE;
+            ih_temp[j].state = DF_IRQ_STATE_DISABLE;
         }
     }
     return -1; /* 没有待处理的中断 */
 }
 
 #include <driver.h>
-
+#include "misc.h"
 // ============ 自动初始�?============
 /**
  * @brief 中断管理框架自动初始化函�?
@@ -249,7 +249,7 @@ int irq_handle_runner(irq_handle_t ih[])
 static int df_irq_auto_init(void)
 {
     Systick_Init(1); // 配置1ms系统节拍
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    NVIC_SetPriorityGrouping(NVIC_PriorityGroup_4);
     NVIC_SetPriority(SysTick_IRQn, 0); // SysTick最高优先级
     NVIC_EnableIRQ(SysTick_IRQn);
     log_set_timestamp_func(get_tick);

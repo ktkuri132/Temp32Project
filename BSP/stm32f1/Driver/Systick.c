@@ -1,4 +1,5 @@
 #include "driver.h"
+#include "df_log.h"
 
 /**
  * STM32F1 SysTick驱动
@@ -13,7 +14,7 @@ static systick_mode_t g_systick_mode = SYSTICK_MODE_INTERRUPT;
  * @brief 初始化SysTick定时器（中断模式，微秒级）
  * @param interval_us 中断间隔时间（微秒）
  * @note 最大间隔时间 = (2^24 - 1) / (SystemCoreClock / 1000000) 微秒
- *       对于72MHz时钟，最大约为 233ms
+ *       对于168MHz时钟，最大约为 99.86ms
  */
 void Systick_Init_us(uint32_t interval_us)
 {
@@ -36,7 +37,7 @@ void Systick_Init_us(uint32_t interval_us)
 /**
  * @brief 初始化SysTick定时器（中断模式，毫秒级）
  * @param interval_ms 中断间隔时间（毫秒）
- * @note 最大间隔时间约为233ms（72MHz时钟）
+ * @note 最大间隔时间约为99ms（168MHz时钟）
  */
 void Systick_Init_ms(uint32_t interval_ms)
 {
@@ -54,6 +55,23 @@ void Systick_Init_Polling(void)
     SysTick->VAL = 0;
     SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
                     SysTick_CTRL_ENABLE_Msk; // 不使能中断
+}
+
+/**
+ * @brief 微秒级延时（阻塞）
+ * @param us 延时微秒数
+ * @note 需要先调用 Systick_Init_Polling() 或在中断模式下也可使用
+ */
+void Systick_Init(uint32_t ms)
+{
+    if (g_systick_mode == SYSTICK_MODE_POLLING)
+    {
+        Systick_Init_Polling();
+    }
+    else
+    {
+        Systick_Init_ms(ms); // 默认1ms
+    }
 }
 
 /**
@@ -105,18 +123,24 @@ systick_mode_t Systick_GetMode(void)
     return g_systick_mode;
 }
 
-/**
- * @brief 初始化SysTick定时器（兼容旧接口）
- */
-void Systick_Init(void)
+static uint64_t Systick_time;
+
+uint32_t get_tick(void)
 {
-    Systick_Init_ms(1); // 默认1ms
+    if (g_systick_mode == SYSTICK_MODE_POLLING)
+    {
+        return SysTick->VAL;
+    }
+    else
+    {
+        return (uint32_t)(Systick_time);
+    }
 }
 
-int systick_init(dev_arg_t arg)
+void SysTick_Handler(void)
 {
-    (void)arg;
-    // 配置生成1ms中断
-    Systick_Init_ms(1);
-    return 0;
+    // 在此处调用需要在SysTick中断中执行的函数
+    Systick_time++;
 }
+
+// DF_INIT_EXPORT(systick_init, DF_INIT_EXPORT_PREV);

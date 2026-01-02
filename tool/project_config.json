@@ -1,11 +1,11 @@
 {
   "project": {
     "name": "General_template_Project",
-    "chip": "STM32F407VGT6",
+    "chip": "STM32F103C8T6",
     "board": "BLUEPILL",
-    "architecture": "cortex-m4",
+    "architecture": "cortex-m3",
     "instruction_set": "thumb",
-    "float_type": "硬件浮点 (FPU: fpv4-sp-d16)"
+    "float_type": "软件浮点"
   },
   "toolchain": {
     "c_compiler": "arm-none-eabi-gcc",
@@ -28,7 +28,7 @@
       "nosys.specs",
       "nano.specs"
     ],
-    "script": "BSP/stm32f4/CORE/stm32f4xx.ld",
+    "script": "BSP/stm32f1/f103/c8t6/stm32f1c8t6.ld",
     "gc_sections": true,
     "map_file": true,
     "printf_float": true,
@@ -44,7 +44,7 @@
   ],
   "download": {
     "interface": "cmsis-dap",
-    "target": "stm32f4x",
+    "target": "stm32f1x",
     "speed": "50000"
   },
   "files": {
@@ -64,55 +64,65 @@
       "Driver_Framework/key/df_key.c",
       "Driver_Framework/lcd/df_fonts.c",
       "Driver_Framework/lcd/df_lcd.c",
+      "Driver_Framework/shell/df_shell.c",
       "Driver_Framework/spi/df_spi.c",
-      "Middleware/shell/shell.c",
       "Middleware/trans/stde.c",
       "Middleware/trans/terminal_link.c"
     ],
     "headers": [],
     "include_dirs": [
       "Driver_Framework/key",
-      "app",
       "Driver_Framework/i2c",
       "Driver_Framework/spi",
-      "Driver_Framework",
-      "Driver_Framework/irq",
       "Control",
-      "Middleware",
-      "Driver_Framework/display",
-      "Middleware/shell",
+      "Driver_Framework/irq",
+      "Driver_Framework/shell",
       "Driver_Framework/lcd",
-      "Middleware/trans"
+      "Driver_Framework/display",
+      "app",
+      "Driver_Framework",
+      "Middleware/trans",
+      "Middleware"
     ],
     "subdirs": [],
     "static_libraries": []
   },
   "bsp": {
-    "chip_dir": "stm32f4",
-    "chip_package": "vgt6",
+    "chip_dir": "stm32f1",
+    "chip_model_dir": "f103",
+    "chip_package": "c8t6",
     "sources": [
-      "stm32f4/CORE/startup_stm32f40_41xxx.c",
-      "stm32f4/CORE/stm32f4xx_it.c",
-      "stm32f4/CORE/system_stm32f4xx.c",
-      "stm32f4/Driver/adc.c",
-      "stm32f4/Driver/bsp_hal.c",
-      "stm32f4/Driver/delay.c",
-      "stm32f4/Driver/i2c_bus.c",
-      "stm32f4/Driver/i2c_dev.c",
-      "stm32f4/Driver/led.c",
-      "stm32f4/Driver/misc.c",
-      "stm32f4/Driver/nvic.c",
-      "stm32f4/Driver/Systick.c",
-      "stm32f4/Driver/usart.c"
+      "stm32f1/Core/startup_stm32f10x_md.c",
+      "stm32f1/Core/stm32f10x_it.c",
+      "stm32f1/Core/syscalls.c",
+      "stm32f1/Core/sysmem.c",
+      "stm32f1/Core/system_stm32f10x.c",
+      "stm32f1/Driver/adc.c",
+      "stm32f1/Driver/delay.c",
+      "stm32f1/Driver/i2c_bus.c",
+      "stm32f1/Driver/i2c_dev.c",
+      "stm32f1/Driver/irq.c",
+      "stm32f1/Driver/led.c",
+      "stm32f1/Driver/misc.c",
+      "stm32f1/Driver/nvic.c",
+      "stm32f1/Driver/Systick.c",
+      "stm32f1/Driver/usart.c",
+      "stm32f1/f103/f103_adc.c",
+      "stm32f1/f103/f103_gpio.c",
+      "stm32f1/f103/f103_i2c.c",
+      "stm32f1/f103/f103_spi.c",
+      "stm32f1/f103/f103_tim.c",
+      "stm32f1/f103/f103_usart.c"
     ],
     "include_dirs": [
       "BSP/CMSIS/Core/Include",
       "BSP/CMSIS/Core/Include/a-profile",
       "BSP/CMSIS/Core/Include/m-profile",
       "BSP/CMSIS/Core/Include/r-profile",
-      "BSP/stm32f4/CORE",
-      "BSP/stm32f4/Driver",
-      "BSP/stm32f4/Driver/vgt6"
+      "BSP/stm32f1/Core",
+      "BSP/stm32f1/Driver",
+      "BSP/stm32f1/f103",
+      "BSP/stm32f1/f103/c8t6"
     ]
   },
   "devices": {
@@ -147,7 +157,6 @@
     "sh1106": {
       "enabled": true,
       "sources": [
-        "sh1106/fonts.c",
         "sh1106/sh1106.c"
       ],
       "include_dirs": [
@@ -155,9 +164,8 @@
       ]
     },
     "ssd1306": {
-      "enabled": false,
+      "enabled": true,
       "sources": [
-        "ssd1306/fonts.c",
         "ssd1306/ssd1306.c"
       ],
       "include_dirs": [
@@ -165,7 +173,7 @@
       ]
     },
     "st7789": {
-      "enabled": false,
+      "enabled": true,
       "sources": [
         "st7789/st7789.c"
       ],
