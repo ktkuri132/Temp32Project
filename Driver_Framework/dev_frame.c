@@ -264,7 +264,7 @@ int Device_Ioctl(dev_info_t *device, int cmd, dev_arg_t arg)
  */
 static int df_device_frame_auto_init(void)
 {
-    LOG_I("DEV", "Device framework initialized\n");
+    // LOG_I("DEV", "Device framework initialized\n");
     return 0;
 }
 

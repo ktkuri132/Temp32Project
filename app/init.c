@@ -73,11 +73,11 @@ dev_info_t Dev_info_poor[] = {
     //   .disable = NULL,
     //   .arg.ptr = (void *)&lcd_sh1106},
 
-    {.name = DEBUG_UART_NAME,
-     .init = usart1_init,
-     .enable = usart1_start,
-     .disable = usart1_stop,
-     .arg.ptr = (void *)&debug},
+    // {.name = DEBUG_UART_NAME,
+    //  .init = usart1_init,
+    //  .enable = usart1_start,
+    //  .disable = usart1_stop,
+    //  .arg.ptr = (void *)&debug},
 
     // {.name = "SysTick",
     //  .init = systick_init,
@@ -85,17 +85,17 @@ dev_info_t Dev_info_poor[] = {
     //  .disable = NULL, // SysTick不需要禁用函数
     //  .arg.ptr = NULL},
 
-    {.name = "NVIC",
-     .init = nvic_init,
-     .enable = NULL,  // NVIC不需要启用函数
-     .disable = NULL, // NVIC不需要禁用函数
-     .arg.ptr = NULL},
+    // {.name = "NVIC",
+    //  .init = nvic_init,
+    //  .enable = NULL,  // NVIC不需要启用函数
+    //  .disable = NULL, // NVIC不需要禁用函数
+    //  .arg.ptr = NULL},
 
-    {.name = ONBOARD_LED_NAME,
-     .init = led_init,
-     .enable = led_on,
-     .disable = led_off,
-     .arg.ptr = NULL},
+    // {.name = ONBOARD_LED_NAME,
+    //  .init = led_init,
+    //  .enable = led_on,
+    //  .disable = led_off,
+    //  .arg.ptr = NULL},
 
     //{.name = OLED_SSD1306_NAME,
     //     .init = ssd1306_dev_init,

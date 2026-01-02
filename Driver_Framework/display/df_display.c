@@ -199,18 +199,3 @@ DisplayManager_t Display = {
     .Printf = Display_Printf,
     .Clear = Display_Clear};
 
-// ============ 自动初始化 ============
-/**
- * @brief 显示框架自动初始化函数
- * @details 在框架初始化时自动调用，初始化显示管理框架
- * @return 0表示成功
- */
-static int df_display_auto_init(void)
-{
-    // 显示框架暂无需特殊初始化，此函数用于日志记录
-    printf("[I] DISPLAY: Display framework initialized\n");
-    return 0;
-}
-
-// 将显示框架初始化注册到COMPONENT级别
-DF_INIT_EXPORT(df_display_auto_init, DF_INIT_EXPORT_COMPONENT);

@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "32_temp_project",
+    "name": "General_template_Project",
     "chip": "STM32F4",
     "board": "BLUEPILL",
     "architecture": "cortex-m4",
@@ -38,6 +38,7 @@
     ]
   },
   "defines": [
+    "LOG_USE_COLOR",
     "STM32F40_41xxx",
     "STM32F10X_MD"
   ],

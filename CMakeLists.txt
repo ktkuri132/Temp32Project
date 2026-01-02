@@ -20,7 +20,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(SIZE arm-none-eabi-size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-project(32_temp_project C CXX ASM)
+project(General_template_Project C CXX ASM)
 
 # 编译标志 (硬件浮点 (FPU: fpv4-sp-d16))
 set(CMAKE_C_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
@@ -33,6 +33,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-ab
 # 宏定义
 add_definitions(-DSTM32F40_41xxx)
 add_definitions(-DSTM32F10X_MD)
+add_definitions(-DLOG_USE_COLOR)
 add_definitions(-DUSE_DEVICE_BMP280)  # 启用bmp280设备驱动
 add_definitions(-DUSE_DEVICE_HMC588)  # 启用hmc588设备驱动
 add_definitions(-DUSE_DEVICE_MPU6050)  # 启用mpu6050设备驱动
@@ -133,7 +134,7 @@ set(SOURCE_FILES
 )
 
 # 创建可执行文件
-add_executable(${PROJECT_NAME}.elf 
+add_executable(${PROJECT_NAME}.elf
     ${SOURCE_FILES}
     ${BSP_SOURCES}      # BSP层源文件
     ${DEVICE_SOURCES}   # Device层源文件

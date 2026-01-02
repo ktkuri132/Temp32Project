@@ -110,15 +110,13 @@ int df_framework_init(void)
 
     df_initialized = 1;
 
-    LOGI("════════════════════════════════════════\n");
-    LOGI("[DF_INIT] %d components initialized", success);
+    LOGI("============================================\n");
+    LOGI("[DF_INIT] %d components initialized\n", success);
     if (failed > 0)
     {
         LOGE(", %d failed", failed);
     }
-    LOGI("\n════════════════════════════════════════\n\n");
+    LOGI("============================================\n\n");
 
     return success;
 }
-
-

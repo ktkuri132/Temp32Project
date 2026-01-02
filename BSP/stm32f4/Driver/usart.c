@@ -1,11 +1,13 @@
 #include "driver.h"
 #include <stdarg.h>
 #include "df_uart.h"
+#include <df_init.h>
+#include <df_log.h>
 #include "main.h"
 
-int usart1_init(dev_arg_t arg);
+int usart1_init();
 int usart1_stop(dev_arg_t arg);
-int usart1_send(dev_arg_t arg);
+void usart1_send(const char *data);
 int usart1_receive(dev_arg_t arg);
 
 Ut debug = {
@@ -15,7 +17,7 @@ Ut debug = {
     .BaudRate = 250000,
     .init = usart1_init,
     .deinit = usart1_stop,
-    .send = usart1_send,
+    .send = NULL,
     .printf = printf,
     .receive = usart1_receive,
     .send_withDMA = NULL,
@@ -120,25 +122,22 @@ int fputc(int ch, FILE *f)
 
 #endif
 
-int usart1_init(dev_arg_t arg)
-{
-    Ut *uart = (Ut *)arg.ptr;
-    if (*uart->UART_Name == "")
-    {
-        return -1;
-    }
-    USART1_Init(uart->BaudRate);
+
+int usart1_init(){
+    USART1_Init(250000);
     debug.UART_Init_Flag = true;
-    uart->send(arg_ptr(CLEAR_SCREEN));
-    uart->send(arg_ptr(CURSOR_HOME));
-    uart->send(arg_ptr("System Start!\r\n"));
+    g_log_config.output_func = usart1_send;
+    LOG_I("USART1", "USART1 initialized with baud rate %d\n", debug.BaudRate);
+    log_flush();
     return 0;
 }
 
-int usart1_send(dev_arg_t arg)
+DF_INIT_EXPORT(usart1_init,DF_INIT_EXPORT_PREV);
+
+
+void usart1_send(const char *data)
 {
-    USART1_SendString((char *)arg.ptr);
-    return 0;
+    USART1_SendString((char *)data);
 }
 
 int usart1_receive(dev_arg_t arg)

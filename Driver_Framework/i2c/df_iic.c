@@ -230,6 +230,8 @@ uint8_t Soft_IIC_Cheak(SIAS *i2c_dev, uint8_t addr)
     return 0;
 }
 
+#include <df_log.h>
+
 // ============ 自动初始化 ============
 /**
  * @brief I2C框架自动初始化函数
@@ -239,7 +241,7 @@ uint8_t Soft_IIC_Cheak(SIAS *i2c_dev, uint8_t addr)
 static int df_iic_auto_init(void)
 {
     // I2C框架暂无需特殊初始化，此函数用于日志记录
-    printf("[I] IIC: I2C framework initialized\n");
+    LOG_I("IIC", "I2C framework initialized\n");
     return 0;
 }
 

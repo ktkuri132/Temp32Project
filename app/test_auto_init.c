@@ -43,9 +43,9 @@ static int test_app_init(void)
 }
 
 // 注册初始化函数到不同级别
-DF_INIT_EXPORT(test_board_init, DF_INIT_EXPORT_BOARD);
-DF_INIT_EXPORT(test_device_init, DF_INIT_EXPORT_DEVICE);
-DF_INIT_EXPORT(test_app_init, DF_INIT_EXPORT_APP);
+// DF_INIT_EXPORT(test_board_init, DF_INIT_EXPORT_BOARD);
+// DF_INIT_EXPORT(test_device_init, DF_INIT_EXPORT_DEVICE);
+// DF_INIT_EXPORT(test_app_init, DF_INIT_EXPORT_APP);
 
 // ============ 测试函数（供main.c调用） ============
 

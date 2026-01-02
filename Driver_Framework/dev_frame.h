@@ -1,7 +1,7 @@
 #ifndef DEV_MODEL_CORE_H
 #define DEV_MODEL_CORE_H
 
-#include <shell/shell_style.h>
+#include <df_log.h> // 终端样式和日志
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
