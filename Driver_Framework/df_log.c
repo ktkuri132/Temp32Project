@@ -38,7 +38,7 @@ log_config_t g_log_config = {
     .enable_timestamp = false,
     .enable_color = false,
     .output_func = NULL,
-    .buffer_mode = LOG_BUFFER_MODE_DIRECT,
+    .buffer_mode = LOG_BUFFER_MODE_BUFFERED,
     .overflow_policy = LOG_OVERFLOW_OVERWRITE};
 
 // ============ 日志初始化 ============
@@ -46,15 +46,15 @@ void log_init(log_level_t level)
 {
     g_log_config.level = level;
     g_log_config.enable_timestamp = false;
-    g_log_config.enable_color = false;
+    g_log_config.enable_color = true;
     g_log_config.output_func = NULL;
-    g_log_config.buffer_mode = LOG_BUFFER_MODE_DIRECT;
+    g_log_config.buffer_mode = LOG_BUFFER_MODE_BUFFERED;
     g_log_config.overflow_policy = LOG_OVERFLOW_OVERWRITE;
 
     // 默认初始化1KB缓冲区
     if (!g_log_buffer.initialized)
     {
-        log_buffer_init(1024);
+        log_buffer_init(10240);
     }
 }
 
@@ -211,6 +211,9 @@ int log_flush(void)
 }
 
 // ============ 日志打印实现 ============
+// 时间戳宽度配置（用于对齐）
+#define LOG_TIMESTAMP_WIDTH 8
+
 void log_print(log_level_t level, const char *tag, const char *fmt, ...)
 {
     // 检查日志级别
@@ -220,20 +223,13 @@ void log_print(log_level_t level, const char *tag, const char *fmt, ...)
     }
 
     // 构建日志前缀（包含时间戳）
-    char prefix[96] = {0};
-    int offset = 0;
+    char prefix[64] = {0};
 
-    // 添加时间戳
+    // 添加时间戳（固定宽度对齐）
     if (g_log_config.enable_timestamp && g_get_tick_func != NULL)
     {
         uint32_t timestamp = g_get_tick_func();
-        offset = snprintf(prefix, sizeof(prefix), "[%lu] ", (unsigned long)timestamp);
-    }
-
-    // 添加标签
-    if (tag && tag[0] != '\0')
-    {
-        snprintf(prefix + offset, sizeof(prefix) - offset, "[%s] ", tag);
+        snprintf(prefix, sizeof(prefix), "[%*lu] ", LOG_TIMESTAMP_WIDTH, (unsigned long)timestamp);
     }
 
     // 格式化日志内容
@@ -243,9 +239,9 @@ void log_print(log_level_t level, const char *tag, const char *fmt, ...)
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
 
-    // 组合完整日志
+    // 组合完整日志（添加换行符）
     char full_log[384];
-    snprintf(full_log, sizeof(full_log), "%s%s", prefix, buffer);
+    snprintf(full_log, sizeof(full_log), "%s%s\n", prefix, buffer);
 
     // 根据模式选择输出方式
     if (g_log_config.buffer_mode == LOG_BUFFER_MODE_BUFFERED)
@@ -305,7 +301,9 @@ void log_hex_dump(log_level_t level, const char *tag, const void *data, size_t l
 static int df_log_auto_init(void)
 {
     log_init(LOG_LEVEL_INFO);
-    LOG_I("LOG", "Log system initialized\n");
+    log_print(LOG_LEVEL_INFO, "", CLEAR_SCREEN);
+    log_print(LOG_LEVEL_INFO, "", CURSOR_HOME);
+    // LOG_I("LOG", "Log system initialized\n");
     return 0;
 }
 

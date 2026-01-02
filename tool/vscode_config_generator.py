@@ -311,6 +311,7 @@ build/
 CMakeLists.txt
 BSP/CMakeLists.txt
 Device/CMakeLists.txt
+Device/config.h
 tool/project_config.json
 idea.cfg
 
@@ -318,7 +319,7 @@ idea.cfg
 .vscode/
 
 # Python缓存
-__pycache__/
+tool/__pycache__/
 *.pyc
 *.pyo
 
