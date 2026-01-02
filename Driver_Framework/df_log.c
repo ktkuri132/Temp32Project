@@ -298,14 +298,10 @@ void log_hex_dump(log_level_t level, const char *tag, const void *data, size_t l
  * @details 在框架初始化时自动调用，初始化日志系统为INFO级别
  * @return 0表示成功
  */
-static int df_log_auto_init(void)
+int df_log_init(void)
 {
     log_init(LOG_LEVEL_INFO);
     log_print(LOG_LEVEL_INFO, "", CLEAR_SCREEN);
     log_print(LOG_LEVEL_INFO, "", CURSOR_HOME);
-    // LOG_I("LOG", "Log system initialized\n");
     return 0;
 }
-
-// 将日志初始化注册到BOARD级别（最先初始化）
-DF_INIT_EXPORT(df_log_auto_init, DF_INIT_EXPORT_BOARD);

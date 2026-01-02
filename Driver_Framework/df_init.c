@@ -42,9 +42,9 @@ int df_framework_init(void)
     int success = 0;
     int failed = 0;
 
-    LOGI("╔════════════════════════════════════════╗\n");
-    LOGI("║  Driver Framework Initialization      ║\n");
-    LOGI("╚════════════════════════════════════════╝\n");
+    LOGI("|________________________________________|");
+    LOGI("|  Driver Framework Initialization       |");
+    LOGI("|________________________________________|");
 
 #if defined(__ARMCC_VERSION) /* Keil MDK */
     // Keil: 从$$Base到$$Limit遍历
@@ -110,13 +110,13 @@ int df_framework_init(void)
 
     df_initialized = 1;
 
-    LOGI("============================================\n");
-    LOGI("[DF_INIT] %d components initialized\n", success);
+    LOGI("============================================");
+    LOGI("[DF_INIT] %d components initialized", success);
     if (failed > 0)
     {
         LOGE(", %d failed", failed);
     }
-    LOGI("============================================\n\n");
+    LOGI("============================================\n");
 
     return success;
 }

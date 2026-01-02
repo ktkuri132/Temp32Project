@@ -100,14 +100,18 @@ class ProjectBuilder:
     def save_bsp_device_config(self):
         """保存BSP和Device配置到project_config.json"""
         # 获取芯片信息
-        chip_name = self.config.get('project.chip', 'STM32F407VE')
+        chip_name = self.config.get('project.chip', '')
         chip_info = self.chip_detector.get_chip_info(chip_name)
-        bsp_chip_dir = chip_info.get('bsp_dir', 'stm32f4')
+        bsp_chip_dir = chip_info.get('bsp_dir', '')
+        chip_package = chip_info.get('chip_package', '')  # 获取芯片封装型号
 
-        # 扫描BSP源文件
-        bsp_sources, bsp_include_dirs = self.scanner.scan_bsp_sources(bsp_chip_dir)
+        # 扫描BSP源文件，传递chip_package参数以选择正确的封装目录
+        bsp_sources, bsp_include_dirs = self.scanner.scan_bsp_sources(bsp_chip_dir, chip_package)
+        if chip_package:
+            print(f"使用芯片封装目录: {chip_package}")
         bsp_config = {
             'chip_dir': bsp_chip_dir,
+            'chip_package': chip_package,  # 保存芯片封装信息
             'sources': [str(src.relative_to(self.project_root / 'BSP').as_posix()) for src in bsp_sources],
             'include_dirs': [str(inc.relative_to(self.project_root).as_posix()) for inc in bsp_include_dirs]
         }
@@ -139,16 +143,23 @@ class ProjectBuilder:
         # 如果不是初次运行，询问是否重新扫描
         refresh_requested = self.add_manual_refresh_option()
 
+        # 如果是重新扫描，保留现有配置中的芯片名称
+        if refresh_requested and not chip_name:
+            existing_chip = self.config.get('project.chip', '')
+            if existing_chip and len(existing_chip) > 6:  # 确保是完整芯片名如STM32F407VGT6
+                chip_name = existing_chip
+                print(f"使用现有配置的芯片型号: {chip_name}")
+
         if self.is_first_run:
             # 初次运行：使用传入参数或默认值进行自动检测
             # 如果没有指定芯片名称，使用chip_detector自动检测
             if not chip_name:
                 chip_info = self.chip_detector.get_chip_info()
-                chip_name = chip_info.get('chip', 'STM32F407VE')
-                arch = chip_info.get('architecture', 'cortex-m3')
+                chip_name = chip_info.get('chip', '')
+                arch = chip_info.get('architecture', '')
             else:
                 chip_info = self.chip_detector.get_chip_info(chip_name)
-                arch = chip_info.get('architecture', 'cortex-m3')
+                arch = chip_info.get('architecture', '')
 
             board_name = board_name or self.config.get('project.board')
 
@@ -226,17 +237,26 @@ class ProjectBuilder:
 
     def generate_bsp_device_cmake(self):
         """生成BSP和Device的CMakeLists.txt（从配置读取）"""
+        # 获取芯片封装信息
+        from chip_detector import ChipDetector
+        detector = ChipDetector(self.project_root)
+        chip_name = self.config.get('project.chip', '')  # 从配置获取芯片名称
+        chip_info = detector.get_chip_info(chip_name)  # 使用配置中的芯片名称
+        chip_package = chip_info.get('chip_package', '')
+
         # 从配置读取BSP信息
         bsp_config = self.config.get('bsp', {})
         if bsp_config:
-            bsp_chip_dir = bsp_config.get('chip_dir', 'stm32f4')
+            bsp_chip_dir = bsp_config.get('chip_dir', '')
             bsp_sources = [self.project_root / 'BSP' / src for src in bsp_config.get('sources', [])]
             bsp_include_dirs = [self.project_root / inc for inc in bsp_config.get('include_dirs', [])]
 
             if bsp_sources:
                 print(f"使用配置: {len(bsp_sources)} 个BSP源文件")
+                if chip_package:
+                    print(f"芯片封装型号: {chip_package}")
                 bsp_cmake_content = self.cmake_gen.generate_bsp_cmake(
-                    bsp_chip_dir, bsp_sources, bsp_include_dirs
+                    bsp_chip_dir, bsp_sources, bsp_include_dirs, chip_package
                 )
                 self.cmake_gen.write_bsp_cmake(bsp_cmake_content)
             else:

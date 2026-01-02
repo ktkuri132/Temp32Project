@@ -5,11 +5,13 @@ cmake_minimum_required(VERSION 3.16)
 # 项目配置
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR cortex-m4)
-set(TARGET_CHIP STM32F4)
+set(TARGET_CHIP STM32F407VGT6)
 set(TARGET_BOARD BLUEPILL)
+set(CHIP_PACKAGE "vgt6")  # 芯片封装型号 (如vet6, vgt6等)
 
 # BSP芯片目录
 set(BSP_CHIP_DIR "stm32f4")
+set(BSP_PACKAGE_DIR "vgt6")  # 封装特定驱动目录
 
 # 工具链
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -31,9 +33,11 @@ set(CMAKE_ASM_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard 
 set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f4/CORE/stm32f4xx.ld -T${CMAKE_SOURCE_DIR}/Driver_Framework/linker/df_init_sections.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
 
 # 宏定义
+add_definitions(-DLOG_USE_COLOR)
 add_definitions(-DSTM32F40_41xxx)
 add_definitions(-DSTM32F10X_MD)
-add_definitions(-DLOG_USE_COLOR)
+add_definitions(-DCHIP_PACKAGE_VGT6)  # 芯片封装型号: vgt6
+add_definitions(-DCHIP_PACKAGE="vgt6")  # 芯片封装字符串
 add_definitions(-DUSE_DEVICE_BMP280)  # 启用bmp280设备驱动
 add_definitions(-DUSE_DEVICE_HMC588)  # 启用hmc588设备驱动
 add_definitions(-DUSE_DEVICE_MPU6050)  # 启用mpu6050设备驱动
@@ -134,7 +138,7 @@ set(SOURCE_FILES
 )
 
 # 创建可执行文件
-add_executable(${PROJECT_NAME}.elf
+add_executable(${PROJECT_NAME}.elf 
     ${SOURCE_FILES}
     ${BSP_SOURCES}      # BSP层源文件
     ${DEVICE_SOURCES}   # Device层源文件

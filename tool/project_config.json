@@ -1,7 +1,7 @@
 {
   "project": {
     "name": "General_template_Project",
-    "chip": "STM32F4",
+    "chip": "STM32F407VGT6",
     "board": "BLUEPILL",
     "architecture": "cortex-m4",
     "instruction_set": "thumb",
@@ -71,29 +71,31 @@
     ],
     "headers": [],
     "include_dirs": [
-      "Middleware",
-      "Driver_Framework",
-      "Driver_Framework/spi",
+      "Driver_Framework/key",
+      "app",
       "Driver_Framework/i2c",
+      "Driver_Framework/spi",
+      "Driver_Framework",
       "Driver_Framework/irq",
       "Control",
-      "Middleware/trans",
-      "app",
+      "Middleware",
       "Driver_Framework/display",
       "Middleware/shell",
       "Driver_Framework/lcd",
-      "Driver_Framework/key"
+      "Middleware/trans"
     ],
     "subdirs": [],
     "static_libraries": []
   },
   "bsp": {
     "chip_dir": "stm32f4",
+    "chip_package": "vgt6",
     "sources": [
       "stm32f4/CORE/startup_stm32f40_41xxx.c",
       "stm32f4/CORE/stm32f4xx_it.c",
       "stm32f4/CORE/system_stm32f4xx.c",
       "stm32f4/Driver/adc.c",
+      "stm32f4/Driver/bsp_hal.c",
       "stm32f4/Driver/delay.c",
       "stm32f4/Driver/i2c_bus.c",
       "stm32f4/Driver/i2c_dev.c",
@@ -109,7 +111,8 @@
       "BSP/CMSIS/Core/Include/m-profile",
       "BSP/CMSIS/Core/Include/r-profile",
       "BSP/stm32f4/CORE",
-      "BSP/stm32f4/Driver"
+      "BSP/stm32f4/Driver",
+      "BSP/stm32f4/Driver/vgt6"
     ]
   },
   "devices": {

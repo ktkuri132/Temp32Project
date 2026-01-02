@@ -153,7 +153,7 @@ class ChipDetector:
             return chip
 
         # 默认返回
-        return "STM32F407VE"
+        return "None"
 
     def detect_chip_arch(self, chip_name):
         """检测芯片架构"""
@@ -175,6 +175,40 @@ class ChipDetector:
                 return target
         return 'stm32f1x'  # 默认
 
+    def get_chip_package(self, chip_name):
+        """从芯片全名提取封装型号 (如从stm32f407vet6提取vet6, 从STM32F407VG提取vg)
+
+        STM32芯片命名规则:
+        STM32 + 系列(F/L/G/H/U/W) + 型号(4xx) + 封装引脚(V=100pin,Z=144pin,C=48pin等) +
+        Flash大小(E=512KB,G=1MB,C=256KB等) + 封装类型(T=LQFP) + 温度范围(6=-40~85°C)
+
+        例如: STM32F407VET6 -> vet6, STM32F407VG -> vg, STM32F103C8T6 -> c8t6
+        """
+        chip_lower = chip_name.lower()
+
+        # 模式1: stm32fXXX后面的所有字母数字组合 (如 stm32f407vet6 -> vet6)
+        # 匹配: stm32 + 一个字母 + 3位数字 + 封装信息(字母+数字混合)
+        match = re.match(r'stm32[a-z](\d{3})([a-z]\d+[a-z]*\d*)', chip_lower)
+        if match:
+            package = match.group(2)
+            if 2 <= len(package) <= 6:
+                return package
+
+        # 模式2: 只有字母的封装 (如 stm32f407vg -> vg)
+        match = re.match(r'stm32[a-z](\d{3})([a-z]{2,4})$', chip_lower)
+        if match:
+            package = match.group(2)
+            return package
+
+        # 模式3: 更长的型号如 stm32h743zit6
+        match = re.match(r'stm32[a-z]+(\d+)([a-z]\d*[a-z]*\d*)', chip_lower)
+        if match:
+            package = match.group(2)
+            if 2 <= len(package) <= 6:
+                return package
+
+        return None
+
     def get_chip_info(self, chip_name=None):
         """获取完整的芯片信息"""
         if chip_name is None:
@@ -184,6 +218,7 @@ class ChipDetector:
         fpu_info = self.get_fpu_info(arch)
         download_target = self.get_download_target(chip_name)
         bsp_dir = self.get_bsp_chip_dir(chip_name)
+        chip_package = self.get_chip_package(chip_name)
 
         return {
             'chip': chip_name,
@@ -192,7 +227,8 @@ class ChipDetector:
             'float_abi': fpu_info['float_abi'],
             'float_description': fpu_info['description'],
             'download_target': download_target,
-            'bsp_dir': bsp_dir
+            'bsp_dir': bsp_dir,
+            'chip_package': chip_package
         }
 
 
@@ -207,3 +243,10 @@ if __name__ == '__main__':
     print("检测到的芯片信息:")
     for key, value in chip_info.items():
         print(f"  {key}: {value}")
+
+    # 测试封装型号提取
+    test_chips = ['stm32f407vet6', 'stm32f407vgt6', 'STM32F103C8T6', 'stm32h743zit6']
+    print("\n封装型号提取测试:")
+    for chip in test_chips:
+        package = detector.get_chip_package(chip)
+        print(f"  {chip} -> {package}")

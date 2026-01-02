@@ -128,8 +128,9 @@ class CMakeGenerator:
 
         # 使用芯片检测器获取BSP目录
         detector = ChipDetector(self.project_root)
-        chip_info = detector.get_chip_info()
+        chip_info = detector.get_chip_info(chip_name)  # 使用配置中的芯片名称
         bsp_chip_dir = chip_info.get('bsp_dir', '')
+        chip_package = chip_info.get('chip_package', '')  # 获取芯片封装型号 (如vet6)
 
         # 构建编译标志
         optimization = self.config.get('build.optimization')
@@ -173,6 +174,7 @@ class CMakeGenerator:
 
         print(f"项目名称: {project_name}")
         print(f"芯片型号: {chip_name}")
+        print(f"芯片封装: {chip_package}")
         print(f"芯片架构: {arch}")
         print(f"浮点配置: {float_desc}")
         print(f"主链接脚本: {linker_script}")
@@ -190,9 +192,11 @@ set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR {arch})
 set(TARGET_CHIP {chip_name})
 set(TARGET_BOARD {board_name})
+set(CHIP_PACKAGE "{chip_package}")  # 芯片封装型号 (如vet6, vgt6等)
 
 # BSP芯片目录
 set(BSP_CHIP_DIR "{bsp_chip_dir}")
+set(BSP_PACKAGE_DIR "{chip_package}")  # 封装特定驱动目录
 
 # 工具链
 set(CMAKE_C_COMPILER {self.config.get('toolchain.c_compiler')})
@@ -219,6 +223,12 @@ set(CMAKE_EXE_LINKER_FLAGS "-mcpu={arch} -mthumb {fpu_flags} {specs_flags} -T${{
         # 添加宏定义
         for define in self.config.get('defines', []):
             content += f'add_definitions(-D{define})\n'
+
+        # 添加芯片封装型号宏定义
+        if chip_package:
+            package_macro = f'CHIP_PACKAGE_{chip_package.upper()}'
+            content += f'add_definitions(-D{package_macro})  # 芯片封装型号: {chip_package}\n'
+            content += f'add_definitions(-DCHIP_PACKAGE="{chip_package}")  # 芯片封装字符串\n'
 
         # 添加设备驱动开关宏定义
         devices_config = self.config.get('devices', {})
@@ -338,7 +348,7 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         except Exception as e:
             print(f"写入CMakeLists.txt失败: {e}")
 
-    def generate_bsp_cmake(self, bsp_chip_dir, bsp_sources, bsp_include_dirs):
+    def generate_bsp_cmake(self, bsp_chip_dir, bsp_sources, bsp_include_dirs, chip_package=None):
         """生成BSP/CMakeLists.txt内容"""
         content = '''# BSP (Board Support Package) CMakeLists
 # 本文件由构建脚本自动生成，请勿手动修改
@@ -349,6 +359,24 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         content += f'# bsp chip catalog\n'
         content += f'set(BSP_CHIP_DIR "{bsp_chip_dir}")\n'
         content += f'message(STATUS "bsp chip catalog: ${{BSP_CHIP_DIR}}")\n\n'
+
+        # 添加芯片封装信息
+        if chip_package:
+            content += f'# 芯片封装型号 (如 vet6, vgt6 等)\n'
+            content += f'set(CHIP_PACKAGE "{chip_package}")\n'
+            content += f'set(BSP_PACKAGE_DIR "{chip_package}")\n'
+            content += f'message(STATUS "chip package: ${{CHIP_PACKAGE}}")\n\n'
+
+            # 检查封装目录是否存在
+            content += f'# 检查封装特定驱动目录\n'
+            content += f'set(PACKAGE_DRIVER_DIR "${{CMAKE_CURRENT_SOURCE_DIR}}/${{BSP_CHIP_DIR}}/Driver/${{CHIP_PACKAGE}}")\n'
+            content += f'if(EXISTS "${{PACKAGE_DRIVER_DIR}}")\n'
+            content += f'    message(STATUS "found package driver dir: ${{PACKAGE_DRIVER_DIR}}")\n'
+            content += f'    set(HAS_PACKAGE_DRIVER TRUE)\n'
+            content += f'else()\n'
+            content += f'    message(STATUS "no package driver dir found")\n'
+            content += f'    set(HAS_PACKAGE_DRIVER FALSE)\n'
+            content += f'endif()\n\n'
 
         # BSP源文件
         content += '# BSP源文件\n'

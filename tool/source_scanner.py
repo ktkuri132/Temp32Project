@@ -343,8 +343,13 @@ class SourceScanner:
         print(f"使用找到的链接脚本: {rel_path}")
         return rel_path.as_posix()
 
-    def scan_bsp_sources(self, bsp_chip_dir):
-        """扫描BSP目录下的源文件"""
+    def scan_bsp_sources(self, bsp_chip_dir, chip_package=None):
+        """扫描BSP目录下的源文件
+
+        Args:
+            bsp_chip_dir: 芯片目录名 (如 stm32f4)
+            chip_package: 芯片封装型号 (如 vet6, vgt6)，用于选择正确的封装驱动目录
+        """
         bsp_sources = []
         bsp_include_dirs = set()
 
@@ -352,10 +357,26 @@ class SourceScanner:
         if not bsp_root.exists():
             return bsp_sources, bsp_include_dirs
 
+        # 获取Driver目录下所有封装目录
+        driver_dir = bsp_root / 'Driver'
+        package_dirs = set()
+        if driver_dir.exists():
+            for item in driver_dir.iterdir():
+                if item.is_dir() and not item.name.startswith('.'):
+                    # 检查是否是封装目录 (如 vet6, vgt6, c8t6 等)
+                    dir_name = item.name.lower()
+                    if re.match(r'^[a-z]\d*[a-z]*\d*$', dir_name) and len(dir_name) <= 6:
+                        package_dirs.add(dir_name)
+
         # 扫描源文件
         for root, dirs, files in os.walk(bsp_root):
             root_path = Path(root)
             dirs[:] = [d for d in dirs if d not in self.exclude_dirs and not d.startswith('.')]
+
+            # 如果指定了chip_package，排除不匹配的封装目录
+            # 当前目录是Driver目录时，过滤掉不匹配的封装子目录
+            if chip_package and root_path == driver_dir:
+                dirs[:] = [d for d in dirs if d.lower() not in package_dirs or d.lower() == chip_package.lower()]
 
             for file in files:
                 file_path = root_path / file

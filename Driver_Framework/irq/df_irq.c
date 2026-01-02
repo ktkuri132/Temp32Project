@@ -255,7 +255,7 @@ static int df_irq_auto_init(void)
     log_set_timestamp_func(get_tick);
     log_enable_timestamp(ENABLE);
     // 中断框架暂无需特殊初始化，此函数用于日志记�?
-    LOG_I("IRQ", "Interrupt framework initialized\n");
+    LOG_I("IRQ", "Interrupt framework initialized");
     return 0;
 }
 

@@ -127,7 +127,7 @@ int usart1_init(){
     USART1_Init(250000);
     debug.UART_Init_Flag = true;
     g_log_config.output_func = usart1_send;
-    LOG_I("USART1", "USART1 initialized with baud rate %d\n", debug.BaudRate);
+    LOG_I("USART1", "USART1 initialized with baud rate %d", debug.BaudRate);
     log_flush();
     return 0;
 }
