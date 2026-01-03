@@ -52,11 +52,11 @@ LCD_Handler_t lcd_sh1106 = {
 
 df_dev_t Dev_info_poor[] = {
 
-    //     {.name = OLED_SH1106_NAME,
-    //   .init = sh1106_dev_init,
-    //   .enable = NULL,
-    //   .disable = NULL,
-    //   .arg.ptr = (void *)&lcd_sh1106},
+        {.name = OLED_SH1106_NAME,
+      .init = sh1106_dev_init,
+      .enable = NULL,
+      .disable = NULL,
+      .arg.ptr = (void *)&lcd_sh1106},
 
     // {.name = ONBOARD_LED_NAME,
     //  .init = led_init,
@@ -84,16 +84,36 @@ EnvVar env_vars[] = {
 
 // ============ 自动初始化 ============
 /**
+ * @brief I2C框架自动初始化函数
+ * @details 在框架初始化时自动调用，初始化I2C通信框架
+ * @return 0表示成功
+ */
+static int df_iic_auto_init(void)
+{
+    // 初始化I2C框架
+    Device_HAL_Init();
+    // I2C框架暂无需特殊初始化，此函数用于日志记录
+    LOG_I("IIC", "I2C framework initialized");
+    return 0;
+}
+
+// 将I2C框架初始化注册到DEVICE级别
+DF_INIT_EXPORT(df_iic_auto_init, DF_INIT_EXPORT_PREV);
+
+
+// ============ 自动初始化 ============
+/**
  * @brief 设备框架自动初始化函数
  * @details 在框架初始化时自动调用，初始化设备管理框架
  * @return 0表示成功
  */
-static int df_device_frame_auto_init(void)
+static int df_device_auto_init(void)
 {
-    // LOG_I("DEV", "Device framework initialized\n");
+
     df_dev_register(Dev_info_poor); // 初始化设备模型
+    LOG_I("DEV", "Device framework initialized\n");
     return 0;
 }
 
 // 将设备框架初始化注册到PREV级别（在BOARD之后）
-DF_INIT_EXPORT(df_device_frame_auto_init, DF_INIT_EXPORT_PREV);
+DF_INIT_EXPORT(df_device_auto_init, DF_INIT_EXPORT_DEVICE);

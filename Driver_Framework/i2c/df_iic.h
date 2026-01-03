@@ -58,23 +58,23 @@ typedef struct df_iic_struct
 } df_iic_t;
 
 // IIC所有操作函数（保持兼容性）
-void Soft_IIC_Init(df_soft_iic_t *i2c_dev);                   // 初始化IIC的IO口
-void Soft_IIC_Start(df_soft_iic_t *i2c_dev);                  // 发送IIC开始信号
-void Soft_IIC_Stop(df_soft_iic_t *i2c_dev);                   // 发送IIC停止信号
-void Soft_IIC_Send_Byte(df_soft_iic_t *i2c_dev, uint8_t txd); // IIC发送一个字节
-uint8_t Soft_IIC_Receive_Byte(df_soft_iic_t *i2c_dev,
+void Soft_IIC_Init(df_soft_iic_t *i2c);                   // 初始化IIC的IO口
+void Soft_IIC_Start(df_soft_iic_t *i2c);                  // 发送IIC开始信号
+void Soft_IIC_Stop(df_soft_iic_t *i2c);                   // 发送IIC停止信号
+void Soft_IIC_Send_Byte(df_soft_iic_t *i2c, uint8_t txd); // IIC发送一个字节
+uint8_t Soft_IIC_Receive_Byte(df_soft_iic_t *i2c,
                               unsigned char ack);  // IIC读取一个字节
-uint8_t Soft_IIC_Wait_Ack(df_soft_iic_t *i2c_dev); // IIC等待ACK信号
-void Soft_IIC_Ack(df_soft_iic_t *i2c_dev);         // IIC发送ACK信号
-void Soft_IIC_NAck(df_soft_iic_t *i2c_dev);        // IIC不发送ACK信号
+uint8_t Soft_IIC_Wait_Ack(df_soft_iic_t *i2c); // IIC等待ACK信号
+void Soft_IIC_Ack(df_soft_iic_t *i2c);         // IIC发送ACK信号
+void Soft_IIC_NAck(df_soft_iic_t *i2c);        // IIC不发送ACK信号
 
-uint8_t Soft_IIC_Write_Len(df_soft_iic_t *i2c_dev, uint8_t addr, uint8_t reg,
+uint8_t Soft_IIC_Write_Len(df_soft_iic_t *i2c, uint8_t addr, uint8_t reg,
                            uint8_t len, uint8_t *buf); // IIC连续写
-uint8_t Soft_IIC_Read_Len(df_soft_iic_t *i2c_dev, uint8_t addr, uint8_t reg, uint8_t len,
+uint8_t Soft_IIC_Read_Len(df_soft_iic_t *i2c, uint8_t addr, uint8_t reg, uint8_t len,
                           uint8_t *buf); // IIC连续读
-uint8_t Soft_IIC_Write_Byte(df_soft_iic_t *i2c_dev, uint8_t addr, uint8_t reg,
+uint8_t Soft_IIC_Write_Byte(df_soft_iic_t *i2c, uint8_t addr, uint8_t reg,
                             uint8_t data); // IIC写一个字节
-uint8_t Soft_IIC_Read_Byte(df_soft_iic_t *i2c_dev, uint8_t addr,
+uint8_t Soft_IIC_Read_Byte(df_soft_iic_t *i2c, uint8_t addr,
                            uint8_t reg); // IIC读一个字节
-uint8_t Soft_IIC_Check(df_soft_iic_t *i2c_dev, uint8_t addr);
+uint8_t Soft_IIC_Check(df_soft_iic_t *i2c, uint8_t addr);
 #endif

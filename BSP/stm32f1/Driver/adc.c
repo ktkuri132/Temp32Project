@@ -131,4 +131,4 @@ static int adc1_auto_init(void)
 {
     return adc1_init(arg_null);
 }
-DF_BOARD_INIT(adc1_auto_init);
+// DF_BOARD_INIT(adc1_auto_init);

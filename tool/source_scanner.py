@@ -489,6 +489,22 @@ class SourceScanner:
 
         devices = {}
 
+        # 首先扫描Device根目录下的直接源文件（如device_hal.c, device_init.c）
+        root_sources = []
+        root_include_dirs = set()
+        for file in device_root.iterdir():
+            if file.is_file():
+                if file.suffix in self.source_extensions:
+                    root_sources.append(file)
+                elif file.suffix in self.header_extensions:
+                    root_include_dirs.add(device_root)
+
+        if root_sources:
+            devices['_root'] = {
+                'sources': sorted(root_sources),
+                'include_dirs': sorted(root_include_dirs)
+            }
+
         # 遍历Device下的所有子目录
         for item in device_root.iterdir():
             if not item.is_dir() or item.name.startswith('.') or item.name in self.exclude_dirs:

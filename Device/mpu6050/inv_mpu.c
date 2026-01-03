@@ -51,7 +51,7 @@
  */
 
 extern df_delay_t delay;
-extern df_soft_iic_t i2c_Dev;
+/* i2c_Dev 已在 config.h 中定义为宏 */
 
 /* 外部I2C读写函数声明（定义在 i2c_dev.c） */
 extern uint8_t mpu6050_i2c_write(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);

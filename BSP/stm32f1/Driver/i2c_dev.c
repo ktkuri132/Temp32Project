@@ -9,6 +9,7 @@
 #include "lcd/df_lcd.h"
 #include "df_delay.h"
 #include "df_log.h"
+#include <config.h>
 
 #ifdef USE_DEVICE_SH1106
 #include "sh1106/sh1106.h"
@@ -24,34 +25,34 @@ extern df_delay_t delay;
 /*===========================================================================*/
 
 #ifdef USE_DEVICE_SH1106
+
 int sh1106_dev_init(df_arg_t arg)
 {
     LCD_Handler_t *lcd = (LCD_Handler_t *)arg.ptr;
     if (lcd == NULL)
     {
-        error("sh1106_dev_init: lcd handler is NULL!\n");
+        LOG_E("SH1106", "sh1106_dev_init: lcd handler is NULL!\n");
         return -1;
     }
     if (lcd->SetPixel == NULL)
     {
-        error("sh1106_dev_init: lcd SetPixel function is NULL!\n");
+        LOG_E("SH1106", "sh1106_dev_init: lcd SetPixel function is NULL!\n");
         return -1;
     }
     if (lcd->Width != 128 || lcd->Height != 64)
     {
-        error("sh1106_dev_init: lcd size mismatch! Expected 128x64.\n");
+        LOG_E("SH1106", "sh1106_dev_init: lcd size mismatch! Expected 128x64.\n");
         return -1;
     }
     if (lcd->Update == NULL)
     {
-        error("sh1106_dev_init: lcd Update function is NULL!\n");
+        LOG_E("SH1106", "sh1106_dev_init: lcd Update function is NULL!\n");
         return -1;
     }
-
     delay.ms(arg_u32(100)); // 等待电源稳定
-    if (SH1106_Init())
+    if (Device_SH1106_Init())
     {
-        error("sh1106_dev_init: SH1106_Init failed!\n");
+        LOG_E("SH1106", "sh1106_dev_init: SH1106_Init failed!\n");
         return -1;
     }
     LCD_Clear(lcd, 0); // 清屏，黑色背景

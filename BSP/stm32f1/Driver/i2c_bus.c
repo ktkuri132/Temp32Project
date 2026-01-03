@@ -19,7 +19,7 @@
  */
 void iic1_pins_config(void)
 {
-    /* 配置 PB8(SCL), PB9(SDA) 为开漏输出50MHz（软件I2C需要模拟开漏特性） */
+    /* 配置 PB8(SCL), PB9(SDA) 为开漏输出50MHz（软件I2C必须使用开漏模式） */
     f103_gpio_init_quick(I2C1_SCL_PORT, I2C1_SCL_PIN,
                          F103_GPIO_MODE_OUT_OD, F103_GPIO_SPEED_50MHZ);
     f103_gpio_init_quick(I2C1_SDA_PORT, I2C1_SDA_PIN,

@@ -13,7 +13,8 @@
 /* 根据配置包含相应的底层驱动 */
 #ifdef __SOFTI2C_
 #include <i2c/df_iic.h>
-extern df_soft_iic_t i2c1_bus; /* 外部软件I2C总线 */
+extern df_iic_t i2c1_bus; /* 外部I2C总线 */
+#define i2c1_soft_bus (*i2c1_bus.soft_iic)
 #endif
 
 #include <df_delay.h>
@@ -27,7 +28,7 @@ extern df_soft_iic_t i2c1_bus; /* 外部软件I2C总线 */
  */
 static int soft_i2c_write_byte(uint8_t dev_addr, uint8_t reg_addr, uint8_t data)
 {
-    return Soft_IIC_Write_Byte(&i2c1_bus, dev_addr, reg_addr, data);
+    return Soft_IIC_Write_Byte(&i2c1_soft_bus, dev_addr, reg_addr, data);
 }
 
 /**
@@ -37,7 +38,7 @@ static int soft_i2c_read_byte(uint8_t dev_addr, uint8_t reg_addr, uint8_t *data)
 {
     if (!data)
         return -1;
-    *data = Soft_IIC_Read_Byte(&i2c1_bus, dev_addr, reg_addr);
+    *data = Soft_IIC_Read_Byte(&i2c1_soft_bus, dev_addr, reg_addr);
     return 0;
 }
 
@@ -46,7 +47,7 @@ static int soft_i2c_read_byte(uint8_t dev_addr, uint8_t reg_addr, uint8_t *data)
  */
 static int soft_i2c_read_bytes(uint8_t dev_addr, uint8_t reg_addr, uint8_t len, uint8_t *buf)
 {
-    return Soft_IIC_Read_Len(&i2c1_bus, dev_addr, reg_addr, len, buf);
+    return Soft_IIC_Read_Len(&i2c1_soft_bus, dev_addr, reg_addr, len, buf);
 }
 
 /**
@@ -58,7 +59,7 @@ static int soft_i2c_write_bytes(uint8_t dev_addr, uint8_t reg_addr, uint8_t len,
     /* 软件I2C暂未实现多字节写入，使用循环单字节写入 */
     for (uint8_t i = 0; i < len; i++)
     {
-        if (Soft_IIC_Write_Byte(&i2c1_bus, dev_addr, reg_addr + i, buf[i]) != 0)
+        if (Soft_IIC_Write_Byte(&i2c1_soft_bus, dev_addr, reg_addr + i, buf[i]) != 0)
         {
             return -1;
         }

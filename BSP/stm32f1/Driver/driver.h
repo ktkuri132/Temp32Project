@@ -18,6 +18,10 @@
 #include "f103_usart.h"
 #include "f103_adc.h"
 
+#include <i2c/df_iic.h>
+
+extern df_iic_t i2c1_bus; /* 外部软件I2C总线 */
+
 /*============================ 设备名称定义 ============================*/
 #define DEBUG_UART_NAME "usart_debug"
 #define ONBOARD_LED_NAME "led_onboard"

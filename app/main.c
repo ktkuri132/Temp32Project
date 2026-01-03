@@ -11,9 +11,10 @@
 int main()
 {
 
-
+    led.on(arg_null);
     while (1)
     {
+        LCD_Printf(&lcd_sh1106, "Hello, World!\n");
         log_flush();
     }
     return 0;

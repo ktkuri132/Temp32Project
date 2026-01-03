@@ -40,6 +40,7 @@ add_definitions(-DSTM32F10X_MD)
 add_definitions(-DCHIP_MODEL_F103)     # 芯片型号: f103
 add_definitions(-DCHIP_PACKAGE_C8T6)   # 芯片封装型号: c8t6
 add_definitions(-DCHIP_PACKAGE="c8t6") # 芯片封装字符串
+add_definitions(-DUSE_DEVICE__ROOT)  # 启用_root设备驱动
 add_definitions(-DUSE_DEVICE_BMP280)  # 启用bmp280设备驱动
 add_definitions(-DUSE_DEVICE_HMC588)  # 启用hmc588设备驱动
 add_definitions(-DUSE_DEVICE_MPU6050)  # 启用mpu6050设备驱动

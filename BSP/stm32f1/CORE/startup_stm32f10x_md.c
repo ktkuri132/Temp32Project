@@ -8,6 +8,7 @@ void Default_Handler(void);
 void main(void);
 void SystemInit(void);
 void __libc_init_array(void);
+int df_log_init(void);
 int df_framework_init(void); /* 驱动框架自动初始化 */
 
 // 弱定义所有中断向量
@@ -181,8 +182,12 @@ void __attribute__((naked, noreturn)) Reset_Handler(void)
     while (dst < &_ebss)
         *dst++ = 0;
     SystemInit();
+    /* 调用C库初始化 */
     __libc_init_array();
-    df_framework_init(); /* 驱动框架自动初始化 */
+    /* 初始化日志系统  */
+    df_log_init();
+    /* 调用驱动框架自动初始化 */
+    df_framework_init();
 
     main();
 

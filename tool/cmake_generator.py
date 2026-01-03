@@ -379,7 +379,9 @@ class CMakeGenerator:
         lines.append("# 设备源文件")
         lines.append("set(DEVICE_SOURCES")
         for device_name, device_info in sorted(devices.items()):
-            lines.append(f"    # {device_name}")
+            # 为 _root 使用更友好的注释名称
+            display_name = "device_common" if device_name == "_root" else device_name
+            lines.append(f"    # {display_name}")
             for src in device_info['sources']:
                 try:
                     rel_path = src.relative_to(self.project_root / 'Device')
@@ -406,7 +408,9 @@ class CMakeGenerator:
         lines.append("# 输出信息")
         lines.append('message(STATUS "Enabled Device Drivers:")')
         for device_name in sorted(devices.keys()):
-            lines.append(f'message(STATUS "  + {device_name}")')
+            # 为 _root 使用更友好的显示名称
+            display_name = "device_common (root sources)" if device_name == "_root" else device_name
+            lines.append(f'message(STATUS "  + {display_name}")')
         lines.append("list(LENGTH DEVICE_SOURCES DEVICE_SOURCE_COUNT)")
         lines.append('message(STATUS "Total Number Of Device Source Files: ${DEVICE_SOURCE_COUNT}")')
         lines.append("")

@@ -188,6 +188,7 @@ static int gpio_pc13_read(df_arg_t arg)
  */
 static int led_auto_init(void)
 {
+    LOG_I("LED","Initializing onboard LED...");
     return led_init(arg_null);
 }
-DF_BOARD_INIT(led_auto_init);
+DF_PREV_INIT(led_auto_init);

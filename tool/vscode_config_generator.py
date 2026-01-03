@@ -177,7 +177,7 @@ class VscodeConfigGenerator:
             "version": "2.0.0",
             "tasks": [
                 {
-                    "label": "download",
+                    "label": "$(zap)烧录",
                     "type": "shell",
                     "command": command,
                     "args": [

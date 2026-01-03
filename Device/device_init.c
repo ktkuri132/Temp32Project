@@ -26,10 +26,10 @@ void Device_HAL_Init(void)
 {
 #ifdef __SOFTI2C_
     /* 初始化软件I2C总线 */
-    Soft_IIC_Init(&i2c1_bus);
+    Soft_IIC_Init(i2c1_bus.soft_iic);
 
     /* 初始化软件I2C HAL适配器 */
-    device_i2c_hal_init_soft(&g_device_i2c_hal, &i2c1_bus);
+    device_i2c_hal_init_soft(&g_device_i2c_hal, i2c1_bus.soft_iic);
 #endif
 
 #ifdef __HARDI2C_

@@ -19,5 +19,13 @@
   "editor.tabSize": 4,
   "files.trimTrailingWhitespace": true,
   "files.encoding": "utf8",
-  "terminal.integrated.shell.windows": "cmd.exe"
+  "terminal.integrated.shell.windows": "cmd.exe",
+
+  // Tasks 扩展配置 - 状态栏按钮
+  "tasks.statusbar": {
+    "download": {
+      "label": "$(zap) 烧录",
+      "tooltip": "下载程序到芯片"
+    }
+  }
 }

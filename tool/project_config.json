@@ -71,18 +71,18 @@
     ],
     "headers": [],
     "include_dirs": [
-      "Driver_Framework/key",
-      "Driver_Framework/i2c",
-      "Driver_Framework/spi",
       "Control",
-      "Driver_Framework/irq",
-      "Driver_Framework/shell",
       "Driver_Framework/lcd",
-      "Driver_Framework/display",
-      "app",
+      "Driver_Framework/i2c",
+      "Driver_Framework/irq",
+      "Driver_Framework/key",
       "Driver_Framework",
       "Middleware/trans",
-      "Middleware"
+      "Driver_Framework/spi",
+      "Middleware",
+      "Driver_Framework/shell",
+      "app",
+      "Driver_Framework/display"
     ],
     "subdirs": [],
     "static_libraries": []
@@ -126,6 +126,16 @@
     ]
   },
   "devices": {
+    "_root": {
+      "enabled": true,
+      "sources": [
+        "device_hal.c",
+        "device_init.c"
+      ],
+      "include_dirs": [
+        "Device"
+      ]
+    },
     "bmp280": {
       "enabled": true,
       "sources": [

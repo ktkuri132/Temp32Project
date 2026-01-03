@@ -10,6 +10,7 @@
 #include <df_delay.h>
 #include <dev_frame.h>
 #include <lcd/df_lcd.h>
+#include <df_init.h>
 
 #ifdef USE_DEVICE_SH1106
 #include <sh1106/sh1106.h>

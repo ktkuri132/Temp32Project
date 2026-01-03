@@ -135,8 +135,8 @@ class ConfigGenerator:
 
 #ifdef __SOFTI2C_
 #include <i2c/df_iic.h>
-extern SIAS i2c1_bus;
-#define i2c_Dev i2c1_bus
+extern df_iic_t i2c1_bus;   /* 声明外部I2C总线 */
+#define i2c_Dev (*i2c1_bus.soft_iic)
 #endif
 
 """
