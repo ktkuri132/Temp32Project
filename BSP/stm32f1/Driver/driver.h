@@ -27,6 +27,7 @@ extern df_iic_t i2c1_bus; /* 外部软件I2C总线 */
 #define ONBOARD_LED_NAME "led_onboard"
 #define OLED_SH1106_NAME "oled_dp"
 #define OLED_SSD1306_NAME "oled_dp"
+#define MPU6050_NAME "mpu6050_sensor"
 #define ADC1_NAME "adc1"
 
 /*============================ NVIC 接口 ============================*/
@@ -74,4 +75,10 @@ int adc1_get_value(df_arg_t arg);
 int sh1106_dev_init(df_arg_t arg);
 int ssd1306_dev_init(df_arg_t arg);
 
+
+/*============================= 传感器接口 ===============================*/
+int mpu6050_dev_init(df_arg_t arg);
+int mpu6050_dev_enable(df_arg_t arg);
+int mpu6050_dev_disable(df_arg_t arg);
+int mpu6050_dev_read(df_arg_t arg);
 #endif /* __DRIVER_H */

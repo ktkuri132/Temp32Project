@@ -78,7 +78,7 @@ int Device_HMC5883L_Init(void)
  */
 int Device_MPU6050_Init(void)
 {
-    return mpu_init();
+    return mpu_dmp_init();
 }
 #endif
 

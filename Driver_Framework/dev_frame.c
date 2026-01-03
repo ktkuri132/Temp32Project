@@ -83,7 +83,7 @@ int df_dev_register(df_dev_t dev_info[])
 }
 
 // ============ 设备查找 ============
-int df_dev_find(df_dev_t dev_info[], const char *name, df_dev_t **device)
+int df_dev_find(df_dev_t dev_info[], const char *name, df_dev_t *device)
 {
     if (name == NULL || device == NULL)
     {
@@ -96,7 +96,7 @@ int df_dev_find(df_dev_t dev_info[], const char *name, df_dev_t **device)
     {
         if (strcmp(dev_info[i].name, name) == 0)
         {
-            *device = &dev_info[i];
+            *device = dev_info[i];
             LOG_D("DEV", "Device '%s' found at index %d\n", name, i);
             return DF_OK;
         }
@@ -175,6 +175,25 @@ int df_dev_close(df_dev_t *device)
     LOG_D("DEV", "Device '%s' ref_count decreased to %d\n",
           device->name, device->ref_count);
     return DF_OK;
+}
+
+
+int df_dev_read(df_dev_t *device, df_arg_t arg)
+{
+    if (device == NULL)
+    {
+        LOG_E("DEV", "df_dev_read: NULL device\n");
+        return DF_ERR_PARAM;
+    }
+
+    if (device->read == NULL)
+    {
+        LOG_E("DEV", "Device '%s' does not support read\n", device->name);
+        return DF_ERR_NOT_SUPPORT;
+    }
+
+    LOG_D("DEV", "Device '%s' read operation\n", device->name);
+    return device->read(arg);
 }
 
 // ============ 设备启用 ============

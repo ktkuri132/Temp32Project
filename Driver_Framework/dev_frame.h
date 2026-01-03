@@ -81,6 +81,8 @@ typedef struct df_dev_struct
   int (*deinit)(df_arg_t);         // 反初始化函数指针
   int (*open)(df_arg_t);           // 打开设备
   int (*close)(df_arg_t);          // 关闭设备
+  int (*read)(df_arg_t);            // 读取函数指针
+  int (*write)(df_arg_t);           // 写入函数指针
   int (*enable)(df_arg_t);         // 启动函数指针
   int (*disable)(df_arg_t);        // 停止函数指针
   int (*ioctl)(int cmd, df_arg_t); // 控制命令接口
@@ -88,7 +90,7 @@ typedef struct df_dev_struct
 
 // ============ 核心函数声明 ============
 int df_dev_register(df_dev_t dev_info[]);
-int df_dev_find(df_dev_t dev_info[], const char *name, df_dev_t **device);
+int df_dev_find(df_dev_t dev_info[], const char *name, df_dev_t *device);
 int df_dev_open(df_dev_t *device);
 int df_dev_close(df_dev_t *device);
 int df_dev_enable(df_dev_t *device);

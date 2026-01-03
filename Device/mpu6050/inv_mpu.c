@@ -2972,11 +2972,7 @@ u8 mpu_dmp_init(void)
 {
     u8 res = 0;
 
-    /* 初始化I2C总线 */
-    if (i2c_Dev.init_flag == 0)
-    {
-        MPU_IIC_Init();
-    }
+    // 默认I2C总线已经初始化完成
     /* 初始化MPU传感�?*/
     if (mpu_init() == 0)
     {

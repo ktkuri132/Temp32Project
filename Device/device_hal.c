@@ -57,13 +57,7 @@ static int soft_i2c_write_bytes(uint8_t dev_addr, uint8_t reg_addr, uint8_t len,
                                 const uint8_t *buf)
 {
     /* 软件I2C暂未实现多字节写入，使用循环单字节写入 */
-    for (uint8_t i = 0; i < len; i++)
-    {
-        if (Soft_IIC_Write_Byte(&i2c1_soft_bus, dev_addr, reg_addr + i, buf[i]) != 0)
-        {
-            return -1;
-        }
-    }
+    Soft_IIC_Write_Len(&i2c1_soft_bus, dev_addr, reg_addr, len, (uint8_t *)buf);
     return 0;
 }
 

@@ -123,7 +123,7 @@ set(APP_SOURCES
     app/control.c
     app/init.c
     app/main.c
-    app/test_auto_init.c
+    app/test.c
 )
 
 # 所有源文件

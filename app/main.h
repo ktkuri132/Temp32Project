@@ -40,4 +40,8 @@ extern LCD_Handler_t lcd_sh1106;
 extern LCD_Handler_t lcd_ssd1306;
 #endif
 
+#ifdef USE_DEVICE_MPU6050
+extern float mpu6050_sensor_data[3];
+#endif
+
 #endif

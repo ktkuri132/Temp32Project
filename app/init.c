@@ -20,6 +20,7 @@ DeviceFamily STM32F103C8T6_Device = {
     .Password = "133990",
     .Version = "1.0.0"};
 
+#ifdef USE_DEVICE_SH1106
 LCD_Handler_t lcd_sh1106 = {
     .Width = SH1106_WIDTH,
     .Height = SH1106_HEIGHT,
@@ -34,21 +35,41 @@ LCD_Handler_t lcd_sh1106 = {
     .TextColor = 0xFFFFFFFF,
     .BackColor = 0x00000000,
     .TerminalMode = true};
+#elif USE_DEVICE_SSD1306
+LCD_Handler_t lcd_ssd1306 = {
+    .Width = SSD1306_WIDTH,
+    .Height = SSD1306_HEIGHT,
+    .SetPixel = SSD1306_SetPixel,
+    .GetPixel = NULL, // 可选实现
+    .FillRect = NULL, // 可选实现
+    .Update = SSD1306_Update,
+    .ScrollHard = NULL, // 可选实现
+    .CursorX = 0,
+    .CursorY = 0,
+    .CurrentFont = &Consolas_Font_8x16, // 可选设置
+    .TextColor = 0xFFFFFFFF,
+    .BackColor = 0x00000000,
+    .TerminalMode = true};
+#elif USE_DEVICE_ST7789
+LCD_Handler_t lcd_st7789 = {
+    .Width = ST7789_WIDTH,
+    .Height = ST7789_HEIGHT,
+    .SetPixel = ST7789_SetPixel,
+    .GetPixel = NULL, // 可选实现
+    .FillRect = ST7789_FillRect,
+    .Update = NULL,      // 可选实现
+    .ScrollHard = NULL,  // 可选实现
+    .CursorX = 0,
+    .CursorY = 0,
+    .CurrentFont = &Consolas_Font_8x16, // 可选设置
+    .TextColor = 0xFFFFFFFF,
+    .BackColor = 0x00000000,
+    .TerminalMode = true};
+#endif
 
-// LCD_Handler_t lcd_ssd1306 = {
-//     .Width = SSD1306_WIDTH,
-//     .Height = SSD1306_HEIGHT,
-//     .SetPixel = SSD1306_SetPixel,
-//     .GetPixel = NULL, // 可选实现
-//     .FillRect = NULL, // 可选实现
-//     .Update = SSD1306_Update,
-//     .ScrollHard = NULL, // 可选实现
-//     .CursorX = 0,
-//     .CursorY = 0,
-//     .CurrentFont = &JetBrains_Mono_Font_8x16, // 可选设置
-//     .TextColor = 0xFFFFFFFF,
-//     .BackColor = 0x00000000,
-//     .TerminalMode = true};
+#ifdef USE_DEVICE_MPU6050
+float mpu6050_sensor_data[3] = {0};
+#endif
 
 df_dev_t Dev_info_poor[] = {
 
@@ -58,11 +79,12 @@ df_dev_t Dev_info_poor[] = {
       .disable = NULL,
       .arg.ptr = (void *)&lcd_sh1106},
 
-    // {.name = ONBOARD_LED_NAME,
-    //  .init = led_init,
-    //  .enable = led_on,
-    //  .disable = led_off,
-    //  .arg.ptr = NULL},
+    {.name = MPU6050_NAME,
+     .init = mpu6050_dev_init,
+     .enable = mpu6050_dev_enable,
+     .disable = mpu6050_dev_disable,
+     .read = mpu6050_dev_read,
+     .arg.argv = (void *)mpu6050_sensor_data},
 
     //{.name = OLED_SSD1306_NAME,
     //     .init = ssd1306_dev_init,

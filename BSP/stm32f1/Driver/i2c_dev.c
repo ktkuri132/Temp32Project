@@ -10,12 +10,15 @@
 #include "df_delay.h"
 #include "df_log.h"
 #include <config.h>
-
+#include "main.h"   // 包含 lcd_sh1106 声明
 #ifdef USE_DEVICE_SH1106
 #include "sh1106/sh1106.h"
 #endif
 #ifdef USE_DEVICE_SSD1306
 #include "ssd1306/ssd1306.h"
+#endif
+#ifdef USE_DEVICE_MPU6050
+#include "mpu6050/inv_mpu.h"
 #endif
 
 extern df_delay_t delay;
@@ -103,6 +106,33 @@ int ssd1306_dev_init(df_arg_t arg)
 /*                         MPU6050 I2C 读写接口                               */
 /*===========================================================================*/
 
+#ifdef USE_DEVICE_MPU6050
+
+int mpu6050_dev_init(df_arg_t arg){
+    // 后续添加启用mpu6050外部中断的代码
+    return Device_MPU6050_Init();
+}
+
+int mpu6050_dev_enable(df_arg_t arg){
+    // 后续添加启用外部中断的代码
+    return 0;
+}
+
+// 停用 MPU6050 设备
+int mpu6050_dev_disable(df_arg_t arg){
+    // 后续添加停用外部中断的代码
+    return 0;
+}
+
+int mpu6050_dev_read(df_arg_t arg){
+    // 读取三轴欧拉角
+    if(mpu_dmp_get_data(arg.argv[0], arg.argv[1], arg.argv[2])){
+        return -1;
+    }
+    LCD_Printf(&lcd_sh1106, "%.2f,%.2f,%.2f\n", arg.argv[0], arg.argv[1], arg.argv[2]);
+    return 0;
+}
+
 /**
  * @brief MPU6050 I2C写入函数
  * @param addr 设备地址
@@ -128,3 +158,5 @@ uint8_t mpu6050_i2c_read(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *da
 {
     return Soft_IIC_Read_Len(&i2c_Dev, addr, reg, (uint8_t)length, data);
 }
+
+#endif
