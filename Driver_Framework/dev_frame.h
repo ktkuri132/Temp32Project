@@ -48,10 +48,13 @@ typedef union
 #define arg_s32(v) ((df_arg_t){.s32 = v})
 // 传递无符号整型
 #define arg_u32(v) ((df_arg_t){.us32 = v})
-// 传递void*指针
-#define arg_ptr(p) ((df_arg_t){.ptr = p})
-// 传递void**指针
-#define arg_argv(a) ((df_arg_t){.argv = a})
+// 传递指针
+#define arg_ptr(v) ((df_arg_t){.ptr = v})
+// 传递参数列表
+#define arg_argv(v) ((df_arg_t){.argv = v})
+// 辅助宏定义
+#define ptr(v) ((void *)(v))
+#define argv(...) (void*[]){__VA_ARGS__}
 
 #define DF_DEV_END \
   {.name = "", .init = NULL, .enable = NULL, .disable = NULL}
@@ -74,18 +77,19 @@ typedef struct df_dev_struct
   df_state_t status; // 设备状态（使用枚举）
   df_arg_t arg;      // 设备参数
   uint8_t ref_count; // 引用计数
-  void *priv_data;   // 私有数据指针
 
   // 基础操作接口
   int (*init)(df_arg_t);           // 初始化函数指针
   int (*deinit)(df_arg_t);         // 反初始化函数指针
   int (*open)(df_arg_t);           // 打开设备
   int (*close)(df_arg_t);          // 关闭设备
-  int (*read)(df_arg_t);            // 读取函数指针
-  int (*write)(df_arg_t);           // 写入函数指针
+  int (*read)(df_arg_t);           // 读取函数指针
+  int (*write)(df_arg_t);          // 写入函数指针
   int (*enable)(df_arg_t);         // 启动函数指针
   int (*disable)(df_arg_t);        // 停止函数指针
   int (*ioctl)(int cmd, df_arg_t); // 控制命令接口
+
+  void **priv;   // 私有数据指针
 } df_dev_t;
 
 // ============ 核心函数声明 ============

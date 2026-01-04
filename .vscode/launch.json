@@ -25,7 +25,7 @@
     {
       "name": "Debug STM32 (CMSIS-DAP)",
       "cwd": "${workspaceFolder}",
-      "executable": "./build/Temp32Project.elf",
+      "executable": "./build/General_template_Project.elf",
       "request": "launch",
       "type": "cortex-debug",
       "runToEntryPoint": "main",

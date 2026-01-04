@@ -25,8 +25,7 @@ extern df_iic_t i2c1_bus; /* 外部软件I2C总线 */
 /*============================ 设备名称定义 ============================*/
 #define DEBUG_UART_NAME "usart_debug"
 #define ONBOARD_LED_NAME "led_onboard"
-#define OLED_SH1106_NAME "oled_dp"
-#define OLED_SSD1306_NAME "oled_dp"
+#define OLED_NAME "oled_dp"
 #define MPU6050_NAME "mpu6050_sensor"
 #define ADC1_NAME "adc1"
 

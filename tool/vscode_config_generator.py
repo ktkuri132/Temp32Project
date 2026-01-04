@@ -100,9 +100,9 @@ class VscodeConfigGenerator:
 
     def generate_launch_json(self, vscode_dir):
         """生成launch.json"""
-        project_name = self.config.get('project.name', '32_temp_project')
-        interface = self.config.get('download.interface', 'stlink')
-        target = self.config.get('download.target', 'stm32f1x')
+        project_name = self.config.get('project.name', '')
+        interface = self.config.get('download.interface', '')
+        target = self.config.get('download.target', '')
         speed = self.config.get('download.speed', '4000')
 
         current_platform = platform.system().lower()

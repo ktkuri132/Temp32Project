@@ -85,12 +85,11 @@ int df_dev_register(df_dev_t dev_info[])
 // ============ 设备查找 ============
 int df_dev_find(df_dev_t dev_info[], const char *name, df_dev_t *device)
 {
-    if (name == NULL || device == NULL)
+    if (name == NULL)
     {
-        LOG_E("DEV", "df_dev_find: NULL parameter\n");
+        LOG_E("DEV", "df_dev_find: name is NULL\n");
         return DF_ERR_PARAM;
     }
-
     unsigned int i = 0;
     while (dev_info[i].name[0] != '\0')
     {

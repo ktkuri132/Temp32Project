@@ -301,9 +301,9 @@ def create_vscode_debug_config(config):
     vscode_dir.mkdir(exist_ok=True)
     launch_json_path = vscode_dir / 'launch.json'
 
-    interface = config.get('download.interface', 'stlink')
-    chip = config.get('project.chip', 'STM32F103C8')
-
+    interface = config.get('download.interface', '')
+    chip = config.get('project.chip', '')
+    elf_name = config.get('project.name', '')
     # 查找 ARM 工具链路径
     toolchain_path = find_arm_toolchain()
     if not toolchain_path:
@@ -318,7 +318,7 @@ def create_vscode_debug_config(config):
         debug_config = {
             "name": "Debug STM32 (J-Link)",
             "cwd": "${workspaceFolder}",
-            "executable": "./build/Temp32Project.elf",
+            "executable": f"./build/{elf_name}.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
@@ -404,13 +404,13 @@ def create_vscode_debug_config(config):
             debug_config["jlinkGDBServerPath"] = f"{jlink_path_unix}/JLinkGDBServerCL.exe"
     else:
         # OpenOCD 调试配置
-        target = config.get('download.target', 'stm32f1x')
+        target = config.get('download.target', '')
         speed = config.get('download.speed', '4000')
 
         debug_config = {
             "name": f"Debug STM32 ({interface.upper()})",
             "cwd": "${workspaceFolder}",
-            "executable": "./build/Temp32Project.elf",
+            "executable": f"./build/{elf_name}.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",

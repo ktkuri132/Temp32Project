@@ -10,7 +10,7 @@
 #include "df_delay.h"
 #include "df_log.h"
 #include <config.h>
-#include "main.h"   // 包含 lcd_sh1106 声明
+#include "main.h" // 包含 lcd_sh1106 声明
 #ifdef USE_DEVICE_SH1106
 #include "sh1106/sh1106.h"
 #endif
@@ -31,6 +31,7 @@ extern df_delay_t delay;
 
 int sh1106_dev_init(df_arg_t arg)
 {
+
     LCD_Handler_t *lcd = (LCD_Handler_t *)arg.ptr;
     if (lcd == NULL)
     {
@@ -63,6 +64,8 @@ int sh1106_dev_init(df_arg_t arg)
     LCD_Printf(lcd, "SH1106 OLED Initialized.\n");
     return 0;
 }
+
+
 #endif
 
 /*===========================================================================*/
@@ -108,28 +111,51 @@ int ssd1306_dev_init(df_arg_t arg)
 
 #ifdef USE_DEVICE_MPU6050
 
-int mpu6050_dev_init(df_arg_t arg){
+typedef enum
+{
+    DATA = 0,
+    OUT_LCD = 1
+} mpu6050_arg_t;
+
+int mpu6050_dev_init(df_arg_t arg)
+{
     // 后续添加启用mpu6050外部中断的代码
     return Device_MPU6050_Init();
 }
 
-int mpu6050_dev_enable(df_arg_t arg){
+int mpu6050_dev_enable(df_arg_t arg)
+{
     // 后续添加启用外部中断的代码
     return 0;
 }
 
 // 停用 MPU6050 设备
-int mpu6050_dev_disable(df_arg_t arg){
+int mpu6050_dev_disable(df_arg_t arg)
+{
     // 后续添加停用外部中断的代码
     return 0;
 }
 
-int mpu6050_dev_read(df_arg_t arg){
+int mpu6050_dev_read(df_arg_t arg)
+{
     // 读取三轴欧拉角
-    if(mpu_dmp_get_data(arg.argv[0], arg.argv[1], arg.argv[2])){
-        return -1;
+    df_dev_t *mpu6050 = (df_dev_t *)arg.ptr;
+    float *data = (float *)mpu6050->arg.argv[DATA];
+    LCD_Handler_t *lcd = (LCD_Handler_t *)mpu6050->arg.argv[OUT_LCD];
+    switch (mpu_dmp_get_data(&data[0], &data[1], &data[2]))
+    {
+    case 1 :
+        LOG_E("MPU6050", "mpu6050_dev_read: mpu_dmp_get_data failed!\n");
+        return 1;
+        break;
+    case 2 :
+        LOG_W("MPU6050", "mpu6050_dev_read: mpu_dmp_get_data No new data available.\n");
+        return 2;
+        break;
+    default:
+        break;
     }
-    LCD_Printf(&lcd_sh1106, "%.2f,%.2f,%.2f\n", arg.argv[0], arg.argv[1], arg.argv[2]);
+    // LCD_Printf(lcd, "%.2f,%.2f,%.2f\n", data[0], data[1], data[2]);
     return 0;
 }
 
