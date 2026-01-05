@@ -91,6 +91,7 @@ uint8_t *Soft_SPI_SwapData(df_soft_spi_t *spi_Dev, uint8_t *data, uint16_t len);
 uint8_t Soft_SPI_SwapBytes(df_soft_spi_t *spi_Dev, uint8_t data);
 uint8_t Soft_SPI_RecvByte(df_soft_spi_t *spi_Dev, uint8_t Byte);
 #else
+void Soft_SPI_Init(df_soft_spi_t *spi_dev);
 void Soft_SPI_SendByte(df_soft_spi_t *spi_Dev, uint8_t Byte);
 void Soft_SPI_SwapBytes(df_soft_spi_t *spi_Dev, uint8_t data);
 void Soft_SPI_SwapData(df_soft_spi_t *spi_Dev, uint8_t *data, uint16_t len);

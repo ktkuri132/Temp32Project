@@ -26,6 +26,7 @@ extern df_iic_t i2c1_bus; /* 外部软件I2C总线 */
 #define DEBUG_UART_NAME "usart_debug"
 #define ONBOARD_LED_NAME "led_onboard"
 #define OLED_NAME "oled_dp"
+#define LCD_NAME "lcd_dp"
 #define MPU6050_NAME "mpu6050_sensor"
 #define ADC1_NAME "adc1"
 
@@ -74,6 +75,19 @@ int adc1_get_value(df_arg_t arg);
 int sh1106_dev_init(df_arg_t arg);
 int ssd1306_dev_init(df_arg_t arg);
 
+/*============================ SPI 接口 ============================*/
+#include <spi/df_spi.h>
+
+extern df_spi_t spi1_bus; /* 外部软件SPI总线 */
+
+int spi1_init(df_arg_t arg);
+int spi1_deinit(df_arg_t arg);
+int spi1_send(df_arg_t arg);
+int spi1_cs_ctrl(df_arg_t arg);
+
+/* ST7789 SPI显示屏接口 */
+int st7789_dev_init(df_arg_t arg);
+int st7789_dev_write(df_arg_t arg);
 
 /*============================= 传感器接口 ===============================*/
 int mpu6050_dev_init(df_arg_t arg);

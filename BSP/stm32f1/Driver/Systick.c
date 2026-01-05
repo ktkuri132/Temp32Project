@@ -141,6 +141,9 @@ void SysTick_Handler(void)
 {
     // 在此处调用需要在SysTick中断中执行的函数
     Systick_time++;
+    if(Systick_time % 100 == 0){
+        log_flush();
+    }
 }
 
 // DF_INIT_EXPORT(systick_init, DF_INIT_EXPORT_PREV);

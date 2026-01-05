@@ -20,6 +20,10 @@
 #include <ssd1306/ssd1306.h>
 #endif
 
+#ifdef USE_DEVICE_ST7789
+#include <st7789/st7789.h>
+#endif
+
 #include <lcd/df_fonts.h>
 
 extern shell Shell;                       // Shell协议结构体实例

@@ -19,6 +19,5 @@
   "editor.tabSize": 4,
   "files.trimTrailingWhitespace": true,
   "files.encoding": "utf8",
-  "terminal.integrated.shell.windows": "cmd.exe",
-  "cortex-debug.variableUseNaturalFormat": false
+  "terminal.integrated.shell.windows": "cmd.exe"
 }

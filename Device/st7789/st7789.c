@@ -334,10 +334,11 @@ void ST7789_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t co
     ST7789_DC(true);
     st7789_spi_hal->cs_control(true);
 
-    for (uint32_t i = 0; i < total; i++)
-    {
-        st7789_spi_hal->transfer_bytes(buf, NULL, 2);
-    }
+    // for (uint32_t i = 0; i < total; i++)
+    // {
+    //     st7789_spi_hal->transfer_bytes(buf, NULL, 2);
+    // }
+    st7789_spi_hal->transfer_bytes(buf, NULL, total * 2);
 
     st7789_spi_hal->cs_control(false);
 }

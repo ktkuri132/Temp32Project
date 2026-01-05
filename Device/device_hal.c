@@ -15,6 +15,16 @@
 #include <i2c/df_iic.h>
 extern df_iic_t i2c1_bus; /* 外部I2C总线 */
 #define i2c1_soft_bus (*i2c1_bus.soft_iic)
+#elif __HARDI2C_
+
+#endif
+
+#ifdef __SOFTSPI_
+#include <spi/df_spi.h>
+extern df_spi_t spi1_bus; /* 外部SPI总线 */
+#define spi1_soft_bus (*spi1_bus.soft_spi)
+#elif __HARDSPI_
+
 #endif
 
 #include <df_delay.h>
@@ -158,19 +168,72 @@ int device_i2c_hal_init_hardware(device_i2c_hal_t *hal, void *hw_i2c)
 
 /*============================ 软件SPI适配器实现 ============================*/
 
-/* TODO: 根据需要实现软件SPI适配器 */
+#ifdef __SOFTSPI_
 
+/**
+ * @brief 软件SPI片选控制适配器
+ */
+static void soft_spi_cs_control(bool enable)
+{
+    spi1_soft_bus.cs(!enable);
+}
+
+/**
+ * @brief 软件SPI传输单字节适配器
+ */
+static uint8_t soft_spi_transfer_byte(uint8_t tx_data)
+{
+    uint8_t rx_data = 0;
+    uint8_t i;
+
+    Soft_SPI_SendByte(&spi1_soft_bus,tx_data);
+
+    return rx_data;
+}
+
+/**
+ * @brief 软件SPI传输多字节适配器
+ */
+static int soft_spi_transfer_bytes(const uint8_t *tx_buf, uint8_t *rx_buf, uint16_t len)
+{
+    Soft_SPI_SwapData(&spi1_soft_bus,rx_buf,len);
+    return 0;
+}
+
+/**
+ * @brief 初始化软件SPI适配器
+ */
 int device_spi_hal_init_soft(device_spi_hal_t *hal, void *spi_bus)
 {
     if (!hal)
         return -1;
 
-    /* TODO: 实现软件SPI初始化 */
-    return -1; /* 未实现 */
+    memset(hal, 0, sizeof(device_spi_hal_t));
+
+    hal->cs_control = soft_spi_cs_control;
+    hal->transfer_byte = soft_spi_transfer_byte;
+    hal->transfer_bytes = soft_spi_transfer_bytes;
+    hal->delay_ms = delay_ms;
+    hal->delay_us = delay_us;
+    hal->user_data = spi_bus;
+    hal->initialized = true;
+
+    /* 初始化底层GPIO */
+    if (spi1_soft_bus.gpio_init)
+    {
+        spi1_soft_bus.gpio_init();
+    }
+
+    /* 默认状态：SCK低电平，CS释放 */
+    spi1_soft_bus.sck(0);
+    spi1_soft_bus.cs(1);
+
+    return 0;
 }
 
+#endif /* __SOFTSPI_ */
 /*============================ 硬件SPI适配器实现 ============================*/
-
+#ifdef __HARDSPI_
 /* TODO: 根据需要实现硬件SPI适配器 */
 
 int device_spi_hal_init_hardware(device_spi_hal_t *hal, void *hw_spi)
@@ -181,3 +244,4 @@ int device_spi_hal_init_hardware(device_spi_hal_t *hal, void *hw_spi)
     /* TODO: 实现硬件SPI初始化 */
     return -1; /* 未实现 */
 }
+#endif /* __HARDSPI_ */

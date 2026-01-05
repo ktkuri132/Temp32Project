@@ -1,0 +1,47 @@
+{
+  "_comment": "环境配置文件 - 可手动修改工具路径",
+  "_last_check": "2026-01-05T19:46:34.306012",
+  "system": {
+    "os": "Windows",
+    "architecture": "AMD64"
+  },
+  "tools": {
+    "arm_gcc": {
+      "enabled": true,
+      "path": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2021.10",
+      "bin_path": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2021.10\\bin",
+      "version": "arm-none-eabi-gcc.exe (GNU Arm Embedded Toolchain 10.3-2021.10) 10.3.1 20210824 (release)"
+    },
+    "openocd": {
+      "enabled": true,
+      "path": "C:\\openocd",
+      "scripts_path": "C:\\openocd\\share\\openocd\\scripts",
+      "version": "Open On-Chip Debugger 0.12.0+dev-g68b6d3a (2025-08-17-13:45)"
+    },
+    "jlink": {
+      "enabled": true,
+      "path": "C:\\Program Files\\SEGGER\\JLink_V862",
+      "version": "JLink_V862"
+    },
+    "cmake": {
+      "enabled": true,
+      "path": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+      "version": "cmake version 4.1.0"
+    },
+    "ninja": {
+      "enabled": true,
+      "version": "1.13.1"
+    }
+  },
+  "python": {
+    "executable": "C:\\Users\\ktkuri\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "version": "3.13.7",
+    "packages": {
+      "watchdog": true,
+      "pyocd": true
+    }
+  },
+  "project": {
+    "directories_created": []
+  }
+}

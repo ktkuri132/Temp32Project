@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include "config.h"
 shell Shell = {
     .Shell_Init = false, // Shell未初始化
     .c = 0,              // 初始化接收字符
@@ -74,18 +74,24 @@ float mpu6050_sensor_data[3] = {0};
 
 df_dev_t Dev_info_poor[] = {
 
-    {.name = OLED_NAME,
-     .init = sh1106_dev_init,
-     .enable = NULL,
-     .disable = NULL,
-     .arg.ptr = ptr(&lcd_sh1106)},
-
-    {.name = MPU6050_NAME,
-     .init = mpu6050_dev_init,
-     .enable = mpu6050_dev_enable,
-     .disable = mpu6050_dev_disable,
-     .read = mpu6050_dev_read,
-     .arg.argv = argv(ptr(mpu6050_sensor_data), ptr(&lcd_sh1106))},
+    // {.name = OLED_NAME,
+    //  .init = sh1106_dev_init,
+    //  .enable = NULL,
+    //  .disable = NULL,
+    //  .arg.ptr = ptr(&lcd_sh1106)},
+    {
+        .name = LCD_NAME,
+        .init = st7789_dev_init,
+        .enable = NULL,
+        .disable = NULL,
+        .arg.ptr = ptr(&lcd_st7789)
+    },
+    // {.name = MPU6050_NAME,
+    //  .init = mpu6050_dev_init,
+    //  .enable = mpu6050_dev_enable,
+    //  .disable = mpu6050_dev_disable,
+    //  .read = mpu6050_dev_read,
+    //  .arg.argv = argv(ptr(mpu6050_sensor_data), ptr(&lcd_sh1106))},
 
     //{.name = OLED_SSD1306_NAME,
     //     .init = ssd1306_dev_init,
@@ -107,19 +113,27 @@ EnvVar env_vars[] = {
  * @details 在框架初始化时自动调用，初始化I2C通信框架
  * @return 0表示成功
  */
-static int df_iic_auto_init(void)
+static int df_interface_auto_init(void)
 {
     // 初始化I2C框架
     Device_HAL_Init();
     // I2C框架暂无需特殊初始化，此函数用于日志记录
-    LOG_I("IIC", "I2C framework initialized");
+    #ifdef __SOFTI2C_
+    LOG_I("IIC", "Soft I2C framework initialized");
+    #elif __HARDI2C_
+    LOG_I("IIC", "Hard I2C framework initialized");
+    #endif
+    #ifdef __SOFTSPI_
+    LOG_I("SPI", "Soft SPI framework initialized");
+    #elif __HARDSPI_
+    LOG_I("SPI", "Hard SPI framework initialized");
+    #endif
     return 0;
 }
 
 // 将I2C框架初始化注册到DEVICE级别
-DF_INIT_EXPORT(df_iic_auto_init, DF_INIT_EXPORT_PREV);
+DF_INIT_EXPORT(df_interface_auto_init, DF_INIT_EXPORT_PREV);
 
-// ============ 自动初始化 ============
 /**
  * @brief 设备框架自动初始化函数
  * @details 在框架初始化时自动调用，初始化设备管理框架

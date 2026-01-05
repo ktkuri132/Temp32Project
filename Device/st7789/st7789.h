@@ -47,6 +47,7 @@ extern "C"
      */
     typedef struct
     {
+        void (*pin_init)(void);          /* GPIO初始化函数 */
         void (*dc_control)(bool level);  /* DC引脚控制: true=Data, false=Command */
         void (*res_control)(bool level); /* RES引脚控制: true=Work, false=Reset */
         void (*blk_control)(bool level); /* 背光控制: true=On, false=Off (可选) */

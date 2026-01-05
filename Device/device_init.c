@@ -16,6 +16,11 @@
 device_i2c_hal_t g_device_i2c_hal = {0};
 #endif
 
+#ifdef __SOFTSPI_
+/* 软件SPI HAL接口实例 */
+device_spi_hal_t g_device_spi_hal = {0};
+#endif
+
 /*============================ 初始化函数 ============================*/
 
 /**
@@ -35,6 +40,16 @@ void Device_HAL_Init(void)
 #ifdef __HARDI2C_
     /* TODO: 初始化硬件I2C HAL适配器 */
     // device_i2c_hal_init_hardware(&g_device_i2c_hal, I2C1);
+#endif
+
+#ifdef __SOFTSPI_
+    /* 初始化软件SPI HAL适配器 */
+    device_spi_hal_init_soft(&g_device_spi_hal, spi1_bus.soft_spi);
+#endif
+
+#ifdef __HARDSPI_
+    /* TODO: 初始化硬件SPI HAL适配器 */
+    // device_spi_hal_init_hardware(&g_device_spi_hal, SPI1);
 #endif
 }
 
@@ -114,13 +129,31 @@ int Device_SSD1306_Init(void)
 #ifdef USE_DEVICE_ST7789
 #include "st7789/st7789.h"
 
+/* 外部GPIO接口（在BSP层定义）*/
+extern st7789_gpio_t st7789_gpio;
+
 /**
  * @brief 初始化ST7789 TFT LCD显示屏
- * @return 无返回值
- * @note ST7789使用HAL风格的SPI接口，需要在调用前注册IO接口
+ * @return 0-成功，负值-失败
+ * @note ST7789使用HAL风格的SPI接口
  */
 int Device_ST7789_Init(void)
 {
+    /* 绑定SPI HAL接口 */
+#ifdef __SOFTSPI_
+    if (ST7789_Init_HAL_SPI(&g_device_spi_hal, &st7789_gpio) != 0)
+    {
+        return -1;
+    }
+#endif
+
+    /* 初始化GPIO引脚 */
+    if (st7789_gpio.pin_init)
+    {
+        st7789_gpio.pin_init();
+    }
+
+    /* 初始化ST7789 */
     ST7789_Init();
     return 0;
 }

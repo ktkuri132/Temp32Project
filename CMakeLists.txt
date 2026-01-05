@@ -68,6 +68,7 @@ include_directories(
     Driver_Framework/spi
     Middleware
     Middleware/trans
+    tool
 )
 # BSP和Device层头文件目录由子目录CMakeLists.txt导出
 include_directories(Device)  # 添加Device根目录用于<config.h>
