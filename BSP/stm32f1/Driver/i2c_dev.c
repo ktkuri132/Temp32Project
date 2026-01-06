@@ -10,6 +10,7 @@
 #include "df_delay.h"
 #include "df_log.h"
 #include <config.h>
+#include "device_init.h"
 #include "main.h" // 包含 lcd_sh1106 声明
 #ifdef USE_DEVICE_SH1106
 #include "sh1106/sh1106.h"
@@ -30,46 +31,6 @@ extern df_delay_t delay;
 /*                         SH1106 OLED 设备初始化                             */
 /*===========================================================================*/
 
-#ifdef USE_DEVICE_SH1106
-
-int sh1106_dev_init(df_arg_t arg)
-{
-
-    LCD_Handler_t *lcd = (LCD_Handler_t *)arg.ptr;
-    if (lcd == NULL)
-    {
-        LOG_E("SH1106", "sh1106_dev_init: lcd handler is NULL!\n");
-        return -1;
-    }
-    if (lcd->SetPixel == NULL)
-    {
-        LOG_E("SH1106", "sh1106_dev_init: lcd SetPixel function is NULL!\n");
-        return -1;
-    }
-    if (lcd->Width != 128 || lcd->Height != 64)
-    {
-        LOG_E("SH1106", "sh1106_dev_init: lcd size mismatch! Expected 128x64.\n");
-        return -1;
-    }
-    if (lcd->Update == NULL)
-    {
-        LOG_E("SH1106", "sh1106_dev_init: lcd Update function is NULL!\n");
-        return -1;
-    }
-    delay.ms(arg_u32(100)); // 等待电源稳定
-    if (Device_SH1106_Init())
-    {
-        LOG_E("SH1106", "sh1106_dev_init: SH1106_Init failed!\n");
-        return -1;
-    }
-    LCD_Clear(lcd, 0); // 清屏，黑色背景
-    LCD_Printf(lcd, "System Start\n");
-    LCD_Printf(lcd, "SH1106 OLED Initialized.\n");
-    return 0;
-}
-
-
-#endif
 
 /*===========================================================================*/
 /*                         SSD1306 OLED 设备初始化                            */
@@ -147,18 +108,18 @@ int mpu6050_dev_read(df_arg_t arg)
     LCD_Handler_t *lcd = (LCD_Handler_t *)mpu6050->arg.argv[OUT_LCD];
     switch (mpu_dmp_get_data(&data[0], &data[1], &data[2]))
     {
-    case 1 :
-        LOG_E("MPU6050", "mpu6050_dev_read: mpu_dmp_get_data failed!\n");
+    case 1:
+        // LOG_E("MPU6050", "mpu6050_dev_read: mpu_dmp_get_data failed!\n");
         return 1;
         break;
-    case 2 :
-        LOG_W("MPU6050", "mpu6050_dev_read: mpu_dmp_get_data No new data available.\n");
+    case 2:
+        // LOG_W("MPU6050", "mpu6050_dev_read: mpu_dmp_get_data No new data available.\n");
         return 2;
         break;
     default:
         break;
     }
-    // LCD_Printf(lcd, "%.2f,%.2f,%.2f\n", data[0], data[1], data[2]);
+    LCD_Printf(lcd, "%.2f,%.2f,%.2f\n", data[0], data[1], data[2]);
     return 0;
 }
 

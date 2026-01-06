@@ -31,7 +31,7 @@ set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -f
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f1/f103/c8t6/stm32f1c8t6.ld -T${CMAKE_SOURCE_DIR}/Driver_Framework/linker/df_init_sections.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f1/f103/c8t6/stm32f1c8t6.ld -T${CMAKE_SOURCE_DIR}/Driver_Framework/linker/df_init_sections.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -Wl,--print-memory-usage")
 
 # 宏定义
 add_definitions(-DLOG_USE_COLOR)
@@ -41,12 +41,8 @@ add_definitions(-DCHIP_MODEL_F103)     # 芯片型号: f103
 add_definitions(-DCHIP_PACKAGE_C8T6)   # 芯片封装型号: c8t6
 add_definitions(-DCHIP_PACKAGE="c8t6") # 芯片封装字符串
 add_definitions(-DUSE_DEVICE__ROOT)  # 启用_root设备驱动
-add_definitions(-DUSE_DEVICE_BMP280)  # 启用bmp280设备驱动
-add_definitions(-DUSE_DEVICE_HMC588)  # 启用hmc588设备驱动
 add_definitions(-DUSE_DEVICE_MPU6050)  # 启用mpu6050设备驱动
 add_definitions(-DUSE_DEVICE_SH1106)  # 启用sh1106设备驱动
-add_definitions(-DUSE_DEVICE_SSD1306)  # 启用ssd1306设备驱动
-add_definitions(-DUSE_DEVICE_ST7789)  # 启用st7789设备驱动
 
 # BSP层(板级支持包)
 add_subdirectory(BSP)

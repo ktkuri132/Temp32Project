@@ -183,8 +183,8 @@ class ConfigGenerator:
             use_hard_i2c = 'hard_i2c' in i2c_protocols
 
             # 如果没有指定协议，默认使用软件 I2C
-            if not use_soft_i2c and not use_hard_i2c:
-                use_soft_i2c = True
+            # if not use_soft_i2c and not use_hard_i2c:
+            #     use_soft_i2c = True
 
             output += "/* I2C通信总线选择 */\n"
             if use_soft_i2c:
@@ -215,8 +215,8 @@ class ConfigGenerator:
             use_hard_spi = 'hard_spi' in spi_protocols
 
             # 如果没有指定协议，默认使用软件 SPI
-            if not use_soft_spi and not use_hard_spi:
-                use_soft_spi = True
+            # if not use_soft_spi and not use_hard_spi:
+            # #     use_soft_spi = True
 
             output += "/* SPI通信总线选择 */\n"
             if use_soft_spi:
@@ -290,6 +290,10 @@ class ConfigGenerator:
         # 生成配置块
         output = f"/* {description} ({bus.upper()}) */\n"
         output += f"#ifdef {macro_name}\n"
+
+        # 添加设备头文件包含
+        header_path = f"{device_name}/{device_name}.h"
+        output += f"#include <{header_path}>\n"
 
         # 如果有默认地址，生成地址宏
         if default_addr:

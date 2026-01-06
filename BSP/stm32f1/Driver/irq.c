@@ -30,7 +30,7 @@ void USART1_IRQHandler(void)
     if (f103_usart_available(F103_USART1))
     {
         // 处理Shell命令
-        BIE_UART(NULL, &Shell_Sysfpoint, &Shell, &env_vars, &STM32F103C8T6_Device);
+        BIE_UART(0, &Shell_Sysfpoint, &Shell, env_vars, &STM32F103C8T6_Device);
 
         // 清除接收中断标志（直接访问寄存器以保证中断处理速度）
         USART1->SR &= ~USART_SR_RXNE;

@@ -8,18 +8,13 @@
 
 #include "config.h"
 #include "device_hal.h"
-
+#include "df_init.h"
 /*============================ 全局HAL接口实例 ============================*/
 
-#ifdef __SOFTI2C_
-/* 软件I2C HAL接口实例 */
-device_i2c_hal_t g_device_i2c_hal = {0};
-#endif
-
-#ifdef __SOFTSPI_
-/* 软件SPI HAL接口实例 */
-device_spi_hal_t g_device_spi_hal = {0};
-#endif
+device_interface_hal_t g_device_interface_hal = {
+    .i2c = {0},
+    .spi = {0}
+};
 
 /*============================ 初始化函数 ============================*/
 
@@ -34,24 +29,52 @@ void Device_HAL_Init(void)
     Soft_IIC_Init(i2c1_bus.soft_iic);
 
     /* 初始化软件I2C HAL适配器 */
-    device_i2c_hal_init_soft(&g_device_i2c_hal, i2c1_bus.soft_iic);
+    device_i2c_hal_init_soft(&g_device_interface_hal.i2c, i2c1_bus.soft_iic);
 #endif
 
 #ifdef __HARDI2C_
     /* TODO: 初始化硬件I2C HAL适配器 */
-    // device_i2c_hal_init_hardware(&g_device_i2c_hal, I2C1);
+    // device_i2c_hal_init_hardware(&g_device_interface_hal.i2c, I2C1);
 #endif
 
 #ifdef __SOFTSPI_
+    Soft_SPI_Init(spi1_bus.soft_spi);
     /* 初始化软件SPI HAL适配器 */
-    device_spi_hal_init_soft(&g_device_spi_hal, spi1_bus.soft_spi);
+    device_spi_hal_init_soft(&g_device_interface_hal.spi, spi1_bus.soft_spi);
 #endif
 
 #ifdef __HARDSPI_
     /* TODO: 初始化硬件SPI HAL适配器 */
-    // device_spi_hal_init_hardware(&g_device_spi_hal, SPI1);
+    // device_spi_hal_init_hardware(&g_device_interface_hal.spi, SPI1);
 #endif
 }
+
+// ============ 自动初始化 ============
+/**
+ * @brief 设备通信框架自动初始化函数
+ * @details 在框架初始化时自动调用，初始化I2C通信框架
+ * @return 0表示成功
+ */
+int df_interface_auto_init(void)
+{
+    // 初始化I2C框架
+    Device_HAL_Init();
+// I2C框架暂无需特殊初始化，此函数用于日志记录
+#ifdef __SOFTI2C_
+    LOG_I("IIC", "Soft I2C framework initialized");
+#elif __HARDI2C_
+    LOG_I("IIC", "Hard I2C framework initialized");
+#endif
+#ifdef __SOFTSPI_
+    LOG_I("SPI", "Soft SPI framework initialized");
+#elif __HARDSPI_
+    LOG_I("SPI", "Hard SPI framework initialized");
+#endif
+    return 0;
+}
+
+// 将I2C框架初始化注册到DEVICE级别
+DF_INIT_EXPORT(df_interface_auto_init, DF_INIT_EXPORT_PREV);
 
 /*============================ 设备初始化函数 ============================*/
 
@@ -104,9 +127,12 @@ int Device_MPU6050_Init(void)
  * @brief 初始化SH1106 OLED显示屏
  * @return 0-成功，负值-失败
  */
-int Device_SH1106_Init(void)
+int Device_SH1106_Init(private_sh1106_t *private_hal)
 {
-    SH1106_Init_HAL(&g_device_i2c_hal);
+    // 检查参数，接口传递
+    int8_t ret = SH1106_Init_HAL(&g_device_interface_hal, private_hal);
+    if( ret != 0 )
+        return ret;
     return SH1106_Init();
 }
 #endif
@@ -158,37 +184,3 @@ int Device_ST7789_Init(void)
     return 0;
 }
 #endif
-
-/**
- * @brief 初始化所有已启用的设备
- * @note  会自动初始化config.h中定义的所有设备
- */
-void Device_Init_All(void)
-{
-    /* 首先初始化HAL接口 */
-    Device_HAL_Init();
-
-#ifdef USE_DEVICE_BMP280
-    Device_BMP280_Init();
-#endif
-
-#ifdef USE_DEVICE_HMC588
-    Device_HMC5883L_Init();
-#endif
-
-#ifdef USE_DEVICE_MPU6050
-    Device_MPU6050_Init();
-#endif
-
-#ifdef USE_DEVICE_SH1106
-    Device_SH1106_Init();
-#endif
-
-#ifdef USE_DEVICE_SSD1306
-    Device_SSD1306_Init();
-#endif
-
-#ifdef USE_DEVICE_ST7789
-    Device_ST7789_Init();
-#endif
-}

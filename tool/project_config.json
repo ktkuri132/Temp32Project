@@ -32,7 +32,7 @@
     "gc_sections": true,
     "map_file": true,
     "printf_float": true,
-    "scanf_float": true,
+    "scanf_float": false,
     "additional_scripts": [
       "Driver_Framework/linker/df_init_sections.ld"
     ]
@@ -98,7 +98,6 @@
     "chip_package": "c8t6",
     "sources": [
       "stm32f1/Core/startup_stm32f10x_md.c",
-      "stm32f1/Core/startup_stm32f10x_md.s",
       "stm32f1/Core/stm32f10x_it.c",
       "stm32f1/Core/syscalls.c",
       "stm32f1/Core/sysmem.c",
@@ -114,6 +113,7 @@
       "stm32f1/Driver/spi_bus.c",
       "stm32f1/Driver/spi_dev.c",
       "stm32f1/Driver/Systick.c",
+      "stm32f1/Driver/sh1106/driver_sh1106.c",
       "stm32f1/Driver/usart.c",
       "stm32f1/f103/f103_adc.c",
       "stm32f1/f103/f103_gpio.c",
@@ -145,7 +145,7 @@
       ]
     },
     "bmp280": {
-      "enabled": true,
+      "enabled": false,
       "sources": [
         "bmp280/bmp280.c"
       ],
@@ -154,7 +154,7 @@
       ]
     },
     "hmc588": {
-      "enabled": true,
+      "enabled": false,
       "sources": [
         "hmc588/hmc588.c"
       ],
@@ -164,6 +164,8 @@
     },
     "mpu6050": {
       "enabled": true,
+      "description": "MPU6050 六轴传感器 驱动 包含 DMP 功能",
+      "protocol": "soft_i2c",
       "sources": [
         "mpu6050/inv_mpu.c",
         "mpu6050/inv_mpu_dmp_motion_driver.c"
@@ -174,7 +176,7 @@
     },
     "sh1106": {
       "enabled": true,
-      "protocol": "soft_i2c",
+      "protocol": "soft_spi",
       "description": "SH1106 OLED 驱动 支持软硬件 I2C",
       "sources": [
         "sh1106/sh1106.c"
@@ -184,7 +186,7 @@
       ]
     },
     "ssd1306": {
-      "enabled": true,
+      "enabled": false,
       "sources": [
         "ssd1306/ssd1306.c"
       ],
@@ -193,7 +195,7 @@
       ]
     },
     "st7789": {
-      "enabled": true,
+      "enabled": false,
       "sources": [
         "st7789/st7789.c"
       ],

@@ -58,7 +58,7 @@ void log_init(log_level_t level)
     // 默认初始化1KB缓冲区
     if (!g_log_buffer.initialized)
     {
-        log_buffer_init(10240);
+        log_buffer_init(1024);
     }
 }
 
@@ -144,7 +144,7 @@ void log_raw(const char *str)
  */
 void log_printf(const char *fmt, ...)
 {
-    static char log_printf_buf[512];
+    static char log_printf_buf[128];
     va_list args;
     va_start(args, fmt);
     vsnprintf(log_printf_buf, sizeof(log_printf_buf), fmt, args);

@@ -13,14 +13,14 @@ typedef enum
  * @brief 显示设备接口结构体
  * 定义了所有显示设备必须实现或可选实现的操作
  */
-typedef struct
+typedef struct DisplayDevice_tag
 {
-    const char *name; // 设备名称 (如 "OLED", "UART_Term", "LCD")
+    const char *name;   // 设备名称 (如 "OLED", "UART_Term", "LCD")
     DisplayType_t type; // 设备类型
     void *lcd_handler;  // LCD句柄 (仅当 type == DISPLAY_TYPE_LCD 时有效)
 
-    uint16_t width;   // 屏幕宽度 (像素或字符列数)
-    uint16_t height;  // 屏幕高度 (像素或字符行数)
+    uint16_t width;  // 屏幕宽度 (像素或字符列数)
+    uint16_t height; // 屏幕高度 (像素或字符行数)
 
     // === 终端模式参数 ===
     uint8_t font_width;  // 字体宽度 (像素)
@@ -43,7 +43,7 @@ typedef struct
     int (*Fill)(uint32_t color);                              // 填充颜色
 
     // 链表指针，用于管理多个设备
-    struct DisplayDevice_t *next;
+    struct DisplayDevice_tag *next;
 } DisplayDevice_t;
 
 /**

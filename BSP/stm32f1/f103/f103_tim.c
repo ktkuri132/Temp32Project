@@ -178,7 +178,7 @@ int f103_pwm_init(const f103_pwm_config_t *config)
     /* 配置PWM模式1 */
     uint32_t ccmr_mode = 0x60; /* PWM模式1 */
     uint32_t ccer_mask = 0;
-    volatile uint32_t *ccr_reg;
+    volatile uint16_t *ccr_reg;
 
     switch (config->channel)
     {

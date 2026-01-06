@@ -235,7 +235,7 @@ int8_t Cmd_match(shell *sh, char *cmd, int argc, void **argv)
         shell_printf("Rebooting...\n");
         if (Cmd.reset != NULL)
         {
-            Cmd.reset(NULL, NULL);
+            Cmd.reset(0, NULL);
         }
         else
         {
@@ -247,7 +247,7 @@ int8_t Cmd_match(shell *sh, char *cmd, int argc, void **argv)
         shell_printf("Powering off...\n");
         if (Cmd.poweroff != NULL)
         {
-            Cmd.poweroff(NULL, NULL);
+            Cmd.poweroff(0, NULL);
         }
         else
         {
@@ -278,7 +278,7 @@ int8_t Cmd_match(shell *sh, char *cmd, int argc, void **argv)
         shell_printf("Clearing screen...\n");
         if (Cmd.clear != NULL)
         {
-            Cmd.clear(NULL, NULL);
+            Cmd.clear(0, NULL);
         }
         else
         {

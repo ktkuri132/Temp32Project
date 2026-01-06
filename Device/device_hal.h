@@ -100,7 +100,7 @@ extern "C"
          * @brief 片选使能
          * @param enable  true-片选有效，false-片选无效
          */
-        void (*cs_control)(bool enable);
+        void (*cs_control)(uint8_t enable);
 
         /**
          * @brief SPI传输单个字节
@@ -142,6 +142,11 @@ extern "C"
 
     } device_spi_hal_t;
 
+    /* ===========================综合通讯方式接口定义===================================  */
+    typedef struct {
+        device_i2c_hal_t i2c; // I2C HAL接口指针
+        device_spi_hal_t spi; // SPI HAL接口指针
+    } device_interface_hal_t;
 /*============================ 辅助宏定义 ============================*/
 
 /**

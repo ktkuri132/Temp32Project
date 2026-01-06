@@ -11,15 +11,15 @@
 int main()
 {
     led.on(arg_null);
-    // df_dev_t mpu6050;
-    // if (df_dev_find(Dev_info_poor, MPU6050_NAME, &mpu6050))
-    // {
-    //     error("main", "MPU6050 device not found!\n");
-    //     while (1);
-    // }
+    df_dev_t mpu6050;
+    if (df_dev_find(Dev_info_poor, MPU6050_NAME, &mpu6050))
+    {
+        error("main", "MPU6050 device not found!\n");
+        while (1);
+    }
     while (1)
     {
-        // mpu6050.read(arg_ptr(&mpu6050));
+        mpu6050.read(arg_ptr(&mpu6050));
 
     }
     return 0;

@@ -76,7 +76,7 @@ static int soft_i2c_write_bytes(uint8_t dev_addr, uint8_t reg_addr, uint8_t len,
  */
 int device_i2c_hal_init_soft(device_i2c_hal_t *hal, void *i2c_bus)
 {
-    if (!hal)
+    if (!i2c_bus)
         return -1;
 
     memset(hal, 0, sizeof(device_i2c_hal_t));
@@ -171,14 +171,6 @@ int device_i2c_hal_init_hardware(device_i2c_hal_t *hal, void *hw_i2c)
 #ifdef __SOFTSPI_
 
 /**
- * @brief 软件SPI片选控制适配器
- */
-static void soft_spi_cs_control(bool enable)
-{
-    spi1_soft_bus.cs(!enable);
-}
-
-/**
  * @brief 软件SPI传输单字节适配器
  */
 static uint8_t soft_spi_transfer_byte(uint8_t tx_data)
@@ -205,12 +197,12 @@ static int soft_spi_transfer_bytes(const uint8_t *tx_buf, uint8_t *rx_buf, uint1
  */
 int device_spi_hal_init_soft(device_spi_hal_t *hal, void *spi_bus)
 {
-    if (!hal)
+    if (!spi_bus)
         return -1;
 
     memset(hal, 0, sizeof(device_spi_hal_t));
 
-    hal->cs_control = soft_spi_cs_control;
+    hal->cs_control = spi1_soft_bus.cs;
     hal->transfer_byte = soft_spi_transfer_byte;
     hal->transfer_bytes = soft_spi_transfer_bytes;
     hal->delay_ms = delay_ms;

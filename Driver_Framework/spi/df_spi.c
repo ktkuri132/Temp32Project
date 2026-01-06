@@ -34,7 +34,7 @@ void Soft_SPI_SendByte(df_soft_spi_t *spi_Dev, uint8_t Byte)
     }
 }
 
-#else if (SPI_MISO && SPI_MOSI) || (SPI_MISO && !SPI_MOSI)
+#elif (SPI_MISO && SPI_MOSI) || (SPI_MISO && !SPI_MOSI)
 
 uint8_t Soft_SPI_RecvByte(df_soft_spi_t *spi_Dev, uint8_t Byte)
 {
@@ -59,7 +59,7 @@ uint8_t Soft_SPI_RecvByte(df_soft_spi_t *spi_Dev, uint8_t Byte)
 #if (SPI_MISO && SPI_MOSI) || (SPI_MISO && !SPI_MOSI)
 uint8_t *Soft_SPI_SwapData(df_soft_spi_t *spi_Dev, uint8_t *data, uint16_t len)
 {
-#else if (!SPI_MISO && SPI_MOSI)
+#elif (!SPI_MISO && SPI_MOSI)
 void Soft_SPI_SwapData(df_soft_spi_t *spi_Dev, uint8_t *data, uint16_t len)
 {
 #endif
@@ -92,7 +92,7 @@ void Soft_SPI_SwapData(df_soft_spi_t *spi_Dev, uint8_t *data, uint16_t len)
 
 #if (MISO && MOSI) || (MISO && !MOSI)
     return DATA_IN;
-#else if (!MISO && MOSI)
+#elif (!MISO && MOSI)
 
 #endif
 }
@@ -100,7 +100,7 @@ void Soft_SPI_SwapData(df_soft_spi_t *spi_Dev, uint8_t *data, uint16_t len)
 #if (SPI_MISO && SPI_MOSI)
 uint8_t Soft_SPI_SwapBytes(df_soft_spi_t *spi_Dev, uint8_t data)
 {
-#else if (!SPI_MISO && SPI_MOSI)
+#elif (!SPI_MISO && SPI_MOSI)
 void Soft_SPI_SwapBytes(df_soft_spi_t *spi_Dev, uint8_t data)
 {
 #endif
@@ -128,7 +128,7 @@ void Soft_SPI_SwapBytes(df_soft_spi_t *spi_Dev, uint8_t data)
     }
 #if (MISO && MOSI) || (MISO && !MOSI)
     return DATA_IN;
-#else if (!MISO && MOSI)
+#elif (!MISO && MOSI)
 
 #endif
 }

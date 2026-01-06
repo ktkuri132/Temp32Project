@@ -51,7 +51,6 @@ int __main(){
 
     Soft_IIC_Init(&i2c1_soft);
 
-    SH1106_Init_HAL_I2C(NULL);
 
     while(1){
         log_flush();

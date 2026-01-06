@@ -10,9 +10,14 @@
 #include "df_delay.h"
 #include "df_log.h"
 #include <config.h>
+#include "device_init.h"
 
 #ifdef USE_DEVICE_ST7789
 #include "st7789/st7789.h"
+#endif
+
+#ifdef USE_DEVICE_SH1106
+#include "sh1106/sh1106.h"
 #endif
 
 extern df_delay_t delay;
@@ -24,30 +29,33 @@ extern df_delay_t delay;
 #ifdef USE_DEVICE_ST7789
 
 #define ST7789_DC_PORT F103_GPIOB
-#define ST7789_DC_PIN  F103_PIN_0
+#define ST7789_DC_PIN F103_PIN_0
 #define ST7789_RES_PORT F103_GPIOA
-#define ST7789_RES_PIN  F103_PIN_6
+#define ST7789_RES_PIN F103_PIN_6
 #define ST7789_BLK_PORT F103_GPIOB
-#define ST7789_BLK_PIN  F103_PIN_1
+#define ST7789_BLK_PIN F103_PIN_1
 
-void st7789_pin_init(void){
+void st7789_pin_init(void)
+{
     f103_gpio_init_quick(ST7789_DC_PORT, ST7789_DC_PIN, F103_GPIO_MODE_OUT_PP, F103_GPIO_SPEED_50MHZ);
     f103_gpio_init_quick(ST7789_RES_PORT, ST7789_RES_PIN, F103_GPIO_MODE_OUT_PP, F103_GPIO_SPEED_50MHZ);
     f103_gpio_init_quick(ST7789_BLK_PORT, ST7789_BLK_PIN, F103_GPIO_MODE_OUT_PP, F103_GPIO_SPEED_50MHZ);
 }
 
-void st7789_res_set(bool level){
+void st7789_res_set(bool level)
+{
     f103_gpio_write(ST7789_RES_PORT, ST7789_RES_PIN, level);
 }
 
-void st7789_blk_set(bool level){
+void st7789_blk_set(bool level)
+{
     f103_gpio_write(ST7789_BLK_PORT, ST7789_BLK_PIN, level);
 }
 
-void st7789_dc_set(bool level){
-    f103_gpio_write(ST7789_DC_PORT,ST7789_DC_PIN,level);
+void st7789_dc_set(bool level)
+{
+    f103_gpio_write(ST7789_DC_PORT, ST7789_DC_PIN, level);
 }
-
 
 st7789_gpio_t st7789_gpio = {
     .pin_init = st7789_pin_init,
@@ -156,5 +164,18 @@ void st7789_spi_write_byte(uint8_t byte)
 {
     Soft_SPI_SendByte(spi1_bus.soft_spi, byte);
 }
+
+#endif
+
+/*===========================================================================*/
+/*                      SH1106 SPI OLED 显示屏设备                            */
+/*===========================================================================*/
+
+#ifdef USE_DEVICE_SH1106
+
+
+
+
+
 
 #endif /* USE_DEVICE_ST7789 */

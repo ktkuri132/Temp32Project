@@ -8,7 +8,7 @@
 
 #ifndef __DEVICE_INIT_H__
 #define __DEVICE_INIT_H__
-
+#include "config.h"
 #ifdef __cplusplus
 extern "C"
 {
@@ -19,12 +19,6 @@ extern "C"
      * @note  应在设备驱动初始化前调用
      */
     void Device_HAL_Init(void);
-
-    /**
-     * @brief 初始化所有已启用的设备
-     * @note  会自动初始化config.h中定义的所有设备
-     */
-    void Device_Init_All(void);
 
 #ifdef USE_DEVICE_BMP280
     /**
@@ -55,7 +49,7 @@ extern "C"
      * @brief 初始化SH1106 OLED显示屏
      * @return 0-成功，负值-失败
      */
-    int Device_SH1106_Init(void);
+    int Device_SH1106_Init(private_sh1106_t *private_hal);
 #endif
 
 #ifdef USE_DEVICE_SSD1306

@@ -14,37 +14,26 @@
 #define SH1106_Data_Mode 0x40
 #define SH1106_Command_Mode 0x00
 
+typedef struct {
+    uint8_t init;
+    void (*pin_init)(void);
+    void (*dc_control)(bool level);
+    void (*res_control)(bool level);
+} private_sh1106_t;
+
+
 /*============================ HAL接口声明 ============================*/
 /**
- * @brief SH1106 I2C HAL接口实例
+ * @brief SH1106 HAL接口实例
  */
-extern device_i2c_hal_t *sh1106_i2c_hal;
-
-/**
- * @brief SH1106 SPI HAL接口实例
- */
-extern device_spi_hal_t *sh1106_spi_hal;
-
-/**
- * @brief 初始化SH1106并绑定I2C HAL接口
- * @param hal I2C HAL接口指针
- * @return 0-成功，非0-失败
- */
-int SH1106_Init_HAL_I2C(device_i2c_hal_t *hal);
-
-/**
- * @brief 初始化SH1106并绑定SPI HAL接口
- * @param hal SPI HAL接口指针
- * @return 0-成功，非0-失败
- */
-int SH1106_Init_HAL_SPI(device_spi_hal_t *hal);
+extern device_interface_hal_t *sh1106_interface_hal;
 
 /**
  * @brief 初始化SH1106并绑定HAL接口（兼容旧接口，默认使用I2C）
  * @param hal I2C HAL接口指针
  * @return 0-成功，非0-失败
  */
-int SH1106_Init_HAL(device_i2c_hal_t *hal);
+int SH1106_Init_HAL(device_interface_hal_t *hal, private_sh1106_t *private_hal);
 /*FontSize参数取值*/
 /*此参数值不仅用于判断，而且用于计算横向字符偏移，默认值为字体像素宽度*/
 #define SH1106_8X16 8

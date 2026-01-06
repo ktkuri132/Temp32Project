@@ -3,84 +3,35 @@
 
 #ifdef USE_DEVICE_SH1106
 
+
 /*============================ HAL接口实例 ============================*/
-device_i2c_hal_t *sh1106_i2c_hal = NULL;
-device_spi_hal_t *sh1106_spi_hal = NULL;
-
-/* 通信模式 */
-typedef enum
-{
-    SH1106_MODE_NONE = 0,
-    SH1106_MODE_I2C,
-    SH1106_MODE_SPI
-} sh1106_mode_t;
-
-static sh1106_mode_t sh1106_mode = SH1106_MODE_NONE;
+device_interface_hal_t *sh1106_interface_hal = NULL;
+static private_sh1106_t *sh1106_private_hal = NULL;
 
 uint8_t SH1106_DisplayBuf[8][128];
 
 /*============================ 底层通信函数 ============================*/
 
 /**
- * @brief 写入命令到SH1106 (I2C模式)
- */
-static int SH1106_I2C_WriteCommand(uint8_t command)
-{
-    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
-        return -1;
-    return sh1106_i2c_hal->write_byte(SH1106_ADDRESS, SH1106_Command_Mode, command);
-}
-
-/**
- * @brief 写入数据到SH1106 (I2C模式)
- */
-static int SH1106_I2C_WriteData(uint8_t *data, uint8_t count)
-{
-    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
-        return -1;
-    return sh1106_i2c_hal->write_bytes(SH1106_ADDRESS, SH1106_Data_Mode, count, data);
-}
-
-/**
- * @brief 写入命令到SH1106 (SPI模式)
- */
-static int SH1106_SPI_WriteCommand(uint8_t command)
-{
-    if (!sh1106_spi_hal || !sh1106_spi_hal->initialized)
-        return -1;
-
-    sh1106_spi_hal->cs_control(true);
-    /* DC=0表示命令 */
-    sh1106_spi_hal->transfer_byte(command);
-    sh1106_spi_hal->cs_control(false);
-    return 0;
-}
-
-/**
- * @brief 写入数据到SH1106 (SPI模式)
- */
-static int SH1106_SPI_WriteData(uint8_t *data, uint8_t count)
-{
-    if (!sh1106_spi_hal || !sh1106_spi_hal->initialized)
-        return -1;
-
-    sh1106_spi_hal->cs_control(true);
-    /* DC=1表示数据 */
-    sh1106_spi_hal->transfer_bytes(data, NULL, count);
-    sh1106_spi_hal->cs_control(false);
-    return 0;
-}
-
-/**
  * @brief 写入命令到SH1106 (统一接口)
  */
 static int SH1106_WriteCommand(uint8_t command)
 {
-    if (sh1106_mode == SH1106_MODE_I2C)
-        return SH1106_I2C_WriteCommand(command);
-    else if (sh1106_mode == SH1106_MODE_SPI)
-        return SH1106_SPI_WriteCommand(command);
-    return -1;
+    #ifdef SH1106_DEVICE_I2C_USED
+        if (!sh1106_interface_hal || !sh1106_interface_hal->i2c.initialized)
+            return -1;
+        return sh1106_interface_hal->i2c.write_byte(SH1106_ADDRESS, SH1106_Command_Mode, command);
+    #elif defined(SH1106_DEVICE_SPI_USED)
+
+        if (!sh1106_interface_hal || !sh1106_interface_hal->spi.initialized)
+            return -1;
+        sh1106_interface_hal->spi.cs_control(0);
+        /* DC=0表示命令 */
+        sh1106_private_hal->dc_control(0);
+        sh1106_interface_hal->spi.transfer_byte(command);
+        sh1106_interface_hal->spi.cs_control(1);
+        return 0;
+    #endif
 }
 
 /**
@@ -88,11 +39,20 @@ static int SH1106_WriteCommand(uint8_t command)
  */
 static int SH1106_WriteData(uint8_t *data, uint8_t count)
 {
-    if (sh1106_mode == SH1106_MODE_I2C)
-        return SH1106_I2C_WriteData(data, count);
-    else if (sh1106_mode == SH1106_MODE_SPI)
-        return SH1106_SPI_WriteData(data, count);
-    return -1;
+    #ifdef SH1106_DEVICE_I2C_USED
+        if (!sh1106_interface_hal || !sh1106_interface_hal->i2c.initialized)
+            return -1;
+        return sh1106_interface_hal->i2c.write_bytes(SH1106_ADDRESS, SH1106_Data_Mode, count, data);
+    #elif defined(SH1106_DEVICE_SPI_USED)
+        if (!sh1106_interface_hal || !sh1106_interface_hal->spi.initialized)
+            return -1;
+        sh1106_interface_hal->spi.cs_control(0);
+        /* DC=1表示数据 */
+        sh1106_private_hal->dc_control(1);
+        sh1106_interface_hal->spi.transfer_bytes(data, NULL, count);
+        sh1106_interface_hal->spi.cs_control(1);
+        return 0;
+    #endif
 }
 
 /**
@@ -100,61 +60,50 @@ static int SH1106_WriteData(uint8_t *data, uint8_t count)
  */
 static int SH1106_Device_AckCheck(void)
 {
-    if (sh1106_mode != SH1106_MODE_I2C)
-        return 0;
+    #ifdef SH1106_DEVICE_I2C_USED
+        if (!sh1106_interface_hal || !sh1106_interface_hal->i2c.initialized)
+            return -1;
 
-    if (!sh1106_i2c_hal || !sh1106_i2c_hal->initialized)
-        return -1;
-
-    uint8_t dummy;
-    return sh1106_i2c_hal->read_byte(SH1106_ADDRESS, 0x00, &dummy);
+        uint8_t dummy;
+        return sh1106_interface_hal->i2c.read_byte(SH1106_ADDRESS, 0x00, &dummy);
+    #endif
 }
 
 /*============================ HAL初始化函数 ============================*/
 
 /**
- * @brief 初始化SH1106并绑定I2C HAL接口
- * @param hal I2C HAL接口指针
- * @return 0-成功，非0-失败
- */
-int SH1106_Init_HAL_I2C(device_i2c_hal_t *hal)
-{
-    if (!hal || !hal->initialized)
-        return -1;
-
-    sh1106_i2c_hal = hal;
-    sh1106_mode = SH1106_MODE_I2C;
-    return 0;
-}
-
-/**
- * @brief 初始化SH1106并绑定SPI HAL接口
- * @param hal SPI HAL接口指针
- * @return 0-成功，非0-失败
- */
-int SH1106_Init_HAL_SPI(device_spi_hal_t *hal)
-{
-    if (!hal || !hal->initialized)
-        return -1;
-
-    sh1106_spi_hal = hal;
-    sh1106_mode = SH1106_MODE_SPI;
-    return 0;
-}
-
-/**
  * @brief 兼容旧接口
  */
-int SH1106_Init_HAL(device_i2c_hal_t *hal)
+int SH1106_Init_HAL(device_interface_hal_t *hal, private_sh1106_t *private_hal)
 {
-    return SH1106_Init_HAL_I2C(hal);
+    if( hal == NULL)
+        return -1;
+    #ifdef SH1106_DEVICE_I2C_USED
+    if( !hal->i2c.initialized)
+        return -2;
+    if( hal->i2c.write_byte == NULL || hal->i2c.write_bytes == NULL)
+        return -3;
+    #elif defined(SH1106_DEVICE_SPI_USED)
+    if( !hal->spi.initialized)
+        return -2;
+    if( hal->spi.cs_control == NULL || hal->spi.transfer_byte == NULL || hal->spi.transfer_bytes == NULL)
+        return -3;
+    if( private_hal == NULL ||
+        private_hal->pin_init == NULL ||
+        private_hal->dc_control == NULL ||
+        private_hal->res_control == NULL)
+        return -4;
+    if( !private_hal->init )
+        private_hal->pin_init();
+        private_hal->init = 1;
+        private_hal->res_control(1);
+    #endif
+    sh1106_interface_hal = hal;
+    return 0;
 }
 
 uint8_t SH1106_Init(void)
 {
-    if (sh1106_mode == SH1106_MODE_NONE)
-        return 1;
-
     if (SH1106_WriteCommand(0xAE))
         return 1;
     SH1106_WriteCommand(0xD5); // 设置显示时钟分频比/振荡器频率

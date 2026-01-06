@@ -17,8 +17,8 @@
 
 /*定义SPI需要使用的片选引脚*/
 #define SPI_CS 1
-#define SPI_CS2 1
-#define SPI_CS3 1
+#define SPI_CS2 0
+#define SPI_CS3 0
 
 /*定义SPI使用的方向*/
 #define SPI_MOSI 1

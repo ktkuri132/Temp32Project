@@ -38,7 +38,7 @@ int df_dev_register(df_dev_t dev_info[])
 {
     if (dev_info == NULL)
     {
-        LOG_E("DEV", "df_dev_register: NULL parameter\n");
+        LOG_E("DEV", "df_dev_register: NULL parameter");
         return DF_ERR_PARAM;
     }
 
@@ -58,25 +58,25 @@ int df_dev_register(df_dev_t dev_info[])
             if (ret == DF_OK)
             {
                 dev_info[i].status = DF_STATE_INITIALIZED;
-                LOG_I("DEV", "Device '%s' initialized successfully\n", dev_info[i].name);
+                LOG_I("DEV", "Device '%s' initialized successfully", dev_info[i].name);
                 success_count++;
             }
             else
             {
                 dev_info[i].status = DF_STATE_ERROR;
-                LOG_E("DEV", "Device '%s' initialization failed: %s\n",
+                LOG_E("DEV", "Device '%s' initialization failed: %s",
                       dev_info[i].name, df_err_to_str(ret));
             }
         }
         else
         {
             dev_info[i].status = DF_STATE_UNINITIALIZED;
-            LOG_W("DEV", "Device '%s' has no init function\n", dev_info[i].name);
+            LOG_W("DEV", "Device '%s' has no init function", dev_info[i].name);
         }
         i++;
     }
 
-    LOG_I("DEV", "Device registration complete: %d/%d devices initialized\n",
+    LOG_I("DEV", "Device registration complete: %d/%d devices initialized",
           success_count, i);
 
     return DF_OK;

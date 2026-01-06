@@ -140,12 +140,21 @@ int printf(const char *format, ...)
 /*============================ 片上外设自动初始化 ============================*/
 
 /**
+ * @brief USART1 日志输出包装函数
+ * @param str 要输出的字符串
+ */
+static void usart1_log_output(const char *str)
+{
+    f103_usart_send_string(F103_USART1, str);
+}
+
+/**
  * @brief USART1 自动初始化函数
  * @note 通过 DF_BOARD_INIT 宏在系统启动时自动调用
  */
 static int usart1_auto_init(void)
 {
-    g_log_config.output_func = usart1_send;
+    g_log_config.output_func = usart1_log_output;
     LOG_I("USART1", "USART1 initialized with baud rate %d", Debug.baudrate);
     return usart1_init(arg_null);
 }

@@ -114,10 +114,5 @@ df_iic_t i2c1_bus = {
     .init_flag = false,
     .num = 1,
     .name = "I2C1",
-    .init = NULL,
-    .deinit = NULL,
-    .write = NULL,
-    .read = NULL,
-    .check = NULL,
     .soft_iic = &i2c1_soft,
 };

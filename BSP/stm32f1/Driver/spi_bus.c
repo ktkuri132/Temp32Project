@@ -128,39 +128,9 @@ int spi1_deinit(df_arg_t arg)
     return 0;
 }
 
-/**
- * @brief SPI1 发送数据
- * @param arg 传参 arg_ptr(df_spi_xfer_t*)
- * @return 0成功，其他失败
- */
-int spi1_send(df_arg_t arg)
-{
-    df_spi_xfer_t *xfer = (df_spi_xfer_t *)arg.ptr;
-    if (xfer == NULL || xfer->tx_buf == NULL)
-    {
-        return -1;
-    }
-
-    Soft_SPI_SwapData(spi1_bus.soft_spi, xfer->tx_buf, xfer->len);
-
-    return 0;
-}
-
-/**
- * @brief SPI1 片选控制
- * @param arg 传参 arg_s32(0/1) 0=选中(低电平)，1=释放(高电平)
- * @return 0成功
- */
-int spi1_cs_ctrl(df_arg_t arg)
-{
-    spi1_cs(arg.s32 ? 1 : 0);
-    return 0;
-}
-
 /*===========================================================================*/
 /*                         SPI1 底层接口实例                                  */
 /*===========================================================================*/
-
 
 
 /**
@@ -170,10 +140,6 @@ df_spi_t spi1_bus = {
     .init_flag = false,
     .num = 1,
     .name = "SPI1_SOFT",
-    .init = NULL,
+    .init = spi1_init,
     .deinit = spi1_deinit,
-    .transfer = NULL, /* 仅发送模式，不实现 */
-    .send = NULL,
-    .receive = NULL, /* 仅发送模式，不实现 */
-    .cs_ctrl = NULL,
     .soft_spi = &spi1_soft};
