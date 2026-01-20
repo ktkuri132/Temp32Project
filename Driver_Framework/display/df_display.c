@@ -1,5 +1,6 @@
 #include "display/df_display.h"
 #include "lcd/df_lcd.h"
+#include "df_init.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -197,3 +198,4 @@ DisplayManager_t Display = {
     .Output = Display_Output,
     .Printf = Display_Printf,
     .Clear = Display_Clear};
+

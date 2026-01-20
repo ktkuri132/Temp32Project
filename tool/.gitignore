@@ -1,0 +1,31 @@
+# 构建输出
+build/
+
+# 缓存文件夹
+.cache/
+
+# 自动生成的配置文件
+CMakeLists.txt
+BSP/CMakeLists.txt
+Device/CMakeLists.txt
+Device/config.h
+tool/project_config.json
+idea.cfg
+
+# VS Code配置
+.vscode/
+
+# Python缓存
+tool/__pycache__/
+*.pyc
+*.pyo
+
+# Keil MDK构建输出
+MDK/Objects/
+MDK/Listings/
+MDK/JLinkLog.txt
+
+# 其他临时文件
+*.bak
+*.tmp
+*.log

@@ -11,14 +11,17 @@
 
 #include <stdint.h>
 #include <config.h>
-#include <i2c/df_iic.h>
+#include <device_hal.h>
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#ifdef BMP280
+#ifdef USE_DEVICE_BMP280
+
+    /*============================ HAL接口声明 ============================*/
+    extern device_i2c_hal_t *bmp280_i2c_hal; /**< BMP280 I2C HAL接口实例 */
 
 /*============================ 设备地址定义 ============================*/
 #define BMP280_I2C_ADDR_LOW 0xEC            /**< SDO接GND时的I2C地址 (0x76 << 1) */
@@ -192,6 +195,13 @@ extern "C"
     /*============================ 初始化与配置函数 ============================*/
 
     /**
+     * @brief   绑定I2C HAL接口
+     * @param   hal  I2C HAL接口指针
+     * @note    必须在调用任何其他BMP280函数之前调用
+     */
+    void BMP280_BindHAL(device_i2c_hal_t *hal);
+
+    /**
      * @brief   BMP280初始化函数（使用默认配置）
      * @return  0-成功, 负值-错误码
      * @note    默认配置：温度×1, 气压×4, 正常模式, 待机125ms, IIR滤波×4
@@ -328,7 +338,7 @@ extern "C"
      */
     int8_t BMP280_GetConfig(BMP280_Config_t *config);
 
-#endif /* BMP280 */
+#endif /* USE_DEVICE_BMP280 */
 
 #ifdef __cplusplus
 }

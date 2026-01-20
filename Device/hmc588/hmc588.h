@@ -9,9 +9,12 @@
 #define __HMC_H
 
 #include <config.h>
-#include <i2c/df_iic.h>
+#include <device_hal.h>
 
-#ifdef HMC5883L
+#ifdef USE_DEVICE_HMC588
+
+/*============================ HAL接口声明 ============================*/
+extern device_i2c_hal_t *hmc5883l_i2c_hal; /**< HMC5883L I2C HAL接口实例 */
 
 /*============================ 设备地址定义 ============================*/
 #define HMC5883L_ADDRESS 0x3C /**< HMC5883L I2C地址 (7位地址左移1位) */
@@ -72,9 +75,6 @@
 #define HMC5883L_STATUS_RDY 0x01  /**< 数据就绪标志位 */
 #define HMC5883L_STATUS_LOCK 0x02 /**< 数据锁定标志位 */
 
-/*============================ 延时宏定义 ============================*/
-#define delay delay.ms
-
 /*============================ 数据结构定义 ============================*/
 
 /**
@@ -123,6 +123,13 @@ typedef struct
 } HMC5883L_Config_t;
 
 /*============================ 基础读写函数 ============================*/
+
+/**
+ * @brief   绑定I2C HAL接口
+ * @param   hal  I2C HAL接口指针
+ * @note    必须在调用任何其他HMC5883L函数之前调用
+ */
+void HMC5883L_BindHAL(device_i2c_hal_t *hal);
 
 /**
  * @brief   向HMC5883L写入单个寄存器
@@ -306,6 +313,6 @@ uint8_t HMC5883L_IsConnected(void);
  */
 uint8_t HMC5883L_Reset(void);
 
-#endif /* HMC5883L */
+#endif /* USE_DEVICE_HMC588 */
 
 #endif /* __HMC_H */

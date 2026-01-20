@@ -1,107 +1,150 @@
+/**
+ * @file ssd1306.h
+ * @brief SSD1306 OLED显示屏驱动头文件
+ * @note 使用 device_hal.h 统一 HAL 接口，支持 I2C/SPI 两种通信方式
+ */
+
 #ifndef __SSD1306_H_
 #define __SSD1306_H_
 
 #include <config.h>
-#ifdef SSD1306
-#include "fonts.h"
+#ifdef USE_DEVICE_SSD1306
+
+#include <stdint.h>
+#include <stdbool.h>
 #include <stdarg.h>
 #include <string.h>
-// #define Peripheral_SPI      // 此处定义外设自带SPI
-#define Peripheral_IIC // 此处定义外设自带IIC
+#include <device_hal.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+/*============================ 屏幕参数 ============================*/
 #define SSD1306_WIDTH 128
 #define SSD1306_HEIGHT 64
 
-/* 定义1.3寸SSD1306地址及其寄存器  */
-// 7位SSD1306地址  stm32上SSD1306的IIC地址为0x78
-
+/* SSD1306 I2C地址和寄存器模式 */
+#define SSD1306_ADDRESS 0x78
 #define SSD1306_Data_Mode 0x40
 #define SSD1306_Command_Mode 0x00
 
-#ifdef On_Chip_IIC
+    /*============================ HAL接口声明 ============================*/
+    /**
+     * @brief SSD1306 I2C HAL接口实例
+     */
+    extern device_i2c_hal_t *ssd1306_i2c_hal;
 
-#undef Peripheral_SPI
-#undef Peripheral_IIC
-/* 定义IIC端口  */
-// #define SSD1306_I2C_PORT i2c1
+    /**
+     * @brief SSD1306 SPI HAL接口实例
+     */
+    extern device_spi_hal_t *ssd1306_spi_hal;
 
-#ifdef __HARDI2C_
-#define SSD1306_ADDRESS 0x78
-/* 江科大SSD1306 IIC操作接口   */
-#define SSD1306_WriteCommand(Command) Hard_IIC_Send_Byte(SSD1306_ADDRESS, SSD1306_Command_Mode, Command)
-#define SSD1306_WriteData(Data, Count) Hard_IIC_Wirter_Data(SSD1306_ADDRESS, SSD1306_Data_Mode, Data, Count)
-#define SSD1306_GPIO_Init() Hard_IIC_Init()
+    /**
+     * @brief 初始化SSD1306并绑定I2C HAL接口
+     * @param hal I2C HAL接口指针
+     * @return 0-成功，非0-失败
+     */
+    int SSD1306_Init_HAL_I2C(device_i2c_hal_t *hal);
 
-#elif defined __SOFTI2C_
-#define SSD1306_ADDRESS 0x78
-#define SSD1306_WriteCommand(Command) Soft_IIC_Write_Byte(&i2c_Dev, SSD1306_ADDRESS, SSD1306_Command_Mode, Command)  // Soft_IIC_WriteByte(SSD1306_ADDRESS,SSD1306_Command_Mode,Command)
-#define SSD1306_WriteData(Data, Count) Soft_IIC_Write_Len(&i2c_Dev, SSD1306_ADDRESS, SSD1306_Data_Mode, Count, Data) // Soft_IIC_WriteData(SSD1306_ADDRESS,SSD1306_Data_Mode,Data,Count)
-#define SSD1306_GPIO_Init() Soft_IIC_Init(&i2c_Dev)                                                                  // Soft_IIC_Init()
+    /**
+     * @brief 初始化SSD1306并绑定SPI HAL接口
+     * @param hal SPI HAL接口指针
+     * @return 0-成功，非0-失败
+     */
+    int SSD1306_Init_HAL_SPI(device_spi_hal_t *hal);
 
-#endif
+    /**
+     * @brief 初始化SSD1306并绑定HAL接口（兼容旧接口，默认使用I2C）
+     * @param hal I2C HAL接口指针
+     * @return 0-成功，非0-失败
+     */
+    int SSD1306_Init_HAL(device_i2c_hal_t *hal);
 
-#elif defined On_Chip_SPI
-#undef Peripheral_SPI
-#undef Peripheral_IIC
-
-#define SSD1306_W_D0(BitValue) spi_Dev.Soft_SPI_SCK(BitValue)        // 写D0（CLK）高低电平
-#define SSD1306_W_D1(BitValue) spi_Dev.Soft_SPI_MOSI(BitValue)       // 写D1（MOSI）高低电平
-#define SSD1306_W_DC(BitValue) spi_Dev.Soft_SPI_CS2(BitValue)        // 写DC（数据/命令选择）高低电平
-#define SSD1306_W_RES(BitValue) spi_Dev.Soft_SPI_CS3(BitValue)       // 写RES（复位）高低电平
-#define SSD1306_W_CS(BitValue) spi_Dev.Soft_SPI_CS(BitValue)         // 写CS（片选）高低电平
-#define SSD1306_SPI_SendByte(Byte) Soft_SPI_SendByte(&spi_Dev, Byte) // SPI发送一个字节
-#define SSD1306_GPIO_Init(void) \
-    {                           \
-        /*置引脚默认电平*/      \
-        SSD1306_W_D0(0);        \
-        SSD1306_W_D1(1);        \
-        SSD1306_W_RES(1);       \
-        SSD1306_W_DC(1);        \
-    }
-
-#endif
-/*FontSize参数取值*/
+/*============================ FontSize参数取值 ============================*/
 /*此参数值不仅用于判断，而且用于计算横向字符偏移，默认值为字体像素宽度*/
 #define SSD1306_8X16 8
 #define SSD1306_6X8 6
 
-/*IsFilled参数数值*/
+/*============================ IsFilled参数数值 ============================*/
 #define SSD1306_UNFILLED 0
 #define SSD1306_FILLED 1
 
-/*初始化函数*/
-void SSD1306_Init(void);
+    /*============================ 初始化函数 ============================*/
+    /**
+     * @brief 初始化SSD1306
+     * @return 0-成功，非0-失败
+     */
+    uint8_t SSD1306_Init(void);
 
-/*更新函数*/
-void SSD1306_Update(void);
-void SSD1306_UpdateArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
+    /**
+     * @brief 检测SSD1306设备是否存在
+     * @return 0-设备存在，非0-设备不存在
+     */
+    uint8_t SSD1306_CheckDevice(void);
 
-/*显存控制函数*/
-void SSD1306_Clear(void);
-void SSD1306_ClearArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
-void SSD1306_Reverse(void);
-void SSD1306_ReverseArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
+    /*============================ 更新函数 ============================*/
+    /**
+     * @brief 将显存数组更新到SSD1306屏幕
+     */
+    void SSD1306_Update(void);
 
-/*显示函数*/
-void SSD1306_ShowChar(int16_t X, int16_t Y, char Char, uint8_t FontSize);
-void SSD1306_ShowString(int16_t X, int16_t Y, char *String, uint8_t FontSize);
-void SSD1306_ShowNum(int16_t X, int16_t Y, uint32_t Number, uint8_t Length, uint8_t FontSize);
-void SSD1306_ShowSignedNum(int16_t X, int16_t Y, int32_t Number, uint8_t Length, uint8_t FontSize);
-void SSD1306_ShowHexNum(int16_t X, int16_t Y, uint32_t Number, uint8_t Length, uint8_t FontSize);
-void SSD1306_ShowBinNum(int16_t X, int16_t Y, uint32_t Number, uint8_t Length, uint8_t FontSize);
-void SSD1306_ShowFloatNum(int16_t X, int16_t Y, double Number, uint8_t IntLength, uint8_t FraLength, uint8_t FontSize);
-void SSD1306_ShowImage(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, const uint8_t *Image);
-void SSD1306_Printf(int16_t X, int16_t Y, uint8_t FontSize, char *format, ...);
+    /**
+     * @brief 将显存数组部分区域更新到SSD1306屏幕
+     */
+    void SSD1306_UpdateArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
 
-/*绘图函数*/
-void SSD1306_DrawPoint(int16_t X, int16_t Y);
-uint8_t SSD1306_GetPoint(int16_t X, int16_t Y);
-void SSD1306_DrawLine(int16_t X0, int16_t Y0, int16_t X1, int16_t Y1);
-void SSD1306_DrawRectangle(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, uint8_t IsFilled);
-void SSD1306_DrawTriangle(int16_t X0, int16_t Y0, int16_t X1, int16_t Y1, int16_t X2, int16_t Y2, uint8_t IsFilled);
-void SSD1306_DrawCircle(int16_t X, int16_t Y, uint8_t Radius, uint8_t IsFilled);
-void SSD1306_DrawEllipse(int16_t X, int16_t Y, uint8_t A, uint8_t B, uint8_t IsFilled);
-void SSD1306_DrawArc(int16_t X, int16_t Y, uint8_t Radius, int16_t StartAngle, int16_t EndAngle, uint8_t IsFilled);
+    /*============================ 显存控制函数 ============================*/
+    /**
+     * @brief 清空显存
+     */
+    void SSD1306_Clear(void);
 
+    /**
+     * @brief 清空指定区域显存
+     */
+    void SSD1306_ClearArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
+
+    /**
+     * @brief 反色显示
+     */
+    void SSD1306_Reverse(void);
+
+    /**
+     * @brief 指定区域反色显示
+     */
+    void SSD1306_ReverseArea(int16_t X, int16_t Y, uint8_t Width, uint8_t Height);
+
+    /*============================ 绘图函数 ============================*/
+    /**
+     * @brief 画点
+     */
+    void SSD1306_DrawPoint(int16_t X, int16_t Y);
+
+    /**
+     * @brief 获取指定点的值
+     */
+    uint32_t SSD1306_GetPoint(uint16_t X, uint16_t Y);
+
+    /**
+     * @brief 设置像素点（兼容统一绘图接口）
+     */
+    void SSD1306_SetPixel(uint16_t x, uint16_t y, uint32_t color);
+
+    /**
+     * @brief 填充矩形区域（兼容统一绘图接口）
+     */
+    void SSD1306_FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
+
+    /**
+     * @brief 显示图像
+     */
+    void SSD1306_ShowImage(int16_t X, int16_t Y, uint8_t Width, uint8_t Height, const uint8_t *Image);
+
+#ifdef __cplusplus
+}
 #endif
-#endif
+
+#endif /* USE_DEVICE_SSD1306 */
+#endif /* __SSD1306_H_ */

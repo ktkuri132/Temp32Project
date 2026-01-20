@@ -4,9 +4,15 @@ cmake_minimum_required(VERSION 3.16)
 
 # 项目配置
 set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_SYSTEM_PROCESSOR cortex-m4)
-set(TARGET_CHIP STM32F407VE)
+set(CMAKE_SYSTEM_PROCESSOR cortex-m3)
+set(TARGET_CHIP STM32F103C8T6)
 set(TARGET_BOARD BLUEPILL)
+set(CHIP_PACKAGE "c8t6")  # 芯片封装型号 (如vet6, vgt6等)
+
+# BSP芯片目录
+set(BSP_CHIP_DIR "stm32f1")
+set(BSP_MODEL_DIR "f103")  # 芯片型号目录
+set(BSP_PACKAGE_DIR "c8t6")  # 封装特定驱动目录
 
 # 工具链
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -19,167 +25,125 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 project(General_template_Project C CXX ASM)
 
-# 编译标志 (硬件浮点 (FPU: fpv4-sp-d16))
-set(CMAKE_C_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
-set(CMAKE_CXX_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
-set(CMAKE_ASM_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+# 编译标志 (软件浮点)
+set(CMAKE_C_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_CXX_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
+set(CMAKE_ASM_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -fdata-sections -ffunction-sections -fstack-usage -O0 -g3")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f4/CORE/stm32f4xx.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -u _scanf_float -Wl,--print-memory-usage")
+set(CMAKE_EXE_LINKER_FLAGS "-mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -T${CMAKE_SOURCE_DIR}/BSP/stm32f1/f103/c8t6/stm32f1c8t6.ld -T${CMAKE_SOURCE_DIR}/Driver_Framework/linker/df_init_sections.ld -Wl,--gc-sections -Wl,-Map=${PROJECT_NAME}.map,--cref -u _printf_float -Wl,--print-memory-usage")
 
 # 宏定义
+add_definitions(-DLOG_USE_COLOR)
 add_definitions(-DSTM32F40_41xxx)
 add_definitions(-DSTM32F10X_MD)
+add_definitions(-DCHIP_MODEL_F103)     # 芯片型号: f103
+add_definitions(-DCHIP_PACKAGE_C8T6)   # 芯片封装型号: c8t6
+add_definitions(-DCHIP_PACKAGE="c8t6") # 芯片封装字符串
+add_definitions(-DUSE_DEVICE__ROOT)  # 启用_root设备驱动
+add_definitions(-DUSE_DEVICE_MPU6050)  # 启用mpu6050设备驱动
+add_definitions(-DUSE_DEVICE_SH1106)  # 启用sh1106设备驱动
 
-# 头文件目录
+# BSP层(板级支持包)
+add_subdirectory(BSP)
+
+# Device层(外部设备驱动)
+add_subdirectory(Device)
+
+# 应用层和框架层头文件目录
 include_directories(
-    Control
-    Device
-    Driver_Framework
-    Middleware
     app
-    Device/bmp280
-    Device/hmc588
-    Device/mpu6050
-    Device/sh1106
-    Device/ssd1306
-    Device/st7789
+    Control
+    Driver_Framework
     Driver_Framework/display
     Driver_Framework/i2c
     Driver_Framework/irq
     Driver_Framework/key
     Driver_Framework/lcd
+    Driver_Framework/shell
     Driver_Framework/spi
-    Middleware/shell
+    Middleware
     Middleware/trans
-    BSP/stm32f4/CORE
-    BSP/stm32f4/Driver
-    BSP/CMSIS/Core/Include
-    BSP/CMSIS/Core/Include/a-profile
-    BSP/CMSIS/Core/Include/m-profile
-    BSP/CMSIS/Core/Include/r-profile
+    tool
 )
-
-# 源文件分组
-set(CORE_SOURCES
-    BSP/stm32f4/CORE/startup_stm32f40_41xxx.c
-    BSP/stm32f4/CORE/stm32f4xx_it.c
-    BSP/stm32f4/CORE/system_stm32f4xx.c
-)
+# BSP和Device层头文件目录由子目录CMakeLists.txt导出
+include_directories(Device)  # 添加Device根目录用于<config.h>
+include_directories(${BSP_INCLUDE_DIRS})
+include_directories(${DEVICE_INCLUDE_DIRS})
 
 set(CONTROL_SOURCES
     Control/filter.c
     Control/pid.c
 )
 
-set(DRIVER_SOURCES
-    BSP/stm32f4/Driver/adc.c
-    BSP/stm32f4/Driver/delay.c
-    BSP/stm32f4/Driver/i2c_bus.c
-    BSP/stm32f4/Driver/i2c_dev.c
-    BSP/stm32f4/Driver/led.c
-    BSP/stm32f4/Driver/misc.c
-    BSP/stm32f4/Driver/nvic.c
-    BSP/stm32f4/Driver/Systick.c
-    BSP/stm32f4/Driver/usart.c
-)
-
 set(DRIVER_FRAMEWORK_SOURCES
     Driver_Framework/dev_frame.c
+    Driver_Framework/df_init.c
+    Driver_Framework/df_log.c
+)
+
+set(DRIVER_FRAMEWORK_DISPLAY_SOURCES
+    Driver_Framework/display/df_display.c
+)
+
+set(DRIVER_FRAMEWORK_I2C_SOURCES
+    Driver_Framework/i2c/df_iic.c
+)
+
+set(DRIVER_FRAMEWORK_IRQ_SOURCES
+    Driver_Framework/irq/df_irq.c
+)
+
+set(DRIVER_FRAMEWORK_KEY_SOURCES
+    Driver_Framework/key/df_key.c
+)
+
+set(DRIVER_FRAMEWORK_LCD_SOURCES
+    Driver_Framework/lcd/df_fonts.c
+    Driver_Framework/lcd/df_lcd.c
+)
+
+set(DRIVER_FRAMEWORK_SHELL_SOURCES
+    Driver_Framework/shell/df_shell.c
+)
+
+set(DRIVER_FRAMEWORK_SPI_SOURCES
+    Driver_Framework/spi/df_spi.c
+)
+
+set(MIDDLEWARE_TRANS_SOURCES
+    Middleware/trans/stde.c
+    Middleware/trans/terminal_link.c
 )
 
 set(APP_SOURCES
     app/control.c
     app/init.c
     app/main.c
-)
-
-set(BMP280_SOURCES
-    Device/bmp280/bmp280.c
-)
-
-set(DISPLAY_SOURCES
-    Driver_Framework/display/df_display.c
-)
-
-set(HMC588_SOURCES
-    Device/hmc588/hmc588.c
-)
-
-set(I2C_SOURCES
-    Driver_Framework/i2c/df_iic.c
-)
-
-set(IRQ_SOURCES
-    Driver_Framework/irq/df_irq.c
-)
-
-set(KEY_SOURCES
-    Driver_Framework/key/df_key.c
-)
-
-set(LCD_SOURCES
-    Driver_Framework/lcd/df_fonts.c
-    Driver_Framework/lcd/df_lcd.c
-)
-
-set(MPU6050_SOURCES
-    Device/mpu6050/inv_mpu.c
-    Device/mpu6050/inv_mpu_dmp_motion_driver.c
-)
-
-set(SH1106_SOURCES
-    Device/sh1106/fonts.c
-    Device/sh1106/sh1106.c
-)
-
-set(SHELL_SOURCES
-    Middleware/shell/shell.c
-)
-
-set(SPI_SOURCES
-    Driver_Framework/spi/df_spi.c
-)
-
-set(SSD1306_SOURCES
-    Device/ssd1306/fonts.c
-    Device/ssd1306/ssd1306.c
-)
-
-set(ST7789_SOURCES
-    Device/st7789/st7789.c
-)
-
-set(TRANS_SOURCES
-    Middleware/trans/stde.c
-    Middleware/trans/terminal_link.c
+    app/test.c
 )
 
 # 所有源文件
 set(SOURCE_FILES
-    ${CORE_SOURCES}
     ${CONTROL_SOURCES}
-    ${DRIVER_SOURCES}
     ${DRIVER_FRAMEWORK_SOURCES}
+    ${DRIVER_FRAMEWORK_DISPLAY_SOURCES}
+    ${DRIVER_FRAMEWORK_I2C_SOURCES}
+    ${DRIVER_FRAMEWORK_IRQ_SOURCES}
+    ${DRIVER_FRAMEWORK_KEY_SOURCES}
+    ${DRIVER_FRAMEWORK_LCD_SOURCES}
+    ${DRIVER_FRAMEWORK_SHELL_SOURCES}
+    ${DRIVER_FRAMEWORK_SPI_SOURCES}
+    ${MIDDLEWARE_TRANS_SOURCES}
     ${APP_SOURCES}
-    ${BMP280_SOURCES}
-    ${DISPLAY_SOURCES}
-    ${HMC588_SOURCES}
-    ${I2C_SOURCES}
-    ${IRQ_SOURCES}
-    ${KEY_SOURCES}
-    ${LCD_SOURCES}
-    ${MPU6050_SOURCES}
-    ${SH1106_SOURCES}
-    ${SHELL_SOURCES}
-    ${SPI_SOURCES}
-    ${SSD1306_SOURCES}
-    ${ST7789_SOURCES}
-    ${TRANS_SOURCES}
 )
 
 # 创建可执行文件
-add_executable(${PROJECT_NAME}.elf ${SOURCE_FILES})
+add_executable(${PROJECT_NAME}.elf
+    ${SOURCE_FILES}
+    ${BSP_SOURCES}      # BSP层源文件
+    ${DEVICE_SOURCES}   # Device层源文件
+)
 
 # 生成输出文件
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD

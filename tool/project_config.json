@@ -1,11 +1,11 @@
 {
   "project": {
     "name": "General_template_Project",
-    "chip": "STM32F407VE",
+    "chip": "STM32F103C8T6",
     "board": "BLUEPILL",
-    "architecture": "cortex-m4",
+    "architecture": "cortex-m3",
     "instruction_set": "thumb",
-    "float_type": "硬件浮点 (FPU: fpv4-sp-d16)"
+    "float_type": "软件浮点"
   },
   "toolchain": {
     "c_compiler": "arm-none-eabi-gcc",
@@ -28,19 +28,23 @@
       "nosys.specs",
       "nano.specs"
     ],
-    "script": "BSP/stm32f4/CORE/stm32f4xx.ld",
+    "script": "BSP/stm32f1/f103/c8t6/stm32f1c8t6.ld",
     "gc_sections": true,
     "map_file": true,
     "printf_float": true,
-    "scanf_float": true
+    "scanf_float": false,
+    "additional_scripts": [
+      "Driver_Framework/linker/df_init_sections.ld"
+    ]
   },
   "defines": [
+    "LOG_USE_COLOR",
     "STM32F40_41xxx",
     "STM32F10X_MD"
   ],
   "download": {
     "interface": "cmsis-dap",
-    "target": "stm32f4x",
+    "target": "stm32f1x",
     "speed": "50000"
   },
   "files": {
@@ -48,70 +52,156 @@
       "app/control.c",
       "app/init.c",
       "app/main.c",
-      "BSP/stm32f4/CORE/startup_stm32f40_41xxx.c",
-      "BSP/stm32f4/CORE/stm32f4xx_it.c",
-      "BSP/stm32f4/CORE/system_stm32f4xx.c",
-      "BSP/stm32f4/Driver/adc.c",
-      "BSP/stm32f4/Driver/delay.c",
-      "BSP/stm32f4/Driver/i2c_bus.c",
-      "BSP/stm32f4/Driver/i2c_dev.c",
-      "BSP/stm32f4/Driver/led.c",
-      "BSP/stm32f4/Driver/misc.c",
-      "BSP/stm32f4/Driver/nvic.c",
-      "BSP/stm32f4/Driver/Systick.c",
-      "BSP/stm32f4/Driver/usart.c",
+      "app/test.c",
       "Control/filter.c",
       "Control/pid.c",
-      "Device/bmp280/bmp280.c",
-      "Device/hmc588/hmc588.c",
-      "Device/mpu6050/inv_mpu.c",
-      "Device/mpu6050/inv_mpu_dmp_motion_driver.c",
-      "Device/sh1106/fonts.c",
-      "Device/sh1106/sh1106.c",
-      "Device/ssd1306/fonts.c",
-      "Device/ssd1306/ssd1306.c",
-      "Device/st7789/st7789.c",
       "Driver_Framework/dev_frame.c",
+      "Driver_Framework/df_init.c",
+      "Driver_Framework/df_log.c",
       "Driver_Framework/display/df_display.c",
       "Driver_Framework/i2c/df_iic.c",
+      "Driver_Framework/irq/df_irq.c",
       "Driver_Framework/key/df_key.c",
       "Driver_Framework/lcd/df_fonts.c",
       "Driver_Framework/lcd/df_lcd.c",
+      "Driver_Framework/shell/df_shell.c",
       "Driver_Framework/spi/df_spi.c",
-      "Driver_Framework/irq/df_irq.c",
-      "Middleware/shell/shell.c",
       "Middleware/trans/stde.c",
       "Middleware/trans/terminal_link.c"
     ],
     "headers": [],
     "include_dirs": [
-      "Driver_Framework",
-      "Device/hmc588",
-      "app",
-      "BSP/CMSIS/Core/Include/r-profile",
-      "Middleware/shell",
-      "BSP/CMSIS/Core/Include/m-profile",
-      "Driver_Framework/i2c",
-      "BSP/CMSIS/Core/Include",
-      "BSP/stm32f4/Driver",
-      "Device/ssd1306",
-      "Device",
-      "Device/mpu6050",
-      "Device/bmp280",
-      "BSP/stm32f4/CORE",
-      "Middleware",
       "Driver_Framework/key",
       "Middleware/trans",
-      "Control",
-      "Driver_Framework/display",
-      "Device/st7789",
       "Driver_Framework/spi",
-      "Device/sh1106",
-      "BSP/CMSIS/Core/Include/a-profile",
+      "Driver_Framework/display",
+      "Control",
+      "Middleware",
+      "Driver_Framework",
+      "Driver_Framework/i2c",
       "Driver_Framework/lcd",
-      "Driver_Framework/irq"
+      "Driver_Framework/irq",
+      "tool",
+      "app",
+      "Driver_Framework/shell"
     ],
-    "subdirs": [],
-    "static_libraries": []
+    "subdirs": [
+      "tool"
+    ],
+    "static_libraries": [
+      "tool"
+    ]
+  },
+  "bsp": {
+    "chip_dir": "stm32f1",
+    "chip_model_dir": "f103",
+    "chip_package": "c8t6",
+    "sources": [
+      "stm32f1/Core/startup_stm32f10x_md.c",
+      "stm32f1/Core/stm32f10x_it.c",
+      "stm32f1/Core/syscalls.c",
+      "stm32f1/Core/sysmem.c",
+      "stm32f1/Core/system_stm32f10x.c",
+      "stm32f1/Driver/adc.c",
+      "stm32f1/Driver/delay.c",
+      "stm32f1/Driver/i2c_bus.c",
+      "stm32f1/Driver/i2c_dev.c",
+      "stm32f1/Driver/irq.c",
+      "stm32f1/Driver/led.c",
+      "stm32f1/Driver/misc.c",
+      "stm32f1/Driver/nvic.c",
+      "stm32f1/Driver/spi_bus.c",
+      "stm32f1/Driver/spi_dev.c",
+      "stm32f1/Driver/Systick.c",
+      "stm32f1/Driver/sh1106/driver_sh1106.c",
+      "stm32f1/Driver/usart.c",
+      "stm32f1/f103/f103_adc.c",
+      "stm32f1/f103/f103_gpio.c",
+      "stm32f1/f103/f103_i2c.c",
+      "stm32f1/f103/f103_spi.c",
+      "stm32f1/f103/f103_tim.c",
+      "stm32f1/f103/f103_usart.c"
+    ],
+    "include_dirs": [
+      "BSP/CMSIS/Core/Include",
+      "BSP/CMSIS/Core/Include/a-profile",
+      "BSP/CMSIS/Core/Include/m-profile",
+      "BSP/CMSIS/Core/Include/r-profile",
+      "BSP/stm32f1/Core",
+      "BSP/stm32f1/Driver",
+      "BSP/stm32f1/f103",
+      "BSP/stm32f1/f103/c8t6"
+    ]
+  },
+  "devices": {
+    "_root": {
+      "enabled": true,
+      "sources": [
+        "device_hal.c",
+        "device_init.c"
+      ],
+      "include_dirs": [
+        "Device"
+      ]
+    },
+    "bmp280": {
+      "enabled": false,
+      "sources": [
+        "bmp280/bmp280.c"
+      ],
+      "include_dirs": [
+        "Device/bmp280"
+      ]
+    },
+    "hmc588": {
+      "enabled": false,
+      "sources": [
+        "hmc588/hmc588.c"
+      ],
+      "include_dirs": [
+        "Device/hmc588"
+      ]
+    },
+    "mpu6050": {
+      "enabled": true,
+      "description": "MPU6050 六轴传感器 驱动 包含 DMP 功能",
+      "protocol": "soft_i2c",
+      "sources": [
+        "mpu6050/inv_mpu.c",
+        "mpu6050/inv_mpu_dmp_motion_driver.c"
+      ],
+      "include_dirs": [
+        "Device/mpu6050"
+      ]
+    },
+    "sh1106": {
+      "enabled": true,
+      "protocol": "soft_spi",
+      "description": "SH1106 OLED 驱动 支持软硬件 I2C",
+      "sources": [
+        "sh1106/sh1106.c"
+      ],
+      "include_dirs": [
+        "Device/sh1106"
+      ]
+    },
+    "ssd1306": {
+      "enabled": false,
+      "sources": [
+        "ssd1306/ssd1306.c"
+      ],
+      "include_dirs": [
+        "Device/ssd1306"
+      ]
+    },
+    "st7789": {
+      "enabled": false,
+      "sources": [
+        "st7789/st7789.c"
+      ],
+      "include_dirs": [
+        "Device/st7789"
+      ]
+    }
   }
 }

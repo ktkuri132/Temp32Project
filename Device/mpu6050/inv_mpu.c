@@ -4,6 +4,14 @@
     See included License.txt for License information.
  $
  */
+
+/* MPU6050 库内部需�?MPU6050 宏来选择芯片型号 */
+#ifdef USE_DEVICE_MPU6050
+#ifndef MPU6050
+#define MPU6050
+#endif
+#endif
+
 /**
  *  @addtogroup  DRIVERS Sensor Driver Layer
  *  @brief       Hardware drivers to communicate with sensors via I2C.
@@ -25,6 +33,7 @@
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include <config.h>
+#include <df_delay.h>
 
 #define MOTION_DRIVER_TARGET_MSP430
 
@@ -33,23 +42,32 @@
  *      unsigned char length, unsigned char const *data)
  * i2c_read(unsigned char slave_addr, unsigned char reg_addr,
  *      unsigned char length, unsigned char *data)
- * delay_ms(unsigned long num_ms)
+ * mpu_delay_ms(unsigned long num_ms)
  * get_ms(unsigned long *count)
  * reg_int_cb(void (*cb)(void), unsigned char port, unsigned char pin)
  * labs(long x)
  * fabsf(float x)
  * min(int a, int b)
  */
+
+extern df_delay_t delay;
+/* i2c_Dev 已在 config.h 中定义为宏 */
+
+/* 外部I2C读写函数声明（定义在 i2c_dev.c） */
+extern uint8_t mpu6050_i2c_write(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);
+extern uint8_t mpu6050_i2c_read(uint8_t addr, uint8_t reg, uint16_t length, uint8_t *data);
+
 #ifdef __SOFTI2C_
 #define i2c_write mpu6050_i2c_write
 #define i2c_read mpu6050_i2c_read
-#define MPU_IIC_Init() Soft_IIC_Init(&i2c_dev)
+#define MPU_IIC_Init() Soft_IIC_Init(&i2c_Dev)
 #elif defined __HARDI2C_
 #define i2c_write Hard_IIC_Wirter_Data
 #define i2c_read Hard_IIC_Read_Data
 #define MPU_IIC_Init Hard_IIC_Init
 #endif
-#define delay_ms delay.ms
+
+#define mpu_delay_ms(_delay_val_) delay.ms(arg_u32(_delay_val_))
 #define get_ms mget_ms
 
 #define log_i printf //
@@ -651,7 +669,7 @@ int mpu_init(void)
     data[0] = BIT_RESET;
     if (i2c_write(st.hw->addr, st.reg->pwr_mgmt_1, 1, data))
         return -1;
-    delay_ms(1);
+    mpu_delay_ms(1);
 
     /* Wake up chip. */
     data[0] = 0x00;
@@ -1016,7 +1034,7 @@ int mpu_reset_fifo(void)
         data = BIT_FIFO_RST | BIT_DMP_RST;
         if (i2c_write(st.hw->addr, st.reg->user_ctrl, 1, &data))
             return -1;
-        delay_ms(1);
+        mpu_delay_ms(1);
         data = BIT_DMP_EN | BIT_FIFO_EN;
         if (st.chip_cfg.sensors & INV_XYZ_COMPASS)
             data |= BIT_AUX_IF_EN;
@@ -1043,7 +1061,7 @@ int mpu_reset_fifo(void)
             data = BIT_FIFO_EN | BIT_AUX_IF_EN;
         if (i2c_write(st.hw->addr, st.reg->user_ctrl, 1, &data))
             return -1;
-        delay_ms(3);
+        mpu_delay_ms(3);
         if (st.chip_cfg.int_enable)
             data = BIT_DATA_RDY_EN;
         else
@@ -1585,7 +1603,7 @@ int mpu_set_sensors(unsigned char sensors)
 
     st.chip_cfg.sensors = sensors;
     st.chip_cfg.lp_accel_mode = 0;
-    delay_ms(2);
+    mpu_delay_ms(2);
     return 0;
 }
 
@@ -1765,7 +1783,7 @@ int mpu_set_bypass(unsigned char bypass_on)
         tmp &= ~BIT_AUX_IF_EN;
         if (i2c_write(st.hw->addr, st.reg->user_ctrl, 1, &tmp))
             return -1;
-        delay_ms(3);
+        mpu_delay_ms(3);
         tmp = BIT_BYPASS_EN;
         if (st.chip_cfg.active_low_int)
             tmp |= BIT_ACTL;
@@ -1785,7 +1803,7 @@ int mpu_set_bypass(unsigned char bypass_on)
             tmp &= ~BIT_AUX_IF_EN;
         if (i2c_write(st.hw->addr, st.reg->user_ctrl, 1, &tmp))
             return -1;
-        delay_ms(3);
+        mpu_delay_ms(3);
         if (st.chip_cfg.active_low_int)
             tmp = BIT_ACTL;
         else
@@ -1836,7 +1854,7 @@ int mpu_set_int_latched(unsigned char enable)
     return 0;
 }
 
-#ifdef MPU6050
+#ifdef USE_DEVICE_MPU6050
 static int get_accel_prod_shift(float *st_shift)
 {
     unsigned char tmp[4], shift_code[3], ii;
@@ -1941,7 +1959,7 @@ static int compass_self_test(void)
 
     do
     {
-        delay_ms(10);
+        mpu_delay_ms(10);
         if (i2c_read(st.chip_cfg.compass_addr, AKM_REG_ST1, 1, tmp))
             goto AKM_restore;
         if (tmp[0] & AKM_DATA_READY)
@@ -1985,7 +2003,7 @@ static int get_st_biases(long *gyro, long *accel, unsigned char hw_test)
     data[1] = 0;
     if (i2c_write(st.hw->addr, st.reg->pwr_mgmt_1, 2, data))
         return -1;
-    delay_ms(2);
+    mpu_delay_ms(2);
     data[0] = 0;
     if (i2c_write(st.hw->addr, st.reg->int_enable, 1, data))
         return -1;
@@ -2000,7 +2018,7 @@ static int get_st_biases(long *gyro, long *accel, unsigned char hw_test)
     data[0] = BIT_FIFO_RST | BIT_DMP_RST;
     if (i2c_write(st.hw->addr, st.reg->user_ctrl, 1, data))
         return -1;
-    delay_ms(15);
+    mpu_delay_ms(15);
     data[0] = st.test->reg_lpf;
     if (i2c_write(st.hw->addr, st.reg->lpf, 1, data))
         return -1;
@@ -2021,7 +2039,7 @@ static int get_st_biases(long *gyro, long *accel, unsigned char hw_test)
     if (i2c_write(st.hw->addr, st.reg->accel_cfg, 1, data))
         return -1;
     if (hw_test)
-        delay_ms(200);
+        mpu_delay_ms(200);
 
     /* Fill FIFO for test.wait_ms milliseconds. */
     data[0] = BIT_FIFO_EN;
@@ -2031,7 +2049,7 @@ static int get_st_biases(long *gyro, long *accel, unsigned char hw_test)
     data[0] = INV_XYZ_GYRO | INV_XYZ_ACCEL;
     if (i2c_write(st.hw->addr, st.reg->fifo_en, 1, data))
         return -1;
-    delay_ms(test.wait_ms);
+    mpu_delay_ms(test.wait_ms);
     data[0] = 0;
     if (i2c_write(st.hw->addr, st.reg->fifo_en, 1, data))
         return -1;
@@ -2119,7 +2137,7 @@ static int get_st_biases(long *gyro, long *accel, unsigned char hw_test)
  */
 int mpu_run_self_test(long *gyro, long *accel)
 {
-#ifdef MPU6050
+#ifdef USE_DEVICE_MPU6050
     const unsigned char tries = 2;
     long gyro_st[3], accel_st[3];
     unsigned char accel_result, gyro_result;
@@ -2407,12 +2425,12 @@ int setup_compass(void)
     data[0] = AKM_POWER_DOWN;
     if (i2c_write(st.chip_cfg.compass_addr, AKM_REG_CNTL, 1, data))
         return -1;
-    delay_ms(1);
+    mpu_delay_ms(1);
 
     data[0] = AKM_FUSE_ROM_ACCESS;
     if (i2c_write(st.chip_cfg.compass_addr, AKM_REG_CNTL, 1, data))
         return -1;
-    delay_ms(1);
+    mpu_delay_ms(1);
 
     /* Get sensitivity adjustment data from fuse ROM. */
     if (i2c_read(st.chip_cfg.compass_addr, AKM_REG_ASAX, 3, data))
@@ -2424,7 +2442,7 @@ int setup_compass(void)
     data[0] = AKM_POWER_DOWN;
     if (i2c_write(st.chip_cfg.compass_addr, AKM_REG_CNTL, 1, data))
         return -1;
-    delay_ms(1);
+    mpu_delay_ms(1);
 
     mpu_set_bypass(0);
 
@@ -2659,7 +2677,7 @@ int mpu_lp_motion_interrupt(unsigned short thresh, unsigned char time,
             mpu_get_fifo_config(&st.chip_cfg.cache.fifo_sensors);
         }
 
-#ifdef MPU6050
+#ifdef USE_DEVICE_MPU6050
         /* Disable hardware interrupts for now. */
         set_int_enable(0);
 
@@ -2691,7 +2709,7 @@ int mpu_lp_motion_interrupt(unsigned short thresh, unsigned char time,
             goto lp_int_restore;
 
         /* Force hardware to "lock" current accel sample. */
-        delay_ms(5);
+        mpu_delay_ms(5);
         data[0] = (st.chip_cfg.accel_fsr << 3) | BITS_HPF;
         if (i2c_write(st.hw->addr, st.reg->accel_cfg, 1, data))
             goto lp_int_restore;
@@ -2821,20 +2839,20 @@ lp_int_restore:
 
 /**
  * @brief 陀螺仪安装方向矩阵
- * @note  根据实际安装方向修改此矩阵
+ * @note  根据实际安装方向修改此矩�?
  *        矩阵描述了传感器坐标系到世界坐标系的映射关系
  *        当前配置：传感器X轴对应世界X轴，Y对应Y，Z对应Z（正装）
  */
 static signed char gyro_orientation[9] = {
-    1, 0, 0, /* X轴映射 */
-    0, 1, 0, /* Y轴映射 */
-    0, 0, 1  /* Z轴映射 */
+    1, 0, 0, /* X轴映�?*/
+    0, 1, 0, /* Y轴映�?*/
+    0, 0, 1  /* Z轴映�?*/
 };
 
 /**
- * @brief   运行自检并设置偏置
- * @return  0-自检通过，1-自检失败
- * @details 执行MPU6050自检测试，如果通过则将测得的
+ * @brief   运行自检并设置偏�?
+ * @return  0-自检通过�?-自检失败
+ * @details 执行MPU6050自检测试，如果通过则将测得�?
  *          陀螺仪和加速度计偏置写入DMP
  */
 u8 run_self_test(void)
@@ -2857,7 +2875,7 @@ u8 run_self_test(void)
         gyro[2] = (long)(gyro[2] * sens);
         dmp_set_gyro_bias(gyro);
 
-        /* 获取加速度计灵敏度并转换偏置单位 */
+        /* 获取加速度计灵敏度并转换偏置单�?*/
         mpu_get_accel_sens(&accel_sens);
         accel[0] *= accel_sens;
         accel[1] *= accel_sens;
@@ -2873,25 +2891,25 @@ u8 run_self_test(void)
 /**
  * @brief   将方向矩阵转换为标量
  * @param   mtx     方向矩阵数组[9]
- * @return  转换后的标量值（用于dmp_set_orientation）
- * @details 将3x3方向矩阵转换为DMP可识别的标量格式
+ * @return  转换后的标量值（用于dmp_set_orientation�?
+ * @details �?x3方向矩阵转换为DMP可识别的标量格式
  */
 unsigned short inv_orientation_matrix_to_scalar(const signed char *mtx)
 {
     unsigned short scalar;
 
-    scalar = inv_row_2_scale(mtx);           /* 第一行 */
-    scalar |= inv_row_2_scale(mtx + 3) << 3; /* 第二行 */
-    scalar |= inv_row_2_scale(mtx + 6) << 6; /* 第三行 */
+    scalar = inv_row_2_scale(mtx);           /* 第一�?*/
+    scalar |= inv_row_2_scale(mtx + 3) << 3; /* 第二�?*/
+    scalar |= inv_row_2_scale(mtx + 6) << 6; /* 第三�?*/
 
     return scalar;
 }
 
 /**
- * @brief   将方向矩阵的单行转换为标量
+ * @brief   将方向矩阵的单行转换为标�?
  * @param   row     方向矩阵行数组[3]
- * @return  转换后的标量值
- * @details 根据行向量中的非零元素位置和符号确定标量值
+ * @return  转换后的标量�?
+ * @details 根据行向量中的非零元素位置和符号确定标量�?
  */
 unsigned short inv_row_2_scale(const signed char *row)
 {
@@ -2917,51 +2935,48 @@ unsigned short inv_row_2_scale(const signed char *row)
 
 /**
  * @brief   获取系统时间（毫秒）
- * @param   time    返回时间值指针
- * @note    此函数为占位函数，DMP库需要但当前未使用
- *          如需精确时间戳，请根据平台实现
+ * @param   time    返回时间值指�?
+ * @note    此函数为占位函数，DMP库需要但当前未使�?
+ *          如需精确时间戳，请根据平台实�?
  */
 void mget_ms(unsigned long *time)
 {
-    /* 占位实现，根据需要添加实际代码 */
+    /* 占位实现，根据需要添加实际代�?*/
     (void)time;
 }
 
 /**
- * @brief   MPU6050 DMP完整初始化
+ * @brief   MPU6050 DMP完整初始�?
  * @return  0-成功，非0-失败（返回值指示失败步骤）
- *          1-传感器使能失败
+ *          1-传感器使能失�?
  *          2-FIFO配置失败
- *          3-采样率设置失败
+ *          3-采样率设置失�?
  *          4-DMP固件加载失败
  *          5-方向设置失败
- *          6-DMP特性使能失败
+ *          6-DMP特性使能失�?
  *          7-FIFO速率设置失败
  *          9-DMP启动失败
- *          10-MPU基础初始化失败
+ *          10-MPU基础初始化失�?
  * @details 完成以下初始化步骤：
- *          1. I2C总线初始化
+ *          1. I2C总线初始�?
  *          2. MPU传感器初始化
- *          3. 使能陀螺仪和加速度计
+ *          3. 使能陀螺仪和加速度�?
  *          4. 配置FIFO
- *          5. 设置采样率
+ *          5. 设置采样�?
  *          6. 加载DMP固件
- *          7. 设置传感器安装方向
- *          8. 使能DMP功能（六轴融合、敲击检测、方向检测等）
+ *          7. 设置传感器安装方�?
+ *          8. 使能DMP功能（六轴融合、敲击检测、方向检测等�?
  *          9. 启动DMP
  */
 u8 mpu_dmp_init(void)
 {
     u8 res = 0;
 
-    /* 初始化I2C总线 */
-    if(i2c_dev.soft_iic_init_flag == 0){
-        MPU_IIC_Init();
-    }
-    /* 初始化MPU传感器 */
+    // 默认I2C总线已经初始化完成
+    /* 初始化MPU传感�?*/
     if (mpu_init() == 0)
     {
-        /* 使能陀螺仪和加速度计 */
+        /* 使能陀螺仪和加速度�?*/
         res = mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL);
         if (res)
             return 1;
@@ -2971,7 +2986,7 @@ u8 mpu_dmp_init(void)
         if (res)
             return 2;
 
-        /* 设置采样率 */
+        /* 设置采样�?*/
         res = mpu_set_sample_rate(DEFAULT_MPU_HZ);
         if (res)
             return 3;
@@ -2981,16 +2996,16 @@ u8 mpu_dmp_init(void)
         if (res)
             return 4;
 
-        /* 设置传感器安装方向 */
+        /* 设置传感器安装方�?*/
         res = dmp_set_orientation(inv_orientation_matrix_to_scalar(gyro_orientation));
         if (res)
             return 5;
 
-        /* 使能DMP功能特性 */
+        /* 使能DMP功能特�?*/
         res = dmp_enable_feature(
-            DMP_FEATURE_6X_LP_QUAT |     /* 六轴四元数融合 */
-            DMP_FEATURE_TAP |            /* 敲击检测 */
-            DMP_FEATURE_ANDROID_ORIENT | /* Android方向检测 */
+            DMP_FEATURE_6X_LP_QUAT |     /* 六轴四元数融�?*/
+            DMP_FEATURE_TAP |            /* 敲击检�?*/
+            DMP_FEATURE_ANDROID_ORIENT | /* Android方向检�?*/
             DMP_FEATURE_SEND_RAW_ACCEL | /* 发送原始加速度数据 */
             DMP_FEATURE_SEND_CAL_GYRO |  /* 发送校准后陀螺仪数据 */
             DMP_FEATURE_GYRO_CAL         /* 陀螺仪自动校准 */
@@ -3003,7 +3018,7 @@ u8 mpu_dmp_init(void)
         if (res)
             return 7;
 
-        /* 可选：运行自检（已注释）*/
+        /* 可选：运行自检（已注释�?/
         /* res = run_self_test();
            if (res) return 8; */
 
@@ -3014,7 +3029,7 @@ u8 mpu_dmp_init(void)
     }
     else
     {
-        return 10; /* MPU初始化失败 */
+        return 10; /* MPU初始化失�?*/
     }
 
     return 0;
@@ -3022,11 +3037,11 @@ u8 mpu_dmp_init(void)
 
 /**
  * @brief   从DMP获取姿态角数据
- * @param   pitch   俯仰角指针（单位：度，范围：±90°）
- * @param   roll    横滚角指针（单位：度，范围：±180°）
- * @param   yaw     偏航角指针（单位：度，范围：±180°）
- * @return  0-成功，1-FIFO读取失败，2-无四元数数据
- * @details 从DMP FIFO读取四元数数据，并转换为欧拉角
+ * @param   pitch   俯仰角指针（单位：度，范围：±90°�?
+ * @param   roll    横滚角指针（单位：度，范围：±180°�?
+ * @param   yaw     偏航角指针（单位：度，范围：±180°�?
+ * @return  0-成功�?-FIFO读取失败�?-无四元数数据
+ * @details 从DMP FIFO读取四元数数据，并转换为欧拉�?
  *          四元数格式为Q30定点数，需要除以q30转换为浮点数
  *          欧拉角转换使用标准航空坐标系定义
  */
@@ -3042,19 +3057,19 @@ u8 mpu_dmp_get_data(float *pitch, float *roll, float *yaw)
     if (dmp_read_fifo(gyro, accel, quat, &sensor_timestamp, &sensors, &more))
         return 1;
 
-    /* 检查是否有四元数数据 */
+    /* 检查是否有四元数数�?*/
     if (sensors & INV_WXYZ_QUAT)
     {
-        /* 将Q30定点数转换为浮点数 */
+        /* 将Q30定点数转换为浮点�?*/
         q0 = quat[0] / q30;
         q1 = quat[1] / q30;
         q2 = quat[2] / q30;
         q3 = quat[3] / q30;
 
-        /* 四元数转欧拉角（弧度转角度：* 57.3 ≈ * 180/π） */
-        *pitch = asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3f;                                    /* 俯仰角 */
-        *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) * 57.3f;     /* 横滚角 */
-        *yaw = atan2(2 * (q1 * q2 + q0 * q3), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) * 57.3f; /* 偏航角 */
+        /* 四元数转欧拉角（弧度转角度：* 57.3 �?* 180/π�?*/
+        *pitch = asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3f;                                    /* 俯仰�?*/
+        *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) * 57.3f;     /* 横滚�?*/
+        *yaw = atan2(2 * (q1 * q2 + q0 * q3), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) * 57.3f; /* 偏航�?*/
     }
     else
     {

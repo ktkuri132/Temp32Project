@@ -1,11 +1,13 @@
 #include "main.h"
+#include "config.h"
+#include "device_init.h"
 shell Shell = {
-    .Shell_Init = false,               // Shell未初始化
-    .c = 0,                            // 初始化接收字符
-    .Res_len = 0,                      // 初始化接收长度
-    .UART_NOTE = 0,                    // 初始化串口节点
-    .RunStae = 0,                      // 初始化运行状态
-    .Data_Receive = USART1_ReceiveChar // 数据接收函数指针
+    .Shell_Init = false, // Shell未初始化
+    .c = 0,              // 初始化接收字符
+    .Res_len = 0,        // 初始化接收长度
+    .UART_NOTE = 0,      // 初始化串口节点
+    .RunStae = 0,        // 初始化运行状态
+    .Data_Receive = NULL // 数据接收函数指针（需要适配新接口）
 };
 
 Sysfpoint Shell_Sysfpoint;
@@ -19,12 +21,13 @@ DeviceFamily STM32F103C8T6_Device = {
     .Password = "133990",
     .Version = "1.0.0"};
 
+#ifdef USE_DEVICE_SH1106
 LCD_Handler_t lcd_sh1106 = {
     .Width = SH1106_WIDTH,
     .Height = SH1106_HEIGHT,
     .SetPixel = SH1106_SetPixel,
-    .GetPixel = SH1106_GetPoint, // 可选实现
-    .FillRect = SH1106_FillRect, // 可选实现
+    .GetPixel = SH1106_GetPoint,
+    .FillRect = SH1106_FillRect, // SH1106没有硬件块填充，由框架模拟
     .Update = SH1106_Update,
     .ScrollHard = NULL, // 可选实现
     .CursorX = 0,
@@ -33,75 +36,89 @@ LCD_Handler_t lcd_sh1106 = {
     .TextColor = 0xFFFFFFFF,
     .BackColor = 0x00000000,
     .TerminalMode = true};
+#elif USE_DEVICE_SSD1306
+LCD_Handler_t lcd_ssd1306 = {
+    .Width = SSD1306_WIDTH,
+    .Height = SSD1306_HEIGHT,
+    .SetPixel = SSD1306_SetPixel,
+    .GetPixel = NULL, // 可选实现
+    .FillRect = NULL, // 可选实现
+    .Update = SSD1306_Update,
+    .ScrollHard = NULL, // 可选实现
+    .CursorX = 0,
+    .CursorY = 0,
+    .CurrentFont = &Consolas_Font_8x16, // 可选设置
+    .TextColor = 0xFFFFFFFF,
+    .BackColor = 0x00000000,
+    .TerminalMode = true};
+#elif USE_DEVICE_ST7789
+LCD_Handler_t lcd_st7789 = {
+    .Width = ST7789_WIDTH,
+    .Height = ST7789_HEIGHT,
+    .SetPixel = ST7789_SetPixel,
+    .GetPixel = NULL, // 可选实现
+    .FillRect = ST7789_FillRect,
+    .Update = NULL,     // 可选实现
+    .ScrollHard = NULL, // 可选实现
+    .CursorX = 0,
+    .CursorY = 0,
+    .CurrentFont = &Consolas_Font_8x16, // 可选设置
+    .TextColor = 0xFFFFFFFF,
+    .BackColor = 0x00000000,
+    .TerminalMode = true};
+#endif
 
-//LCD_Handler_t lcd_ssd1306 = {
-//    .Width = SSD1306_WIDTH,
-//    .Height = SSD1306_HEIGHT,
-//    .SetPixel = SSD1306_SetPixel,
-//    .GetPixel = NULL, // 可选实现
-//    .FillRect = NULL, // 可选实现
-//    .Update = SSD1306_Update,
-//    .ScrollHard = NULL, // 可选实现
-//    .CursorX = 0,
-//    .CursorY = 0,
-//    .CurrentFont = &JetBrains_Mono_Font_8x16, // 可选设置
-//    .TextColor = 0xFFFFFFFF,
-//    .BackColor = 0x00000000,
-//    .TerminalMode = true};
+#ifdef USE_DEVICE_MPU6050
+float mpu6050_sensor_data[3] = {0};
+#endif
 
-dev_info_t Dev_info_poor[] = {
+df_dev_t Dev_info_poor[] = {
 
-//     {.name = OLED_SH1106_NAME,
-//   .init = sh1106_dev_init,
-//   .enable = NULL,
-//   .disable = NULL,
-//   .arg.ptr = (void *)&lcd_sh1106},
-
-    {.name = DEBUG_UART_NAME,
-     .init = usart1_init,
-     .enable = usart1_start,
-     .disable = usart1_stop,
-     .arg.ptr = (void *)&debug},
-
-    // {.name = "SysTick",
-    //  .init = systick_init,
-    //  .enable = NULL,  // SysTick不需要启用函数
-    //  .disable = NULL, // SysTick不需要禁用函数
-    //  .arg.ptr = NULL},
-
-    {.name = "NVIC",
-     .init = nvic_init,
-     .enable = NULL,  // NVIC不需要启用函数
-     .disable = NULL, // NVIC不需要禁用函数
-     .arg.ptr = NULL},
-
-    {.name = ONBOARD_LED_NAME,
-     .init = led_init,
-     .enable = led_on,
-     .disable = led_off,
-     .arg.ptr = NULL},
-
-
-
-//{.name = OLED_SSD1306_NAME,
-//     .init = ssd1306_dev_init,
-//     .enable = NULL,
-//     .disable = NULL,
-//     .arg.ptr = (void *)&lcd_ssd1306},
-    // {.name = ADC1_NAME,
-    //  .init = adc1_init,
-    //  .enable = adc1_enable,
-    //  .disable = adc1_disable,
-    //  .arg.ptr = NULL},
-
-    {.name = "", // 空字符串表示数组结束
-     .init = NULL,
+    {.name = OLED_NAME,
+     .init = sh1106_dev_init,
      .enable = NULL,
      .disable = NULL,
-     .arg.ptr = NULL}
+     .arg.ptr = ptr(&lcd_sh1106)},
+    // {
+    //     .name = LCD_NAME,
+    //     .init = st7789_dev_init,
+    //     .enable = NULL,
+    //     .disable = NULL,
+    //     // .arg.ptr = ptr(&lcd_st7789)
+    // },
+    {.name = MPU6050_NAME,
+     .init = mpu6050_dev_init,
+     .enable = mpu6050_dev_enable,
+     .disable = mpu6050_dev_disable,
+     .read = mpu6050_dev_read,
+     .arg.argv = argv(ptr(mpu6050_sensor_data), ptr(&lcd_sh1106))},
+
+    //{.name = OLED_SSD1306_NAME,
+    //     .init = ssd1306_dev_init,
+    //     .enable = NULL,
+    //     .disable = NULL,
+    //     .arg.ptr = ptr(&lcd_ssd1306)},
+
+    DF_DEV_END
 
 };
 
 EnvVar env_vars[] = {
     {NULL} // 环境变量列表结束标志
 };
+
+
+
+/**
+ * @brief 设备框架自动初始化函数
+ * @details 在框架初始化时自动调用，初始化设备管理框架
+ * @return 0表示成功
+ */
+static int df_device_auto_init(void)
+{
+    df_dev_register(Dev_info_poor); // 初始化设备模型
+    return 0;
+}
+
+// 将设备框架初始化注册到PREV级别（在BOARD之后）
+DF_INIT_EXPORT(df_device_auto_init, DF_INIT_EXPORT_DEVICE);

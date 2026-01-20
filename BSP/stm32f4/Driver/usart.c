@@ -1,167 +1,174 @@
-#include "driver.h"
-#include <stdarg.h>
-#include "df_uart.h"
-#include "main.h"
-
-int usart1_init(dev_arg_t arg);
-int usart1_stop(dev_arg_t arg);
-int usart1_send(dev_arg_t arg);
-int usart1_receive(dev_arg_t arg);
-
-Ut debug = {
-    .UART_Init_Flag = false,
-    .UART_Num = 1,
-    .UART_Name = DEBUG_UART_NAME,
-    .BaudRate = 250000,
-    .init = usart1_init,
-    .deinit = usart1_stop,
-    .send = usart1_send,
-    .printf = printf,
-    .receive = usart1_receive,
-    .send_withDMA = NULL,
-    .receive_withDMA = NULL};
-
 /**
- * STM32F4 USART1驱动
- * 默认引脚: PA9(TX), PA10(RX)
- * 时钟: APB2 (最高84MHz)
+ * @file usart.c
+ * @brief STM32F4 USART 片上外设驱动
+ * @note 使用 f407_usart 底层驱动实现 df_uart.h 接口
+ * @note 片上外设通过 DF_BOARD_INIT 分散加载初始化
  */
 
-void USART1_Init(uint32_t BaudRate)
+#include "driver.h"
+#include "df_uart.h"
+#include "df_init.h"
+#include "df_log.h"
+#include "f407_usart.h"
+#include <stdarg.h>
+
+/*============================ 内部变量 ============================*/
+static f407_usart_handle_t usart1_handle;
+
+/*============================ 前向声明 ============================*/
+int usart1_init(df_arg_t arg);
+int usart1_deinit(df_arg_t arg);
+int usart1_send(df_arg_t arg);
+int usart1_receive(df_arg_t arg);
+static int usart1_printf(const char *format, ...);
+
+/*============================ 设备实例 ============================*/
+df_uart_t Debug = {
+    .init_flag = false,
+    .num = 1,
+    .name = DEBUG_UART_NAME,
+    .baudrate = 115200,
+    .init = usart1_init,
+    .deinit = usart1_deinit,
+    .send = usart1_send,
+    .printf = usart1_printf,
+    .receive = usart1_receive,
+    .send_dma = NULL,
+    .receive_dma = NULL};
+
+/*============================ 接口实现 ============================*/
+
+/**
+ * @brief 初始化 USART1
+ */
+int usart1_init(df_arg_t arg)
 {
-    // 1. 使能GPIOA和USART1时钟
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+    (void)arg;
 
-    // 2. 配置PA9为复用功能（TX）
-    GPIOA->MODER &= ~(0x3 << (9 * 2));
-    GPIOA->MODER |= (0x2 << (9 * 2));   // 复用功能
-    GPIOA->OTYPER &= ~(1 << 9);         // 推挽输出
-    GPIOA->OSPEEDR |= (0x3 << (9 * 2)); // 高速
-    GPIOA->PUPDR &= ~(0x3 << (9 * 2));
-    GPIOA->PUPDR |= (0x1 << (9 * 2)); // 上拉
-    GPIOA->AFR[1] &= ~(0xF << ((9 - 8) * 4));
-    GPIOA->AFR[1] |= (0x7 << ((9 - 8) * 4)); // AF7 = USART1
+    /* 使用 f407 驱动初始化 USART1 */
+    if (f407_usart_init_simple(&usart1_handle, F407_USART1,
+                               Debug.baudrate, F407_USART1_PINS_PA9_PA10) != 0)
+    {
+        return -1;
+    }
 
-    // 3. 配置PA10为复用功能（RX）
-    GPIOA->MODER &= ~(0x3 << (10 * 2));
-    GPIOA->MODER |= (0x2 << (10 * 2)); // 复用功能
-    GPIOA->PUPDR &= ~(0x3 << (10 * 2));
-    GPIOA->PUPDR |= (0x1 << (10 * 2)); // 上拉
-    GPIOA->AFR[1] &= ~(0xF << ((10 - 8) * 4));
-    GPIOA->AFR[1] |= (0x7 << ((10 - 8) * 4)); // AF7 = USART1
+    /* 使能接收中断 */
+    f407_usart_enable_rx_irq(&usart1_handle, 3);
 
-    // 4. 配置USART1
-    // APB2时钟频率，假设为84MHz
-    uint32_t apb2_clk = SystemCoreClock / 2; // APB2 = HCLK/2 (通常配置)
-    USART1->BRR = apb2_clk / BaudRate;
-    USART1->CR1 = USART_CR1_UE | USART_CR1_TE | USART_CR1_RE; // 启用USART, TX, RX
+    Debug.init_flag = true;
 
-    // 5. 开启接收中断
-    USART1->CR1 |= USART_CR1_RXNEIE;
+    return 0;
 }
 
+/**
+ * @brief 关闭 USART1
+ */
+int usart1_deinit(df_arg_t arg)
+{
+    (void)arg;
+
+    /* 反初始化 USART1 */
+    f407_usart_deinit(&usart1_handle);
+    Debug.init_flag = false;
+
+    return 0;
+}
+
+/**
+ * @brief 发送字符串
+ */
+int usart1_send(df_arg_t arg)
+{
+    if (arg.ptr == NULL)
+        return -1;
+
+    f407_usart_send_string(&usart1_handle, (const char *)arg.ptr);
+    return 0;
+}
+
+/**
+ * @brief 接收数据
+ */
+int usart1_receive(df_arg_t arg)
+{
+    uint8_t *data = (uint8_t *)arg.ptr;
+    if (data == NULL)
+        return -1;
+
+    return f407_usart_receive_byte(&usart1_handle, data, F407_USART_TIMEOUT);
+}
+
+/**
+ * @brief 格式化输出
+ */
+static int usart1_printf(const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    char buffer[128];
+    int len = vsnprintf(buffer, sizeof(buffer), format, args);
+
+    va_end(args);
+
+    f407_usart_send_string(&usart1_handle, buffer);
+    return len;
+}
+
+/*============================ 标准输出重定向 ============================*/
+
+/**
+ * @brief 重定向 putchar (用于 printf)
+ */
 int __io_putchar(int ch)
 {
-    USART1_SendChar(ch);
+    f407_usart_send_byte(&usart1_handle, (uint8_t)ch);
     return ch;
 }
 
-void USART1_SendChar(char ch)
-{
-    while (!(USART1->SR & USART_SR_TXE))
-        ;
-    USART1->DR = ch;
-}
-
-void USART1_SendString(char *str)
-{
-    while (*str)
-    {
-        USART1_SendChar(*str++);
-    }
-}
-
-uint8_t USART1_ReceiveChar(void *None, uint8_t *data)
-{
-    (void)None;
-    while (!(USART1->SR & USART_SR_RXNE))
-        ;
-    *data = USART1->DR;
-    return *data;
-}
-
-#include <lcd/df_lcd.h>
-
 #ifndef __clang__
-
+/**
+ * @brief printf 实现
+ */
 int printf(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    char buffer[50];
+
+    char buffer[128];
     int len = vsnprintf(buffer, sizeof(buffer), format, args);
+
     va_end(args);
-    USART1_SendString(buffer);
-    // LCD_TerminalOut(&lcd_sh1106, (uint8_t*)buffer);
+
+    f407_usart_send_string(&usart1_handle, buffer);
     return len;
 }
-
-#else
-
-int fputc(int ch, FILE *f)
-{
-//    while (!(USART1->SR & USART_SR_TXE))
-//        ;
-//    USART1->DR = (uint8_t)ch;
-    LCD_TerminalOut(&lcd_sh1106, (uint8_t*)&ch);
-    return ch;
-}
-
 #endif
 
-int usart1_init(dev_arg_t arg)
+/*============================ 辅助函数 ============================*/
+
+/**
+ * @brief 用于日志系统的发送函数
+ */
+static void usart1_log_send(const char *data)
 {
-    Ut *uart = (Ut *)arg.ptr;
-    if (*uart->UART_Name == "")
+    f407_usart_send_string(&usart1_handle, data);
+}
+
+/*============================ 片上外设自动初始化 ============================*/
+
+/**
+ * @brief USART1 自动初始化函数
+ * @note 通过 DF_BOARD_INIT 宏在系统启动时自动调用
+ */
+static int usart1_auto_init(void)
+{
+    int ret = usart1_init(arg_null);
+    if (ret == 0)
     {
-        return -1;
+        g_log_config.output_func = usart1_send;
+        LOG_I("USART1", "USART1 initialized with baud rate %d", Debug.baudrate);
     }
-    USART1_Init(uart->BaudRate);
-    debug.UART_Init_Flag = true;
-    uart->send(arg_ptr(CLEAR_SCREEN));
-    uart->send(arg_ptr(CURSOR_HOME));
-    uart->send(arg_ptr("System Start!\r\n"));
-    return 0;
+    return ret;
 }
-
-int usart1_send(dev_arg_t arg)
-{
-    USART1_SendString((char *)arg.ptr);
-    return 0;
-}
-
-int usart1_receive(dev_arg_t arg)
-{
-    uint8_t *data = (uint8_t *)arg.ptr;
-    if (data == NULL)
-    {
-        return -1;
-    }
-    *data = USART1_ReceiveChar(NULL, data);
-    return 0;
-}
-
-int usart1_start(dev_arg_t arg)
-{
-    (void)arg;
-    USART1->CR1 |= USART_CR1_UE;
-    return 0;
-}
-
-int usart1_stop(dev_arg_t arg)
-{
-    (void)arg;
-    USART1->CR1 &= ~USART_CR1_UE;
-    return 0;
-}
+DF_BOARD_INIT(usart1_auto_init);

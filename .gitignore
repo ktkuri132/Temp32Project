@@ -1,3 +1,14 @@
 .cache/
-build
+build/
 
+# Python 缓存
+__pycache__/
+*.pyc
+.vscode/
+# 自动生成的文件
+CMakeLists.txt
+BSP/CMakeLists.txt
+Device/CMakeLists.txt
+Device/config.h
+tool/project_config.json
+idea.cfg

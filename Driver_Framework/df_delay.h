@@ -4,33 +4,26 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <dev_frame.h>
-#ifndef DEV_MODEL_CORE_H
 
-typedef union {
-  int32_t s32;
-  uint32_t us32;
-  void *ptr;
-  void **argv;
-} dev_arg_t;
+/**
+ * @brief 延时模块类型定义
+ * @note 所有接口统一使用 int (*)(df_arg_t) 类型
+ *       ms/us 传参使用 arg_u32(delay_value)
+ */
+typedef struct df_delay_struct
+{
+  bool init_flag;        // 延时模块初始化标志
+  int (*init)(df_arg_t); // 延时模块初始化，传参 arg_null
+  int (*ms)(df_arg_t);   // 毫秒延时，传参 arg_u32(ms)
+  int (*us)(df_arg_t);   // 微秒延时，传参 arg_u32(us)
+} df_delay_t;
 
-// 默认不传参
-#define arg_null ((dev_arg_t){.s32 = 0, .us32 = 0, .ptr = NULL, .argv = NULL})
-// 传递有符号整型
-#define arg_s32(v) ((dev_arg_t){.s32 = v})
-// 传递无符号整型
-#define arg_u32(v) ((dev_arg_t){.us32 = v})
-// 传递void*指针
-#define arg_ptr(p) ((dev_arg_t){.ptr = p})
-// 传递void**指针
-#define arg_argv(a) ((dev_arg_t){.argv = a})
-
-#endif
-
-typedef struct Delay_TypeDef {
-    bool Delay_Init_Flag; // 延时模块初始化标志
-    int (*init)(dev_arg_t); // 延时模块初始化函数指针
-    void (*ms)(uint32_t ms); // 毫秒延时函数
-    void (*us)(uint32_t us); // 微秒延时函数
-} Dt;
+/**
+ * @brief 便捷延时宏
+ * @note 简化调用方式，自动包装参数
+ *       使用方式: DF_DELAY_MS(delay, 100); DF_DELAY_US(delay, 50);
+ */
+#define DF_DELAY_MS(d, val) ((d).ms(arg_u32(val)))
+#define DF_DELAY_US(d, val) ((d).us(arg_u32(val)))
 
 #endif /* __DF_DELAY_H */

@@ -1,0 +1,165 @@
+/*
+ * @file df_init_iar.icf
+ * @brief 驱动框架自动初始化链接脚本片段（IAR EWARM）
+ * @details 将以下内容添加到你的 .icf 链接配置文件中
+ * @date 2026-01-02
+ *
+ * 使用方法：
+ * 1. 在主 .icf 文件中包含此文件的内容
+ * 2. 或者参考下面的示例修改你的 .icf 文件
+ */
+
+/* ========================================
+ * 在链接配置文件中添加以下内容：
+ * ======================================== */
+
+/*
+// 定义符号
+define symbol __ICFEDIT_intvec_start__ = 0x08000000;
+define symbol __ICFEDIT_region_ROM_start__ = 0x08000000;
+define symbol __ICFEDIT_region_ROM_end__   = 0x080FFFFF;
+define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;
+define symbol __ICFEDIT_region_RAM_end__   = 0x2001FFFF;
+
+// 定义内存区域
+define memory mem with size = 4G;
+define region ROM_region = mem:[from __ICFEDIT_region_ROM_start__ to __ICFEDIT_region_ROM_end__];
+define region RAM_region = mem:[from __ICFEDIT_region_RAM_start__ to __ICFEDIT_region_RAM_end__];
+
+// 初始化和复制表
+initialize by copy { readwrite };
+do not initialize  { section .noinit };
+
+// 放置代码和数据
+place at address mem:__ICFEDIT_intvec_start__ { readonly section .intvec };
+place in ROM_region   { readonly };
+place in RAM_region   { readwrite, block HEAP, block STACK };
+
+// ===== 驱动框架自动初始化段 =====
+define block DF_InitFnSection with fixed order {
+    section .df_init_fn.0,    // 板级初始化（BOARD）
+    section .df_init_fn.1,    // 前置初始化（PREV）
+    section .df_init_fn.2,    // 设备初始化（DEVICE）
+    section .df_init_fn.3,    // 组件初始化（COMPONENT）
+    section .df_init_fn.4,    // 环境初始化（ENV）
+    section .df_init_fn.5     // 应用初始化（APP）
+};
+
+place in ROM_region { block DF_InitFnSection };
+*/
+
+/* ========================================
+ * 完整示例：STM32F407 链接配置文件
+ * ======================================== */
+
+/*-Memory Regions-*/
+define symbol __ICFEDIT_intvec_start__ = 0x08000000;
+define symbol __ICFEDIT_region_ROM_start__ = 0x08000000;
+define symbol __ICFEDIT_region_ROM_end__   = 0x080FFFFF;  /* 1MB Flash */
+define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;
+define symbol __ICFEDIT_region_RAM_end__   = 0x2001FFFF;  /* 128KB RAM */
+define symbol __ICFEDIT_size_heap__   = 0x1000;
+define symbol __ICFEDIT_size_stack__  = 0x0400;
+
+/*-Symbols-*/
+define memory mem with size = 4G;
+define region ROM_region   = mem:[from __ICFEDIT_region_ROM_start__   to __ICFEDIT_region_ROM_end__];
+define region RAM_region   = mem:[from __ICFEDIT_region_RAM_start__   to __ICFEDIT_region_RAM_end__];
+
+define block HEAP   with alignment = 8, size = __ICFEDIT_size_heap__   { };
+define block STACK  with alignment = 8, size = __ICFEDIT_size_stack__  { };
+
+/*-Initialization-*/
+initialize by copy { readwrite };
+do not initialize  { section .noinit };
+
+/*-Placement-*/
+place at address mem:__ICFEDIT_intvec_start__ { readonly section .intvec };
+
+place in ROM_region   { readonly };
+
+/* ===== 驱动框架自动初始化段（按顺序放置）===== */
+define block DF_InitFnSection with fixed order, alignment = 4 {
+    section .df_init_fn.0,    /* 板级初始化（最早）*/
+    section .df_init_fn.1,    /* 前置初始化 */
+    section .df_init_fn.2,    /* 设备初始化 */
+    section .df_init_fn.3,    /* 组件初始化 */
+    section .df_init_fn.4,    /* 环境初始化 */
+    section .df_init_fn.5     /* 应用初始化（最晚）*/
+};
+
+place in ROM_region { block DF_InitFnSection };
+
+place in RAM_region   { readwrite,
+                        block HEAP,
+                        block STACK };
+
+/* ========================================
+ * 使用说明
+ * ======================================== */
+
+/*
+ * IAR 使用说明：
+ *
+ * 1. 段定义：
+ *    使用 #pragma location 或 @ 指令将初始化函数放到特定段
+ *    在 df_init.h 中已经定义了 DF_SECTION 宏
+ *
+ * 2. 段访问：
+ *    使用 __section_begin() 和 __section_end() 访问段边界
+ *    示例：
+ *      #pragma section = "DF_InitFnSection"
+ *      void* start = __section_begin("DF_InitFnSection");
+ *      void* end = __section_end("DF_InitFnSection");
+ *
+ * 3. 自动初始化：
+ *    IAR 不支持 constructor 属性和 $Sub$$main
+ *    需要在 main 函数开头手动调用 DF_Framework_Init()
+ *
+ * 4. 使用示例：
+ *    static int log_init(void) { return 0; }
+ *    DF_BOARD_INIT(log_init);
+ *
+ *    int main(void) {
+ *        DF_Framework_Init();  // 手动调用
+ *        // ... 用户代码 ...
+ *    }
+ */
+
+/* ========================================
+ * 注意事项
+ * ======================================== */
+
+/*
+ * 1. fixed order 确保段按定义顺序排列，不会被优化器重排
+ * 2. alignment = 4 确保函数指针对齐到4字节边界
+ * 3. 所有初始化段必须放在 ROM_region（Flash）中
+ * 4. 可以使用 keep { section .df_init_fn.* }; 防止未使用的初始化函数被删除
+ */
+
+/* ========================================
+ * 高级用法：使用 pragma 定义段边界符号
+ * ======================================== */
+
+/*
+ * 如果需要在 C 代码中直接引用段边界，可以使用：
+ *
+ * #pragma section = "DF_InitFnSection"
+ *
+ * void* df_init_start = __section_begin("DF_InitFnSection");
+ * void* df_init_end = __section_end("DF_InitFnSection");
+ *
+ * 注意：IAR 的 __section_begin/end 返回的是 void*，
+ * 需要转换为正确的函数指针类型
+ */
+
+/* ========================================
+ * 调试技巧
+ * ======================================== */
+
+/*
+ * 1. 查看 map 文件确认段是否正确放置
+ * 2. 使用 #pragma message 输出段信息
+ * 3. 在 IAR IDE 中查看 Memory 窗口
+ * 4. 使用 IAR 的符号浏览器查看段边界符号
+ */
